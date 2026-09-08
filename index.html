@@ -1,735 +1,2249 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>조세법 복잡성 연구 진행 대시보드</title>
-<style>
-:root{
-  --bg:#f4f6f8; --card:#fff; --text:#17202a; --muted:#6b7280; --line:#e5e7eb;
-  --accent:#234f8f; --accent-bg:#eaf1fb; --good:#14804a; --warn:#b7791f; --bad:#c0392b; --done:#5b6472;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans KR","Apple SD Gothic Neo",sans-serif}
-.wrap{max-width:1480px;margin:0 auto;padding:24px}
-.hero{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:18px}
-h1{margin:0;font-size:28px;line-height:1.35}
-.subtitle{margin-top:7px;color:var(--muted);font-size:14px;line-height:1.6}
-.top-actions{display:flex;gap:8px;flex-wrap:wrap}
-button,select,input,textarea{font:inherit}
-button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-soft{background:var(--accent-bg);color:var(--accent)}
-.btn-ghost{background:#eef0f3;color:#374151}
-.btn-danger{background:#fde8e7;color:#9b1c1c}
-.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
-.metric{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
-.metric .label{font-size:12px;color:var(--muted)}
-.metric .value{font-size:27px;font-weight:800;margin-top:7px}
-.metric .hint{font-size:12px;color:var(--muted);margin-top:5px}
-.layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(330px,1fr);gap:16px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
-.panel h2{margin:0 0 13px;font-size:18px}
-.objective{line-height:1.7;font-size:14px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.tab{background:#f0f2f5;color:#4b5563}
-.tab.active{background:var(--accent);color:#fff}
-.year-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-bottom:12px}
-.year-title{font-size:20px;font-weight:800}
-.year-goal{font-size:13px;color:var(--muted);margin-top:4px}
-.quarter-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.qcard{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fafbfc}
-.qtop{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.qname{font-weight:800}
-.badge{padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800;display:inline-block}
-.미착수{background:#edf0f3;color:#586170}
-.진행중{background:#eaf1fb;color:#234f8f}
-.주의{background:#fff4d6;color:#8a5a00}
-.지연{background:#fde8e7;color:#9b1c1c}
-.완료{background:#e7f5ec;color:#166534}
-.qcontent{font-size:13px;line-height:1.65;margin-top:10px;min-height:62px}
-.output{font-size:12px;color:var(--muted);margin-top:8px}
-.progress{height:8px;border-radius:999px;background:#e5e7eb;overflow:hidden;margin-top:12px}
-.progress span{display:block;height:100%;background:var(--accent);border-radius:999px}
-.qactions{display:flex;gap:7px;margin-top:12px}
-.qactions button{padding:7px 9px;font-size:12px}
-.pilot-section{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
-.pilot-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;margin-bottom:12px}
-.pilot-title{font-size:18px;font-weight:800}
-.pilot-sub{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5}
-.pilot-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.pilot-card{border:1px solid #d9e4f2;background:#f8fbff;border-radius:14px;padding:14px}
-.pilot-week{font-weight:800}
-.pilot-task{font-size:13px;line-height:1.6;margin-top:9px}
-.criteria{font-size:12px;color:#44546a;margin-top:8px;padding:8px 9px;background:#fff;border-radius:8px;border:1px solid var(--line)}
-.case-box{margin-top:14px;padding:13px;background:#fafafa;border:1px solid var(--line);border-radius:12px}
-.case-box b{display:block;margin-bottom:7px}
-.case-box ol{margin:0;padding-left:20px;font-size:12px;color:#4b5563;line-height:1.7}
-.workstreams{display:grid;gap:10px}
-.ws{border-left:4px solid #8aa4c7;padding:9px 10px;background:#f8fafc;border-radius:8px}
-.ws b{display:block;margin-bottom:4px}
-.ws span{font-size:12px;color:var(--muted);line-height:1.5}
-.risk{padding:11px 12px;border-left:4px solid var(--warn);background:#fffaf0;border-radius:9px;margin-bottom:9px;font-size:13px;line-height:1.55}
-.risk.bad{border-color:var(--bad);background:#fff5f4}
-.risk strong{display:block;margin-bottom:3px}
-.table-wrap{overflow:auto}
-table{width:100%;border-collapse:collapse;min-width:760px}
-th,td{padding:11px 10px;border-bottom:1px solid var(--line);font-size:13px;text-align:left;vertical-align:top}
-th{color:var(--muted);background:#fafafa}
-.notice{background:#eef4fb;border:1px solid #d9e4f2;color:#294e7a;padding:11px 13px;border-radius:10px;font-size:13px;margin-bottom:15px}
-.empty{padding:18px;color:var(--muted);text-align:center}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(17,24,39,.45);z-index:50;align-items:center;justify-content:center;padding:18px}
-.modal-bg.show{display:flex}
-.modal{width:min(720px,100%);max-height:90vh;overflow:auto;background:white;border-radius:17px;padding:20px}
-.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.modal-head h3{margin:0}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.field{display:flex;flex-direction:column;gap:6px}
-.field.full{grid-column:1/-1}
-.field label{font-size:12px;font-weight:700;color:var(--muted)}
-input,select,textarea{border:1px solid var(--line);border-radius:9px;padding:10px 11px;background:#fff}
-textarea{min-height:85px;resize:vertical}
-.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}
-.small{font-size:12px;color:var(--muted)}
-@media(max-width:1050px){.metrics{grid-template-columns:repeat(3,1fr)}.layout{grid-template-columns:1fr}}
-@media(max-width:700px){.wrap{padding:14px}.hero{flex-direction:column}.metrics{grid-template-columns:1fr 1fr}.quarter-grid,.pilot-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>조세법 복잡성 연구 진행 대시보드</title>
+    <style>
+      :root {
+        --bg: #f4f6f8;
+        --card: #fff;
+        --text: #17202a;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --accent: #234f8f;
+        --accent-bg: #eaf1fb;
+        --good: #14804a;
+        --warn: #b7791f;
+        --bad: #c0392b;
+        --done: #5b6472;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+      }
+      .wrap {
+        max-width: 1480px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .hero {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: flex-start;
+        margin-bottom: 18px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 28px;
+        line-height: 1.35;
+      }
+      .subtitle {
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .top-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      button,
+      select,
+      input,
+      textarea {
+        font: inherit;
+      }
+      button {
+        border: 0;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn-soft {
+        background: var(--accent-bg);
+        color: var(--accent);
+      }
+      .btn-ghost {
+        background: #eef0f3;
+        color: #374151;
+      }
+      .btn-danger {
+        background: #fde8e7;
+        color: #9b1c1c;
+      }
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .metric {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 16px;
+      }
+      .metric .label {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .metric .value {
+        font-size: 27px;
+        font-weight: 800;
+        margin-top: 7px;
+      }
+      .metric .hint {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 5px;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(330px, 1fr);
+        gap: 16px;
+      }
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+        margin-bottom: 16px;
+      }
+      .panel h2 {
+        margin: 0 0 13px;
+        font-size: 18px;
+      }
+      .objective {
+        line-height: 1.7;
+        font-size: 14px;
+      }
+      .tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+      .tab {
+        background: #f0f2f5;
+        color: #4b5563;
+      }
+      .tab.active {
+        background: var(--accent);
+        color: #fff;
+      }
+      .year-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .year-title {
+        font-size: 20px;
+        font-weight: 800;
+      }
+      .year-goal {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .quarter-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .qcard {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px;
+        background: #fafbfc;
+      }
+      .qtop {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+      }
+      .qname {
+        font-weight: 800;
+      }
+      .badge {
+        padding: 5px 9px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        display: inline-block;
+      }
+      .미착수 {
+        background: #edf0f3;
+        color: #586170;
+      }
+      .진행중 {
+        background: #eaf1fb;
+        color: #234f8f;
+      }
+      .주의 {
+        background: #fff4d6;
+        color: #8a5a00;
+      }
+      .지연 {
+        background: #fde8e7;
+        color: #9b1c1c;
+      }
+      .완료 {
+        background: #e7f5ec;
+        color: #166534;
+      }
+      .qcontent {
+        font-size: 13px;
+        line-height: 1.65;
+        margin-top: 10px;
+        min-height: 62px;
+      }
+      .output {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 8px;
+      }
+      .progress {
+        height: 8px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        overflow: hidden;
+        margin-top: 12px;
+      }
+      .progress span {
+        display: block;
+        height: 100%;
+        background: var(--accent);
+        border-radius: 999px;
+      }
+      .qactions {
+        display: flex;
+        gap: 7px;
+        margin-top: 12px;
+      }
+      .qactions button {
+        padding: 7px 9px;
+        font-size: 12px;
+      }
+      .pilot-section {
+        margin-top: 20px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+      .pilot-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-end;
+        margin-bottom: 12px;
+      }
+      .pilot-title {
+        font-size: 18px;
+        font-weight: 800;
+      }
+      .pilot-sub {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 4px;
+        line-height: 1.5;
+      }
+      .pilot-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .pilot-card {
+        border: 1px solid #d9e4f2;
+        background: #f8fbff;
+        border-radius: 14px;
+        padding: 14px;
+      }
+      .pilot-week {
+        font-weight: 800;
+      }
+      .pilot-task {
+        font-size: 13px;
+        line-height: 1.6;
+        margin-top: 9px;
+      }
+      .criteria {
+        font-size: 12px;
+        color: #44546a;
+        margin-top: 8px;
+        padding: 8px 9px;
+        background: #fff;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+      }
+      .case-box {
+        margin-top: 14px;
+        padding: 13px;
+        background: #fafafa;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+      .case-box b {
+        display: block;
+        margin-bottom: 7px;
+      }
+      .case-box ol {
+        margin: 0;
+        padding-left: 20px;
+        font-size: 12px;
+        color: #4b5563;
+        line-height: 1.7;
+      }
+      .workstreams {
+        display: grid;
+        gap: 10px;
+      }
+      .ws {
+        border-left: 4px solid #8aa4c7;
+        padding: 9px 10px;
+        background: #f8fafc;
+        border-radius: 8px;
+      }
+      .ws b {
+        display: block;
+        margin-bottom: 4px;
+      }
+      .ws span {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .risk {
+        padding: 11px 12px;
+        border-left: 4px solid var(--warn);
+        background: #fffaf0;
+        border-radius: 9px;
+        margin-bottom: 9px;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+      .risk.bad {
+        border-color: var(--bad);
+        background: #fff5f4;
+      }
+      .risk strong {
+        display: block;
+        margin-bottom: 3px;
+      }
+      .table-wrap {
+        overflow: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 760px;
+      }
+      th,
+      td {
+        padding: 11px 10px;
+        border-bottom: 1px solid var(--line);
+        font-size: 13px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        color: var(--muted);
+        background: #fafafa;
+      }
+      .notice {
+        background: #eef4fb;
+        border: 1px solid #d9e4f2;
+        color: #294e7a;
+        padding: 11px 13px;
+        border-radius: 10px;
+        font-size: 13px;
+        margin-bottom: 15px;
+      }
+      .empty {
+        padding: 18px;
+        color: var(--muted);
+        text-align: center;
+      }
+      .modal-bg {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(17, 24, 39, 0.45);
+        z-index: 50;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+      }
+      .modal-bg.show {
+        display: flex;
+      }
+      .modal {
+        width: min(720px, 100%);
+        max-height: 90vh;
+        overflow: auto;
+        background: white;
+        border-radius: 17px;
+        padding: 20px;
+      }
+      .modal-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+      .modal-head h3 {
+        margin: 0;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .field.full {
+        grid-column: 1/-1;
+      }
+      .field label {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      input,
+      select,
+      textarea {
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        padding: 10px 11px;
+        background: #fff;
+      }
+      textarea {
+        min-height: 85px;
+        resize: vertical;
+      }
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 15px;
+      }
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      @media (max-width: 1050px) {
+        .metrics {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 700px) {
+        .wrap {
+          padding: 14px;
+        }
+        .hero {
+          flex-direction: column;
+        }
+        .metrics {
+          grid-template-columns: 1fr 1fr;
+        }
+        .quarter-grid,
+        .pilot-grid {
+          grid-template-columns: 1fr;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .field.full {
+          grid-column: auto;
+        }
+      }
 
-/* Professional research dashboard refinements */
-body{background:#eef2f6}
-.wrap{max-width:1540px;padding:28px}
-.hero{background:linear-gradient(135deg,#fff,#f7faff);border:1px solid #dfe6ee;border-radius:20px;padding:24px 26px;box-shadow:0 8px 28px rgba(31,54,88,.05)}
-h1{font-size:30px;letter-spacing:-.4px}
-.notice{border-left:4px solid var(--accent);background:#f8fbff}
-.metric,.panel{box-shadow:0 5px 18px rgba(31,54,88,.04)}
-.tabs{border-bottom:1px solid var(--line);padding-bottom:12px}
-.tab{border:1px solid #e1e6ed}
-.qcard{background:#fff;box-shadow:0 3px 10px rgba(31,54,88,.035)}
-.pilot-section{margin-top:24px}
-.pilot-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0 16px}
-.pilot-kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
-.pilot-kpi .klabel{font-size:11px;color:var(--muted)}
-.pilot-kpi .kvalue{font-size:20px;font-weight:800;margin-top:5px}
-.timeline{position:relative;margin-top:10px;padding-left:26px}
-.timeline:before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:#d8e1ec}
-.trow{position:relative;margin-bottom:14px}
-.trow:before{content:"";position:absolute;left:-22px;top:17px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--accent)}
-.tcard{border:1px solid #dfe6ee;border-radius:14px;background:#fff;padding:14px 15px;box-shadow:0 3px 10px rgba(31,54,88,.035)}
-.thead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.tweek{font-size:15px;font-weight:800}
-.tmeta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.chip{display:inline-flex;padding:4px 8px;border-radius:999px;background:#f0f4f8;color:#52606d;font-size:11px;font-weight:700}
-.tgrid{display:grid;grid-template-columns:1.4fr .9fr;gap:14px;margin-top:10px}
-.tblock{font-size:12px;line-height:1.6}
-.tblock b{display:block;color:#344054;margin-bottom:3px}
-.criteria-list{display:grid;gap:7px;margin-top:10px}
-.criterion{display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e6ebf0;border-radius:9px;padding:8px 10px;font-size:12px}
-.criterion input{width:16px;height:16px;accent-color:var(--accent)}
-.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
-.statbox{background:#f8fafc;border:1px solid #e5e7eb;border-radius:9px;padding:9px}
-.statbox .slabel{font-size:10px;color:var(--muted)}
-.statbox .sval{font-size:15px;font-weight:800;margin-top:3px}
-.section-caption{font-size:12px;color:var(--muted);margin-top:-6px;margin-bottom:12px}
-.health-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
-.health-good{background:#16a34a}.health-warn{background:#d97706}.health-off{background:#94a3b8}
-@media(max-width:900px){.pilot-summary{grid-template-columns:repeat(2,1fr)}.tgrid{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(2,1fr)}}
+      /* Professional research dashboard refinements */
+      body {
+        background: #eef2f6;
+      }
+      .wrap {
+        max-width: 1540px;
+        padding: 28px;
+      }
+      .hero {
+        background: linear-gradient(135deg, #fff, #f7faff);
+        border: 1px solid #dfe6ee;
+        border-radius: 20px;
+        padding: 24px 26px;
+        box-shadow: 0 8px 28px rgba(31, 54, 88, 0.05);
+      }
+      h1 {
+        font-size: 30px;
+        letter-spacing: -0.4px;
+      }
+      .notice {
+        border-left: 4px solid var(--accent);
+        background: #f8fbff;
+      }
+      .metric,
+      .panel {
+        box-shadow: 0 5px 18px rgba(31, 54, 88, 0.04);
+      }
+      .tabs {
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 12px;
+      }
+      .tab {
+        border: 1px solid #e1e6ed;
+      }
+      .qcard {
+        background: #fff;
+        box-shadow: 0 3px 10px rgba(31, 54, 88, 0.035);
+      }
+      .pilot-section {
+        margin-top: 24px;
+      }
+      .pilot-summary {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin: 12px 0 16px;
+      }
+      .pilot-kpi {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .pilot-kpi .klabel {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .pilot-kpi .kvalue {
+        font-size: 20px;
+        font-weight: 800;
+        margin-top: 5px;
+      }
+      .timeline {
+        position: relative;
+        margin-top: 10px;
+        padding-left: 26px;
+      }
+      .timeline:before {
+        content: "";
+        position: absolute;
+        left: 9px;
+        top: 8px;
+        bottom: 8px;
+        width: 2px;
+        background: #d8e1ec;
+      }
+      .trow {
+        position: relative;
+        margin-bottom: 14px;
+      }
+      .trow:before {
+        content: "";
+        position: absolute;
+        left: -22px;
+        top: 17px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #fff;
+        border: 3px solid var(--accent);
+      }
+      .tcard {
+        border: 1px solid #dfe6ee;
+        border-radius: 14px;
+        background: #fff;
+        padding: 14px 15px;
+        box-shadow: 0 3px 10px rgba(31, 54, 88, 0.035);
+      }
+      .thead {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .tweek {
+        font-size: 15px;
+        font-weight: 800;
+      }
+      .tmeta {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 6px;
+      }
+      .chip {
+        display: inline-flex;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: #f0f4f8;
+        color: #52606d;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .tgrid {
+        display: grid;
+        grid-template-columns: 1.4fr 0.9fr;
+        gap: 14px;
+        margin-top: 10px;
+      }
+      .tblock {
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .tblock b {
+        display: block;
+        color: #344054;
+        margin-bottom: 3px;
+      }
+      .criteria-list {
+        display: grid;
+        gap: 7px;
+        margin-top: 10px;
+      }
+      .criterion {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f8fafc;
+        border: 1px solid #e6ebf0;
+        border-radius: 9px;
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+      .criterion input {
+        width: 16px;
+        height: 16px;
+        accent-color: var(--accent);
+      }
+      .stat-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .statbox {
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 9px;
+        padding: 9px;
+      }
+      .statbox .slabel {
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .statbox .sval {
+        font-size: 15px;
+        font-weight: 800;
+        margin-top: 3px;
+      }
+      .section-caption {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: -6px;
+        margin-bottom: 12px;
+      }
+      .health-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 6px;
+        vertical-align: 1px;
+      }
+      .health-good {
+        background: #16a34a;
+      }
+      .health-warn {
+        background: #d97706;
+      }
+      .health-off {
+        background: #94a3b8;
+      }
+      @media (max-width: 900px) {
+        .pilot-summary {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .tgrid {
+          grid-template-columns: 1fr;
+        }
+        .stat-row {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
 
+      /* ===== Main page split: overview / pilot ===== */
+      .page-nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 0 0 16px;
+      }
+      .page-tab {
+        background: #f0f2f5;
+        color: #4b5563;
+        border: 1px solid #e1e6ed;
+      }
+      .page-tab.active {
+        background: var(--accent);
+        color: #fff;
+      }
+      .main-page {
+        display: none;
+      }
+      .main-page.active {
+        display: block;
+      }
+      #pilotPage .pilot-section {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: 0;
+      }
 
-/* ===== Main page split: overview / pilot ===== */
-.page-nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
-.page-tab{background:#f0f2f5;color:#4b5563;border:1px solid #e1e6ed}
-.page-tab.active{background:var(--accent);color:#fff}
-.main-page{display:none}
-.main-page.active{display:block}
-#pilotPage .pilot-section{margin-top:0;padding-top:0;border-top:0}
+      /* ===== Research meeting page ===== */
+      .meeting-summary {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .meeting-kpi {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 5px 18px rgba(31, 54, 88, 0.04);
+      }
+      .meeting-kpi .klabel {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .meeting-kpi .kvalue {
+        font-size: 22px;
+        font-weight: 800;
+        margin-top: 6px;
+        line-height: 1.35;
+      }
+      .next-meeting {
+        background: linear-gradient(135deg, #f7faff, #fff);
+        border: 1px solid #d9e4f2;
+        border-radius: 16px;
+        padding: 18px;
+        margin-bottom: 16px;
+      }
+      .next-meeting-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .next-date {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--accent);
+        margin-top: 5px;
+      }
+      .meeting-list {
+        display: grid;
+        gap: 12px;
+      }
+      .meeting-card {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 15px;
+        background: #fff;
+        box-shadow: 0 3px 10px rgba(31, 54, 88, 0.035);
+      }
+      .meeting-card.past {
+        background: #fafafa;
+      }
+      .meeting-card .mhead {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .meeting-card .mdate {
+        font-size: 16px;
+        font-weight: 800;
+      }
+      .meeting-card .mmeta {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 7px;
+      }
+      .meeting-card .missue {
+        margin-top: 11px;
+        padding: 10px 11px;
+        background: #f8fafc;
+        border: 1px solid #e6ebf0;
+        border-radius: 9px;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+      .meeting-card .mactions {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+        margin-top: 11px;
+      }
+      .meeting-card .mactions button {
+        padding: 7px 9px;
+        font-size: 12px;
+      }
+      .meeting-empty {
+        padding: 34px 18px;
+        text-align: center;
+        color: var(--muted);
+        border: 1px dashed #cfd8e3;
+        border-radius: 14px;
+        background: #fbfcfe;
+      }
+      @media (max-width: 900px) {
+        .meeting-summary {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
 
+      /* ===== Pilot Pre-test record ===== */
+      .pretest-section {
+        margin-bottom: 18px;
+      }
+      .pretest-hero {
+        background: linear-gradient(135deg, #f5f9ff, #ffffff);
+        border: 1px solid #cfddec;
+        border-radius: 16px;
+        padding: 18px;
+        box-shadow: 0 5px 18px rgba(31, 54, 88, 0.04);
+      }
+      .pretest-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .pretest-title {
+        font-size: 19px;
+        font-weight: 800;
+      }
+      .pretest-sub {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-top: 5px;
+      }
+      .pretest-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #e7f5ec;
+        color: #166534;
+        font-size: 11px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .pretest-kpis {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .pretest-kpi {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px;
+        background: #fff;
+      }
+      .pretest-kpi .pk-label {
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .pretest-kpi .pk-value {
+        font-size: 19px;
+        font-weight: 800;
+        margin-top: 5px;
+      }
+      .pretest-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 14px;
+        margin-top: 14px;
+      }
+      .pretest-box {
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        background: #fff;
+        padding: 14px;
+      }
+      .pretest-box h3 {
+        font-size: 14px;
+        margin: 0 0 10px;
+      }
+      .pretest-flow {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        align-items: stretch;
+      }
+      .pretest-step {
+        position: relative;
+        background: #f8fafc;
+        border: 1px solid #e5eaf0;
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+      .pretest-step b {
+        display: block;
+        font-size: 12px;
+        margin-bottom: 3px;
+        color: #344054;
+      }
+      .pretest-step:not(:last-child):after {
+        content: "→";
+        position: absolute;
+        right: -8px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: 800;
+        color: #8aa4c7;
+        z-index: 2;
+      }
+      .pretest-note {
+        font-size: 12px;
+        line-height: 1.7;
+        color: #475467;
+      }
+      .pretest-note div {
+        padding: 7px 0;
+        border-bottom: 1px solid #edf0f3;
+      }
+      .pretest-note div:last-child {
+        border-bottom: 0;
+      }
+      .pretest-table table {
+        min-width: 650px;
+      }
+      .pretest-status {
+        font-weight: 800;
+        color: #166534;
+      }
+      .pretest-divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 18px 0 14px;
+      }
+      .pretest-divider:before,
+      .pretest-divider:after {
+        content: "";
+        height: 1px;
+        background: var(--line);
+        flex: 1;
+      }
+      .pretest-divider span {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 800;
+        letter-spacing: 0.3px;
+      }
+      @media (max-width: 900px) {
+        .pretest-kpis {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .pretest-grid {
+          grid-template-columns: 1fr;
+        }
+        .pretest-flow {
+          grid-template-columns: 1fr 1fr;
+        }
+        .pretest-step:not(:last-child):after {
+          display: none;
+        }
+      }
+      @media (max-width: 600px) {
+        .pretest-head {
+          flex-direction: column;
+        }
+        .pretest-kpis,
+        .pretest-flow {
+          grid-template-columns: 1fr;
+        }
+      }
 
-/* ===== Research meeting page ===== */
-.meeting-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.meeting-kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 5px 18px rgba(31,54,88,.04)}
-.meeting-kpi .klabel{font-size:12px;color:var(--muted)}
-.meeting-kpi .kvalue{font-size:22px;font-weight:800;margin-top:6px;line-height:1.35}
-.next-meeting{background:linear-gradient(135deg,#f7faff,#fff);border:1px solid #d9e4f2;border-radius:16px;padding:18px;margin-bottom:16px}
-.next-meeting-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.next-date{font-size:24px;font-weight:800;color:var(--accent);margin-top:5px}
-.meeting-list{display:grid;gap:12px}
-.meeting-card{border:1px solid var(--line);border-radius:14px;padding:15px;background:#fff;box-shadow:0 3px 10px rgba(31,54,88,.035)}
-.meeting-card.past{background:#fafafa}
-.meeting-card .mhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.meeting-card .mdate{font-size:16px;font-weight:800}
-.meeting-card .mmeta{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
-.meeting-card .missue{margin-top:11px;padding:10px 11px;background:#f8fafc;border:1px solid #e6ebf0;border-radius:9px;font-size:13px;line-height:1.6}
-.meeting-card .mactions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
-.meeting-card .mactions button{padding:7px 9px;font-size:12px}
-.meeting-empty{padding:34px 18px;text-align:center;color:var(--muted);border:1px dashed #cfd8e3;border-radius:14px;background:#fbfcfe}
-@media(max-width:900px){.meeting-summary{grid-template-columns:repeat(2,1fr)}}
-
-
-/* ===== Pilot Pre-test record ===== */
-.pretest-section{margin-bottom:18px}
-.pretest-hero{background:linear-gradient(135deg,#f5f9ff,#ffffff);border:1px solid #cfddec;border-radius:16px;padding:18px;box-shadow:0 5px 18px rgba(31,54,88,.04)}
-.pretest-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
-.pretest-title{font-size:19px;font-weight:800}
-.pretest-sub{font-size:12px;color:var(--muted);line-height:1.6;margin-top:5px}
-.pretest-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#e7f5ec;color:#166534;font-size:11px;font-weight:800;white-space:nowrap}
-.pretest-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
-.pretest-kpi{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
-.pretest-kpi .pk-label{font-size:10px;color:var(--muted)}
-.pretest-kpi .pk-value{font-size:19px;font-weight:800;margin-top:5px}
-.pretest-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:14px}
-.pretest-box{border:1px solid var(--line);border-radius:13px;background:#fff;padding:14px}
-.pretest-box h3{font-size:14px;margin:0 0 10px}
-.pretest-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:stretch}
-.pretest-step{position:relative;background:#f8fafc;border:1px solid #e5eaf0;border-radius:10px;padding:10px;font-size:11px;line-height:1.5}
-.pretest-step b{display:block;font-size:12px;margin-bottom:3px;color:#344054}
-.pretest-step:not(:last-child):after{content:"→";position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-weight:800;color:#8aa4c7;z-index:2}
-.pretest-note{font-size:12px;line-height:1.7;color:#475467}
-.pretest-note div{padding:7px 0;border-bottom:1px solid #edf0f3}
-.pretest-note div:last-child{border-bottom:0}
-.pretest-table table{min-width:650px}
-.pretest-status{font-weight:800;color:#166534}
-.pretest-divider{display:flex;align-items:center;gap:10px;margin:18px 0 14px}
-.pretest-divider:before,.pretest-divider:after{content:"";height:1px;background:var(--line);flex:1}
-.pretest-divider span{font-size:11px;color:var(--muted);font-weight:800;letter-spacing:.3px}
-@media(max-width:900px){.pretest-kpis{grid-template-columns:repeat(2,1fr)}.pretest-grid{grid-template-columns:1fr}.pretest-flow{grid-template-columns:1fr 1fr}.pretest-step:not(:last-child):after{display:none}}
-@media(max-width:600px){.pretest-head{flex-direction:column}.pretest-kpis,.pretest-flow{grid-template-columns:1fr}}
-
-
-/* ===== Codebook page ===== */
-.cb-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.cb-kpi{background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px;box-shadow:0 5px 18px rgba(31,54,88,.04)}
-.cb-kpi .clabel{font-size:11px;color:var(--muted)}
-.cb-kpi .cvalue{font-size:21px;font-weight:800;margin-top:6px}
-.cb-current{background:linear-gradient(135deg,#f6faff,#fff);border:1px solid #d6e2f0;border-radius:16px;padding:18px;margin-bottom:16px}
-.cb-current-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
-.cb-version{font-size:26px;font-weight:800;color:var(--accent);margin-top:4px}
-.cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.cb-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px}
-.cb-card h3{margin:0 0 9px;font-size:15px}
-.cb-card p{margin:0;color:#475467;font-size:12px;line-height:1.7}
-.cb-relations{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.cb-rel{border:1px solid #e3e9f0;background:#fafcfe;border-radius:11px;padding:11px}
-.cb-rel b{font-size:12px;color:#244f87}
-.cb-rel div{font-size:11px;color:#667085;line-height:1.55;margin-top:4px}
-.cb-version-list{display:grid;gap:9px}
-.cb-version-row{display:grid;grid-template-columns:120px 110px 100px 1fr auto;gap:9px;align-items:center;border:1px solid #e5e7eb;border-radius:11px;padding:10px;background:#fff}
-.cb-status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800}
-.cb-status.current{background:#e7f5ec;color:#166534}.cb-status.draft{background:#fff4d6;color:#8a5a00}.cb-status.archived{background:#edf0f3;color:#586170}
-.cb-rule-table table{min-width:780px}
-.cb-priority{padding:11px 12px;border-left:4px solid var(--accent);background:#f7faff;border-radius:9px;font-size:12px;line-height:1.7}
-.cb-open-item{padding:10px 11px;border:1px solid #f0dfb7;background:#fffaf0;border-radius:9px;font-size:12px;line-height:1.6;margin-bottom:8px}
-@media(max-width:1000px){.cb-summary{grid-template-columns:repeat(2,1fr)}.cb-grid{grid-template-columns:1fr}.cb-version-row{grid-template-columns:1fr 1fr}}
-@media(max-width:650px){.cb-summary{grid-template-columns:1fr 1fr}.cb-relations{grid-template-columns:1fr}.cb-version-row{grid-template-columns:1fr}}
-
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="hero">
-    <div>
-      <h1>조세법 체계의 복잡성 측정·모니터링·관리</h1>
-      <div class="subtitle">
-        법령 네트워크와 개정 파급(ripple) 계량을 통한 AI 기반 위험기반 세무행정 전환 지원<br>
-        연구기간: 2026.06.01 ~ 2029.05.31
-<br>
-        연구자: PI_ M. Kang | SR_ H. Jo
-      </div>
-    </div>
-    <div class="top-actions">
-      <button class="btn-primary" id="addRiskBtn">+ 이슈/리스크 추가</button>
-      <button class="btn-soft" id="exportBtn">데이터 백업</button>
-      <button class="btn-ghost" id="resetBtn">초기화</button>
-    </div>
-  </div>
-
-  <div class="page-nav">
-    <button class="page-tab active" data-page="overview">전체 연구현황</button>
-    <button class="page-tab" data-page="meetings">연구미팅</button>
-    <button class="page-tab" data-page="pilot">파일럿 테스트</button>
-    <button class="page-tab" data-page="codebook">코드북</button>
-  </div>
-
-  <div id="overviewPage" class="main-page active">
-  <div class="notice">각 분기의 <b>수정</b> 버튼을 눌러 진행률, 상태, 실제 수행내용, 메모를 직접 바꿀 수 있습니다. 입력 내용은 브라우저에 자동 저장됩니다.</div>
-
-  <section class="metrics">
-    <div class="metric"><div class="label">전체 연구 진행률</div><div class="value" id="overall">0%</div><div class="hint">12개 분기 평균</div></div>
-    <div class="metric"><div class="label">완료 분기</div><div class="value" id="doneQ">0/12</div><div class="hint">상태가 ‘완료’인 분기</div></div>
-    <div class="metric"><div class="label">진행 중 분기</div><div class="value" id="activeQ">0</div><div class="hint">현재 수행 중</div></div>
-    <div class="metric"><div class="label">주의/지연</div><div class="value" id="riskQ">0</div><div class="hint">관리 필요</div></div>
-    <div class="metric"><div class="label">등록 리스크</div><div class="value" id="riskCount">0</div><div class="hint">직접 추가 가능</div></div>
-  </section>
-
-  <div class="layout">
-    <main>
-      <section class="panel">
-        <h2>연구 목표</h2>
-        <div class="objective">
-          한국 조세법 체계를 복잡계 관점에서 정량화하고, 복잡성의 측정·모니터링·관리 기능을 갖춘 정책도구를 개발하여
-          AI 기반 위험기반 세무행정 전환을 지원하는 설명가능한 인프라로 연결하는 것을 최종 목표로 합니다.
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="tabs">
-          <button class="tab active" data-year="1">1차년도</button>
-          <button class="tab" data-year="2">2차년도</button>
-          <button class="tab" data-year="3">3차년도</button>
-        </div>
-        <div id="yearView"></div>
-      </section>
-
-      <section class="panel">
-        <h2>핵심 산출물 로드맵</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>연차</th><th>핵심 산출물</th><th>역할</th></tr></thead>
-            <tbody>
-              <tr><td>1차년도</td><td>법령 코퍼스 v1 · 조문 네트워크 v1 · 복잡성 지표 v1</td><td>측정 기반 구축</td></tr>
-              <tr><td>2차년도</td><td>개정 사건 DB · Amendment Ripple Index v1 · 세목별 사례연구</td><td>모니터링 기반 확립</td></tr>
-              <tr><td>3차년도</td><td>조세복잡성 레이더 · CIA 프로토콜 · AI 연계 운영 가이드</td><td>관리 도구화</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </main>
-
-    <aside>
-      <section class="panel">
-        <h2>핵심 연구축</h2>
-        <div class="workstreams">
-          <div class="ws"><b>① 다층 법령 네트워크</b><span>조문-개념-쟁점 레이어와 준용·위임·예외·정의 연결 구조 구축</span></div>
-          <div class="ws"><b>② 복잡성 지표</b><span>구조·상호의존·언어 차원의 복잡성 지표와 기준선 산출</span></div>
-          <div class="ws"><b>③ 개정 파급지수</b><span>개정 전후 연결 재배선, 의미 변화, 실무 쟁점 변동 통합</span></div>
-          <div class="ws"><b>④ 정책도구화</b><span>모니터링 대시보드, 경보체계, Complexity Impact Assessment</span></div>
-          <div class="ws"><b>⑤ AI 행정 연계</b><span>변경관리 트리거, 인간 검토, 근거제시, 이의제기 강화 운영규칙</span></div>
-        </div>
-      </section>
-
-      <section class="panel">
-        <h2>이슈 / 리스크</h2>
-        <div id="riskList"></div>
-      </section>
-
-      <section class="panel">
-        <h2>현재 연차 체크포인트</h2>
-        <div id="checkpoint" class="small"></div>
-      </section>
-    </aside>
-  </div>
-  </div>
-
-  <div id="meetingsPage" class="main-page">
-    <div class="notice">연구미팅 예정일자를 확인하고, 미팅별 참여자·수단·장소·시간·이슈 사항을 기록할 수 있습니다. 가장 가까운 예정 미팅은 자동으로 상단에 표시됩니다.</div>
-
-    <div class="meeting-summary">
-      <div class="meeting-kpi"><div class="klabel">다음 연구미팅</div><div class="kvalue" id="nextMeetingDate">미정</div></div>
-      <div class="meeting-kpi"><div class="klabel">다음 미팅 시간</div><div class="kvalue" id="nextMeetingTime">-</div></div>
-      <div class="meeting-kpi"><div class="klabel">예정 미팅</div><div class="kvalue" id="upcomingMeetingCount">0</div></div>
-      <div class="meeting-kpi"><div class="klabel">전체 미팅 기록</div><div class="kvalue" id="totalMeetingCount">0</div></div>
-    </div>
-
-    <div class="next-meeting" id="nextMeetingCard"></div>
-
-    <section class="panel">
-      <div class="year-head">
+      /* ===== Codebook page ===== */
+      .cb-summary {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .cb-kpi {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 0 5px 18px rgba(31, 54, 88, 0.04);
+      }
+      .cb-kpi .clabel {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .cb-kpi .cvalue {
+        font-size: 21px;
+        font-weight: 800;
+        margin-top: 6px;
+      }
+      .cb-current {
+        background: linear-gradient(135deg, #f6faff, #fff);
+        border: 1px solid #d6e2f0;
+        border-radius: 16px;
+        padding: 18px;
+        margin-bottom: 16px;
+      }
+      .cb-current-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .cb-version {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--accent);
+        margin-top: 4px;
+      }
+      .cb-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .cb-card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 15px;
+        margin-bottom: 12px;
+      }
+      .cb-card h3 {
+        margin: 0 0 9px;
+        font-size: 15px;
+      }
+      .cb-card p {
+        margin: 0;
+        color: #475467;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      .cb-relations {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 9px;
+      }
+      .cb-rel {
+        border: 1px solid #e3e9f0;
+        background: #fafcfe;
+        border-radius: 11px;
+        padding: 11px;
+      }
+      .cb-rel b {
+        font-size: 12px;
+        color: #244f87;
+      }
+      .cb-rel div {
+        font-size: 11px;
+        color: #667085;
+        line-height: 1.55;
+        margin-top: 4px;
+      }
+      .cb-version-list {
+        display: grid;
+        gap: 9px;
+      }
+      .cb-version-row {
+        display: grid;
+        grid-template-columns: 120px 110px 100px 1fr auto;
+        gap: 9px;
+        align-items: center;
+        border: 1px solid #e5e7eb;
+        border-radius: 11px;
+        padding: 10px;
+        background: #fff;
+      }
+      .cb-status {
+        display: inline-block;
+        padding: 5px 8px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .cb-status.current {
+        background: #e7f5ec;
+        color: #166534;
+      }
+      .cb-status.draft {
+        background: #fff4d6;
+        color: #8a5a00;
+      }
+      .cb-status.archived {
+        background: #edf0f3;
+        color: #586170;
+      }
+      .cb-rule-table table {
+        min-width: 780px;
+      }
+      .cb-priority {
+        padding: 11px 12px;
+        border-left: 4px solid var(--accent);
+        background: #f7faff;
+        border-radius: 9px;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      .cb-open-item {
+        padding: 10px 11px;
+        border: 1px solid #f0dfb7;
+        background: #fffaf0;
+        border-radius: 9px;
+        font-size: 12px;
+        line-height: 1.6;
+        margin-bottom: 8px;
+      }
+      @media (max-width: 1000px) {
+        .cb-summary {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .cb-grid {
+          grid-template-columns: 1fr;
+        }
+        .cb-version-row {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 650px) {
+        .cb-summary {
+          grid-template-columns: 1fr 1fr;
+        }
+        .cb-relations {
+          grid-template-columns: 1fr;
+        }
+        .cb-version-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="hero">
         <div>
-          <div class="year-title">연구미팅 일정 및 기록</div>
-          <div class="year-goal">미팅일자별 참여자, 진행수단, 장소, 시간, 주요 이슈를 관리합니다.</div>
+          <h1>조세법 체계의 복잡성 측정·모니터링·관리</h1>
+          <div class="subtitle">
+            법령 네트워크와 개정 파급(ripple) 계량을 통한 AI 기반 위험기반
+            세무행정 전환 지원
+            <br />
+            연구기간: 2026.06.01 ~ 2029.05.31
+            <br />
+            연구자: PI_ M. Kang | SR_ H. Jo
+          </div>
         </div>
-        <button class="btn-primary" id="addMeetingBtn">+ 연구미팅 추가</button>
+        <div class="top-actions">
+          <button class="btn-primary" id="addRiskBtn">
+            + 이슈/리스크 추가
+          </button>
+          <button class="btn-soft" id="exportBtn">데이터 백업</button>
+          <button class="btn-ghost" id="resetBtn">초기화</button>
+        </div>
       </div>
-      <div class="meeting-list" id="meetingList"></div>
-    </section>
-  </div>
 
-  <div id="pilotPage" class="main-page">
-    <section class="panel">
-      <div id="pilotPageView"></div>
-    </section>
-  </div>
+      <div class="page-nav">
+        <button class="page-tab active" data-page="overview">
+          전체 연구현황
+        </button>
+        <button class="page-tab" data-page="meetings">연구미팅</button>
+        <button class="page-tab" data-page="pilot">파일럿 테스트</button>
+        <button class="page-tab" data-page="codebook">코드북</button>
+      </div>
 
-  <div id="codebookPage" class="main-page">
-    <div class="notice">코드북의 현재 버전과 변경이력을 확인하고, 조문 계보 판정·ID·Snapshot·Schema·Validation 규칙을 한 화면에서 참조할 수 있습니다.</div>
+      <div id="overviewPage" class="main-page active">
+        <div class="notice">
+          각 분기의
+          <b>수정</b>
+          버튼을 눌러 진행률, 상태, 실제 수행내용, 메모를 직접 바꿀 수 있습니다.
+          입력 내용은 브라우저에 자동 저장됩니다.
+        </div>
 
-    <div class="cb-summary">
-      <div class="cb-kpi"><div class="clabel">현재 Codebook 버전</div><div class="cvalue" id="cbCurrentVersion">-</div></div>
-      <div class="cb-kpi"><div class="clabel">최종 갱신일</div><div class="cvalue" id="cbUpdatedDate">-</div></div>
-      <div class="cb-kpi"><div class="clabel">Lineage 유형</div><div class="cvalue">9개</div></div>
-      <div class="cb-kpi"><div class="clabel">DB Schema</div><div class="cvalue">schema-0.1</div></div>
+        <section class="metrics">
+          <div class="metric">
+            <div class="label">전체 연구 진행률</div>
+            <div class="value" id="overall">0%</div>
+            <div class="hint">12개 분기 평균</div>
+          </div>
+          <div class="metric">
+            <div class="label">완료 분기</div>
+            <div class="value" id="doneQ">0/12</div>
+            <div class="hint">상태가 ‘완료’인 분기</div>
+          </div>
+          <div class="metric">
+            <div class="label">진행 중 분기</div>
+            <div class="value" id="activeQ">0</div>
+            <div class="hint">현재 수행 중</div>
+          </div>
+          <div class="metric">
+            <div class="label">주의/지연</div>
+            <div class="value" id="riskQ">0</div>
+            <div class="hint">관리 필요</div>
+          </div>
+          <div class="metric">
+            <div class="label">등록 리스크</div>
+            <div class="value" id="riskCount">0</div>
+            <div class="hint">직접 추가 가능</div>
+          </div>
+        </section>
+
+        <div class="layout">
+          <main>
+            <section class="panel">
+              <h2>연구 목표</h2>
+              <div class="objective">
+                한국 조세법 체계를 복잡계 관점에서 정량화하고, 복잡성의
+                측정·모니터링·관리 기능을 갖춘 정책도구를 개발하여 AI 기반
+                위험기반 세무행정 전환을 지원하는 설명가능한 인프라로 연결하는
+                것을 최종 목표로 합니다.
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="tabs">
+                <button class="tab active" data-year="1">1차년도</button>
+                <button class="tab" data-year="2">2차년도</button>
+                <button class="tab" data-year="3">3차년도</button>
+              </div>
+              <div id="yearView"></div>
+            </section>
+
+            <section class="panel">
+              <h2>핵심 산출물 로드맵</h2>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>연차</th>
+                      <th>핵심 산출물</th>
+                      <th>역할</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1차년도</td>
+                      <td>
+                        법령 코퍼스 v1 · 조문 네트워크 v1 · 복잡성 지표 v1
+                      </td>
+                      <td>측정 기반 구축</td>
+                    </tr>
+                    <tr>
+                      <td>2차년도</td>
+                      <td>
+                        개정 사건 DB · Amendment Ripple Index v1 · 세목별
+                        사례연구
+                      </td>
+                      <td>모니터링 기반 확립</td>
+                    </tr>
+                    <tr>
+                      <td>3차년도</td>
+                      <td>
+                        조세복잡성 레이더 · CIA 프로토콜 · AI 연계 운영 가이드
+                      </td>
+                      <td>관리 도구화</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </main>
+
+          <aside>
+            <section class="panel">
+              <h2>핵심 연구축</h2>
+              <div class="workstreams">
+                <div class="ws">
+                  <b>① 다층 법령 네트워크</b>
+                  <span>
+                    조문-개념-쟁점 레이어와 준용·위임·예외·정의 연결 구조 구축
+                  </span>
+                </div>
+                <div class="ws">
+                  <b>② 복잡성 지표</b>
+                  <span>
+                    구조·상호의존·언어 차원의 복잡성 지표와 기준선 산출
+                  </span>
+                </div>
+                <div class="ws">
+                  <b>③ 개정 파급지수</b>
+                  <span>
+                    개정 전후 연결 재배선, 의미 변화, 실무 쟁점 변동 통합
+                  </span>
+                </div>
+                <div class="ws">
+                  <b>④ 정책도구화</b>
+                  <span>
+                    모니터링 대시보드, 경보체계, Complexity Impact Assessment
+                  </span>
+                </div>
+                <div class="ws">
+                  <b>⑤ AI 행정 연계</b>
+                  <span>
+                    변경관리 트리거, 인간 검토, 근거제시, 이의제기 강화 운영규칙
+                  </span>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <h2>이슈 / 리스크</h2>
+              <div id="riskList"></div>
+            </section>
+
+            <section class="panel">
+              <h2>현재 연차 체크포인트</h2>
+              <div id="checkpoint" class="small"></div>
+            </section>
+          </aside>
+        </div>
+      </div>
+
+      <div id="meetingsPage" class="main-page">
+        <div class="notice">
+          연구미팅 예정일자를 확인하고, 미팅별 참여자·수단·장소·시간·이슈 사항을
+          기록할 수 있습니다. 가장 가까운 예정 미팅은 자동으로 상단에
+          표시됩니다.
+        </div>
+
+        <div class="meeting-summary">
+          <div class="meeting-kpi">
+            <div class="klabel">다음 연구미팅</div>
+            <div class="kvalue" id="nextMeetingDate">미정</div>
+          </div>
+          <div class="meeting-kpi">
+            <div class="klabel">다음 미팅 시간</div>
+            <div class="kvalue" id="nextMeetingTime">-</div>
+          </div>
+          <div class="meeting-kpi">
+            <div class="klabel">예정 미팅</div>
+            <div class="kvalue" id="upcomingMeetingCount">0</div>
+          </div>
+          <div class="meeting-kpi">
+            <div class="klabel">전체 미팅 기록</div>
+            <div class="kvalue" id="totalMeetingCount">0</div>
+          </div>
+        </div>
+
+        <div class="next-meeting" id="nextMeetingCard"></div>
+
+        <section class="panel">
+          <div class="year-head">
+            <div>
+              <div class="year-title">연구미팅 일정 및 기록</div>
+              <div class="year-goal">
+                미팅일자별 참여자, 진행수단, 장소, 시간, 주요 이슈를 관리합니다.
+              </div>
+            </div>
+            <button class="btn-primary" id="addMeetingBtn">
+              + 연구미팅 추가
+            </button>
+          </div>
+          <div class="meeting-list" id="meetingList"></div>
+        </section>
+      </div>
+
+      <div id="pilotPage" class="main-page">
+        <section class="panel">
+          <div id="pilotPageView"></div>
+        </section>
+      </div>
+
+      <div id="codebookPage" class="main-page">
+        <div class="notice">
+          코드북의 현재 버전과 변경이력을 확인하고, 조문 계보
+          판정·ID·Snapshot·Schema·Validation 규칙을 한 화면에서 참조할 수
+          있습니다.
+        </div>
+
+        <div class="cb-summary">
+          <div class="cb-kpi">
+            <div class="clabel">현재 Codebook 버전</div>
+            <div class="cvalue" id="cbCurrentVersion">-</div>
+          </div>
+          <div class="cb-kpi">
+            <div class="clabel">최종 갱신일</div>
+            <div class="cvalue" id="cbUpdatedDate">-</div>
+          </div>
+          <div class="cb-kpi">
+            <div class="clabel">Lineage 유형</div>
+            <div class="cvalue">9개</div>
+          </div>
+          <div class="cb-kpi">
+            <div class="clabel">DB Schema</div>
+            <div class="cvalue">schema-0.1</div>
+          </div>
+        </div>
+
+        <div class="cb-current">
+          <div class="cb-current-head">
+            <div>
+              <div class="small"><b>Current Codebook</b></div>
+              <div class="cb-version" id="cbCurrentHero">-</div>
+              <div
+                class="small"
+                id="cbCurrentNote"
+                style="margin-top: 7px"
+              ></div>
+            </div>
+            <button class="btn-primary" id="addCodebookVersionBtn">
+              + 버전 등록
+            </button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <main>
+            <section class="panel">
+              <h2>Codebook Version History</h2>
+              <div class="section-caption">
+                버전·적용일·상태·변경내용을 기록합니다. 현재 버전은 직접 지정할
+                수 있습니다.
+              </div>
+              <div class="cb-version-list" id="cbVersionList"></div>
+            </section>
+
+            <section class="panel">
+              <h2>조문 Lineage Codebook</h2>
+              <div class="section-caption">
+                개정 전후 조문의 계보관계를 9개 relation_type으로 판정합니다.
+              </div>
+              <div class="cb-priority">
+                <b>상위 판정원칙</b>
+                <br />
+                기술적·표현상의 차이 확인 → 동일 규제단위의 연속성 확인 →
+                내용/위치 변화 확인 → 탄생·소멸·분할·통합·법률 간 이전 확인 →
+                증거가 부족하면 UNRESOLVED
+              </div>
+              <div
+                class="cb-relations"
+                id="cbRelations"
+                style="margin-top: 12px"
+              ></div>
+            </section>
+
+            <section class="panel">
+              <h2>유형별 ID / Version 규칙</h2>
+              <div class="table-wrap cb-rule-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>관계</th>
+                      <th>실제 변화</th>
+                      <th>provision_id</th>
+                      <th>provision_version_id</th>
+                      <th>source_locator_id</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cbRuleTable"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel">
+              <h2>불변 원문 Snapshot / Observation</h2>
+              <div class="cb-grid">
+                <div class="cb-card">
+                  <h3>source_snapshot</h3>
+                  <p>
+                    실제로 확보한 불변 원본 객체를 관리합니다. 동일 원문은
+                    재사용하고 response_sha256으로 무결성을 검증하며 원본은
+                    덮어쓰지 않습니다.
+                  </p>
+                </div>
+                <div class="cb-card">
+                  <h3>collection_observation</h3>
+                  <p>
+                    API 요청·수집이라는 사건을 관리합니다. 동일 Snapshot을 반복
+                    관찰할 수 있고, 실패한 수집도 삭제하지 않고 기록하며 실패 시
+                    snapshot_id는 NULL이 될 수 있습니다.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </main>
+
+          <aside>
+            <section class="panel">
+              <h2>식별자 체계</h2>
+              <div class="workstreams">
+                <div class="ws">
+                  <b>law_id</b>
+                  <span>
+                    법률 자체의 정체성을 식별. 국가법령정보 API의 법령 식별값
+                    사용.
+                  </span>
+                </div>
+                <div class="ws">
+                  <b>source_locator_id</b>
+                  <span>
+                    law_id + MST + 조문 구조정보를 이용해 특정 법령 버전의 조문
+                    위치를 식별.
+                  </span>
+                </div>
+                <div class="ws">
+                  <b>provision_id</b>
+                  <span>
+                    개정을 넘어 추적하는 논리적 규제단위의 영구 정체성.
+                  </span>
+                </div>
+                <div class="ws">
+                  <b>provision_version_id</b>
+                  <span>특정 시점의 조문 문언·위치·효력 상태를 식별.</span>
+                </div>
+                <div class="ws">
+                  <b>snapshot_id</b>
+                  <span>판정의 근거가 된 불변 API 원문 객체를 식별.</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <h2>최소 DB Schema · schema-0.1</h2>
+              <div class="small" style="line-height: 1.75">
+                source_snapshot · collection_observation · law_version ·
+                provision_identity · provision_version · amendment_event ·
+                provision_lineage · annotation · pipeline_run · release_manifest
+              </div>
+            </section>
+
+            <section class="panel">
+              <h2>Validation 핵심원칙</h2>
+              <div class="small" style="line-height: 1.75">
+                · relation_type은 허용된 9개 값만 사용
+                <br />
+                · confidence는 0~1 범위로 통제
+                <br />
+                · 불확실한 계보는 강제 연결하지 않고 UNRESOLVED로 보존
+                <br />
+                · 판정 근거(evidence), 방법, confidence, review status 기록
+                <br />
+                · 원천 → 조문 → 판단 → 지표의 추적가능성 유지
+              </div>
+            </section>
+
+            <section class="panel">
+              <h2>설계 결정 확인 필요</h2>
+              <div class="cb-open-item">
+                의미는 거의 같지만 문언이 변경된 경우 SAME/MODIFY 경계
+              </div>
+              <div class="cb-open-item">
+                법 전체 MST 변경만으로 provision_version_id를 새로 만들지 여부
+              </div>
+              <div class="cb-open-item">
+                MODIFY의 FORMAL / SUBSTANTIVE 하위 구분 여부
+              </div>
+              <div class="cb-open-item">
+                위치 이동과 문언 변경이 동시에 발생한 복합사례 처리
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
     </div>
 
-    <div class="cb-current">
-      <div class="cb-current-head">
-        <div>
-          <div class="small"><b>Current Codebook</b></div>
-          <div class="cb-version" id="cbCurrentHero">-</div>
-          <div class="small" id="cbCurrentNote" style="margin-top:7px"></div>
+    <div class="modal-bg" id="quarterModal">
+      <div class="modal">
+        <div class="modal-head">
+          <h3>분기 진행상황 수정</h3>
+          <button class="btn-ghost" id="closeQuarter">닫기</button>
         </div>
-        <button class="btn-primary" id="addCodebookVersionBtn">+ 버전 등록</button>
+        <form id="quarterForm">
+          <div class="form-grid">
+            <div class="field">
+              <label>상태</label>
+              <select id="qStatus">
+                <option>미착수</option>
+                <option>진행중</option>
+                <option>주의</option>
+                <option>지연</option>
+                <option>완료</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>진행률 (%)</label>
+              <input id="qProgress" type="number" min="0" max="100" />
+            </div>
+            <div class="field full">
+              <label>실제 수행내용</label>
+              <textarea id="qActual"></textarea>
+            </div>
+            <div class="field full">
+              <label>메모 / 다음 할 일</label>
+              <textarea id="qMemo"></textarea>
+            </div>
+            <div class="field">
+              <label>담당자</label>
+              <input id="qOwner" />
+            </div>
+            <div class="field">
+              <label>기간</label>
+              <input id="qPeriod" placeholder="예: 2026.09.08~09.14" />
+            </div>
+            <div class="field">
+              <label>처리 건수</label>
+              <input id="qCaseDone" type="number" min="0" />
+            </div>
+            <div class="field">
+              <label>오류/불일치 건수</label>
+              <input id="qErrorCount" type="number" min="0" />
+            </div>
+            <div class="field">
+              <label>검토대기 건수</label>
+              <input id="qPendingCount" type="number" min="0" />
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" id="cancelQuarter">
+              취소
+            </button>
+            <button type="submit" class="btn-primary">저장</button>
+          </div>
+        </form>
       </div>
     </div>
 
-    <div class="grid-2">
-      <main>
-        <section class="panel">
-          <h2>Codebook Version History</h2>
-          <div class="section-caption">버전·적용일·상태·변경내용을 기록합니다. 현재 버전은 직접 지정할 수 있습니다.</div>
-          <div class="cb-version-list" id="cbVersionList"></div>
-        </section>
-
-        <section class="panel">
-          <h2>조문 Lineage Codebook</h2>
-          <div class="section-caption">개정 전후 조문의 계보관계를 9개 relation_type으로 판정합니다.</div>
-          <div class="cb-priority"><b>상위 판정원칙</b><br>기술적·표현상의 차이 확인 → 동일 규제단위의 연속성 확인 → 내용/위치 변화 확인 → 탄생·소멸·분할·통합·법률 간 이전 확인 → 증거가 부족하면 UNRESOLVED</div>
-          <div class="cb-relations" id="cbRelations" style="margin-top:12px"></div>
-        </section>
-
-        <section class="panel">
-          <h2>유형별 ID / Version 규칙</h2>
-          <div class="table-wrap cb-rule-table">
-            <table>
-              <thead><tr><th>관계</th><th>실제 변화</th><th>provision_id</th><th>provision_version_id</th><th>source_locator_id</th></tr></thead>
-              <tbody id="cbRuleTable"></tbody>
-            </table>
+    <div class="modal-bg" id="codebookVersionModal">
+      <div class="modal">
+        <div class="modal-head">
+          <h3 id="cbVersionModalTitle">Codebook 버전 등록</h3>
+          <button class="btn-ghost" id="closeCbVersion">닫기</button>
+        </div>
+        <form id="cbVersionForm">
+          <div class="form-grid">
+            <div class="field">
+              <label>버전</label>
+              <input
+                id="cbVersionName"
+                placeholder="예: v0.1 / codebook-1.1"
+                required
+              />
+            </div>
+            <div class="field">
+              <label>적용일</label>
+              <input id="cbVersionDate" type="date" required />
+            </div>
+            <div class="field">
+              <label>상태</label>
+              <select id="cbVersionStatus">
+                <option value="current">현재</option>
+                <option value="draft">초안</option>
+                <option value="archived">이전</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>승인/확정자</label>
+              <input id="cbVersionOwner" placeholder="예: PI" />
+            </div>
+            <div class="field full">
+              <label>변경내용</label>
+              <textarea
+                id="cbVersionChanges"
+                placeholder="이 버전에서 변경·확정된 내용을 기록하세요."
+              ></textarea>
+            </div>
           </div>
-        </section>
-
-        <section class="panel">
-          <h2>불변 원문 Snapshot / Observation</h2>
-          <div class="cb-grid">
-            <div class="cb-card"><h3>source_snapshot</h3><p>실제로 확보한 불변 원본 객체를 관리합니다. 동일 원문은 재사용하고 response_sha256으로 무결성을 검증하며 원본은 덮어쓰지 않습니다.</p></div>
-            <div class="cb-card"><h3>collection_observation</h3><p>API 요청·수집이라는 사건을 관리합니다. 동일 Snapshot을 반복 관찰할 수 있고, 실패한 수집도 삭제하지 않고 기록하며 실패 시 snapshot_id는 NULL이 될 수 있습니다.</p></div>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" id="cancelCbVersion">
+              취소
+            </button>
+            <button type="submit" class="btn-primary">저장</button>
           </div>
-        </section>
-      </main>
-
-      <aside>
-        <section class="panel">
-          <h2>식별자 체계</h2>
-          <div class="workstreams">
-            <div class="ws"><b>law_id</b><span>법률 자체의 정체성을 식별. 국가법령정보 API의 법령 식별값 사용.</span></div>
-            <div class="ws"><b>source_locator_id</b><span>law_id + MST + 조문 구조정보를 이용해 특정 법령 버전의 조문 위치를 식별.</span></div>
-            <div class="ws"><b>provision_id</b><span>개정을 넘어 추적하는 논리적 규제단위의 영구 정체성.</span></div>
-            <div class="ws"><b>provision_version_id</b><span>특정 시점의 조문 문언·위치·효력 상태를 식별.</span></div>
-            <div class="ws"><b>snapshot_id</b><span>판정의 근거가 된 불변 API 원문 객체를 식별.</span></div>
-          </div>
-        </section>
-
-        <section class="panel">
-          <h2>최소 DB Schema · schema-0.1</h2>
-          <div class="small" style="line-height:1.75">
-            source_snapshot · collection_observation · law_version · provision_identity · provision_version · amendment_event · provision_lineage · annotation · pipeline_run · release_manifest
-          </div>
-        </section>
-
-        <section class="panel">
-          <h2>Validation 핵심원칙</h2>
-          <div class="small" style="line-height:1.75">
-            · relation_type은 허용된 9개 값만 사용<br>
-            · confidence는 0~1 범위로 통제<br>
-            · 불확실한 계보는 강제 연결하지 않고 UNRESOLVED로 보존<br>
-            · 판정 근거(evidence), 방법, confidence, review status 기록<br>
-            · 원천 → 조문 → 판단 → 지표의 추적가능성 유지
-          </div>
-        </section>
-
-        <section class="panel">
-          <h2>설계 결정 확인 필요</h2>
-          <div class="cb-open-item">의미는 거의 같지만 문언이 변경된 경우 SAME/MODIFY 경계</div>
-          <div class="cb-open-item">법 전체 MST 변경만으로 provision_version_id를 새로 만들지 여부</div>
-          <div class="cb-open-item">MODIFY의 FORMAL / SUBSTANTIVE 하위 구분 여부</div>
-          <div class="cb-open-item">위치 이동과 문언 변경이 동시에 발생한 복합사례 처리</div>
-        </section>
-      </aside>
+        </form>
+      </div>
     </div>
-  </div>
-</div>
 
-<div class="modal-bg" id="quarterModal">
-  <div class="modal">
-    <div class="modal-head"><h3>분기 진행상황 수정</h3><button class="btn-ghost" id="closeQuarter">닫기</button></div>
-    <form id="quarterForm">
-      <div class="form-grid">
-        <div class="field"><label>상태</label>
-          <select id="qStatus"><option>미착수</option><option>진행중</option><option>주의</option><option>지연</option><option>완료</option></select>
+    <div class="modal-bg" id="meetingModal">
+      <div class="modal">
+        <div class="modal-head">
+          <h3 id="meetingModalTitle">연구미팅 추가</h3>
+          <button class="btn-ghost" id="closeMeeting">닫기</button>
         </div>
-        <div class="field"><label>진행률 (%)</label><input id="qProgress" type="number" min="0" max="100"></div>
-        <div class="field full"><label>실제 수행내용</label><textarea id="qActual"></textarea></div>
-        <div class="field full"><label>메모 / 다음 할 일</label><textarea id="qMemo"></textarea></div>
-        <div class="field"><label>담당자</label><input id="qOwner"></div>
-        <div class="field"><label>기간</label><input id="qPeriod" placeholder="예: 2026.09.08~09.14"></div>
-        <div class="field"><label>처리 건수</label><input id="qCaseDone" type="number" min="0"></div>
-        <div class="field"><label>오류/불일치 건수</label><input id="qErrorCount" type="number" min="0"></div>
-        <div class="field"><label>검토대기 건수</label><input id="qPendingCount" type="number" min="0"></div>
+        <form id="meetingForm">
+          <div class="form-grid">
+            <div class="field">
+              <label>미팅 일자</label>
+              <input id="mDate" type="date" required />
+            </div>
+            <div class="field">
+              <label>시간</label>
+              <input id="mTime" type="time" required />
+            </div>
+            <div class="field full">
+              <label>참여자</label>
+              <input
+                id="mParticipants"
+                placeholder="예: PI_ M. Kang, SR_ H. Jo"
+              />
+            </div>
+            <div class="field">
+              <label>수단</label>
+              <select id="mMode">
+                <option>온라인</option>
+                <option>오프라인</option>
+                <option>하이브리드</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>장소 / 접속수단</label>
+              <input id="mPlace" placeholder="예: 연구실 / Zoom / Teams" />
+            </div>
+            <div class="field full">
+              <label>이슈 사항 / 논의 안건</label>
+              <textarea
+                id="mIssues"
+                placeholder="주요 논의 안건, 확인할 사항, 결정이 필요한 이슈 등을 입력하세요."
+              ></textarea>
+            </div>
+            <div class="field full">
+              <label>미팅 메모 / 결정사항</label>
+              <textarea
+                id="mNotes"
+                placeholder="미팅 후 결정사항이나 후속 조치를 기록할 수 있습니다."
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" id="cancelMeeting">
+              취소
+            </button>
+            <button type="submit" class="btn-primary">저장</button>
+          </div>
+        </form>
       </div>
-      <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelQuarter">취소</button><button type="submit" class="btn-primary">저장</button></div>
-    </form>
-  </div>
-</div>
+    </div>
 
-<div class="modal-bg" id="codebookVersionModal">
-  <div class="modal">
-    <div class="modal-head"><h3 id="cbVersionModalTitle">Codebook 버전 등록</h3><button class="btn-ghost" id="closeCbVersion">닫기</button></div>
-    <form id="cbVersionForm">
-      <div class="form-grid">
-        <div class="field"><label>버전</label><input id="cbVersionName" placeholder="예: v0.1 / codebook-1.1" required></div>
-        <div class="field"><label>적용일</label><input id="cbVersionDate" type="date" required></div>
-        <div class="field"><label>상태</label><select id="cbVersionStatus"><option value="current">현재</option><option value="draft">초안</option><option value="archived">이전</option></select></div>
-        <div class="field"><label>승인/확정자</label><input id="cbVersionOwner" placeholder="예: PI"></div>
-        <div class="field full"><label>변경내용</label><textarea id="cbVersionChanges" placeholder="이 버전에서 변경·확정된 내용을 기록하세요."></textarea></div>
-      </div>
-      <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelCbVersion">취소</button><button type="submit" class="btn-primary">저장</button></div>
-    </form>
-  </div>
-</div>
-
-<div class="modal-bg" id="meetingModal">
-  <div class="modal">
-    <div class="modal-head"><h3 id="meetingModalTitle">연구미팅 추가</h3><button class="btn-ghost" id="closeMeeting">닫기</button></div>
-    <form id="meetingForm">
-      <div class="form-grid">
-        <div class="field"><label>미팅 일자</label><input id="mDate" type="date" required></div>
-        <div class="field"><label>시간</label><input id="mTime" type="time" required></div>
-        <div class="field full"><label>참여자</label><input id="mParticipants" placeholder="예: PI_ M. Kang, SR_ H. Jo"></div>
-        <div class="field"><label>수단</label>
-          <select id="mMode"><option>온라인</option><option>오프라인</option><option>하이브리드</option></select>
+    <div class="modal-bg" id="riskModal">
+      <div class="modal">
+        <div class="modal-head">
+          <h3>이슈 / 리스크 등록</h3>
+          <button class="btn-ghost" id="closeRisk">닫기</button>
         </div>
-        <div class="field"><label>장소 / 접속수단</label><input id="mPlace" placeholder="예: 연구실 / Zoom / Teams"></div>
-        <div class="field full"><label>이슈 사항 / 논의 안건</label><textarea id="mIssues" placeholder="주요 논의 안건, 확인할 사항, 결정이 필요한 이슈 등을 입력하세요."></textarea></div>
-        <div class="field full"><label>미팅 메모 / 결정사항</label><textarea id="mNotes" placeholder="미팅 후 결정사항이나 후속 조치를 기록할 수 있습니다."></textarea></div>
+        <form id="riskForm">
+          <div class="form-grid">
+            <div class="field">
+              <label>구분</label>
+              <select id="rLevel">
+                <option>주의</option>
+                <option>지연</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>관련 연차</label>
+              <select id="rYear">
+                <option>1차년도</option>
+                <option>2차년도</option>
+                <option>3차년도</option>
+                <option>공통</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label>이슈 제목</label>
+              <input id="rTitle" required />
+            </div>
+            <div class="field full">
+              <label>내용 / 대응방안</label>
+              <textarea id="rText"></textarea>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" id="cancelRisk">
+              취소
+            </button>
+            <button type="submit" class="btn-primary">등록</button>
+          </div>
+        </form>
       </div>
-      <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelMeeting">취소</button><button type="submit" class="btn-primary">저장</button></div>
-    </form>
-  </div>
-</div>
+    </div>
 
-<div class="modal-bg" id="riskModal">
-  <div class="modal">
-    <div class="modal-head"><h3>이슈 / 리스크 등록</h3><button class="btn-ghost" id="closeRisk">닫기</button></div>
-    <form id="riskForm">
-      <div class="form-grid">
-        <div class="field"><label>구분</label><select id="rLevel"><option>주의</option><option>지연</option></select></div>
-        <div class="field"><label>관련 연차</label><select id="rYear"><option>1차년도</option><option>2차년도</option><option>3차년도</option><option>공통</option></select></div>
-        <div class="field full"><label>이슈 제목</label><input id="rTitle" required></div>
-        <div class="field full"><label>내용 / 대응방안</label><textarea id="rText"></textarea></div>
-      </div>
-      <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelRisk">취소</button><button type="submit" class="btn-primary">등록</button></div>
-    </form>
-  </div>
-</div>
+    <script>
+      const KEY = "tax-complexity-research-dashboard-v1";
 
-<script>
-const KEY="tax-complexity-research-dashboard-v1";
+      const baseYears = [
+        {
+          year: 1,
+          goal: "법체계 계량 인프라 구축 (측정 기반)",
+          checkpoint: "법령 코퍼스 v1 + 조문 네트워크 v1 + 복잡성 지표 v1",
+          quarters: [
+            {
+              q: 1,
+              plan: "연구대상 범위 확정, 법률·시행령·시행규칙 수집·정제 파이프라인 설계, 조문 식별자 및 개정 연혁 메타데이터 구조화",
+              output: "기반 구축"
+            },
+            {
+              q: 2,
+              plan: "준용·인용, 위임, 예외, 정의 참조 추출 규칙 개발 및 표본 품질검증",
+              output: "네트워크 v1"
+            },
+            {
+              q: 3,
+              plan: "구조·상호의존·언어 복잡성 지표 산출, 세목별 복잡성 지형 및 허브 조문 후보 도출",
+              output: "지표 v1"
+            },
+            {
+              q: 4,
+              plan: "예규·심판·판례에서 인용 조문·쟁점 키워드 추출 파일럿, 불확실성 지표 설계",
+              output: "쟁점 레이어 v1"
+            }
+          ]
+        },
+        {
+          year: 2,
+          goal: "개정 파급(ripple) 계량 확립 (모니터링 기반)",
+          checkpoint:
+            "개정 사건 DB + Amendment Ripple Index v1 + 세목별 사례연구",
+          quarters: [
+            {
+              q: 1,
+              plan: "개정 사건 정의, 신·구법 매칭 테이블 구축, 개정 유형 분류 및 영향권 서브그래프 추출",
+              output: "개정 사건 DB"
+            },
+            {
+              q: 2,
+              plan: "정의·요건·효과 문장의 신·구 차이를 활용한 의미적 파급지표 개발",
+              output: "의미 파급"
+            },
+            {
+              q: 3,
+              plan: "구조·의미·실무 파급을 통합하여 Amendment Ripple Index v1 확정",
+              output: "파급지수 v1"
+            },
+            {
+              q: 4,
+              plan: "세목별 사례연구 확장, 정기 업데이트 주기 및 경보 임계치 초안 설정",
+              output: "모니터링 초안"
+            }
+          ]
+        },
+        {
+          year: 3,
+          goal: "정책도구화 및 AI 위험기반 세무행정 연계 (관리 기반)",
+          checkpoint: "조세복잡성 레이더 + CIA 프로토콜 + AI 연계 운영 가이드",
+          quarters: [
+            {
+              q: 1,
+              plan: "세목·법률·쟁점별 복잡성 추세, 취약 결합부 히트맵, 개정 파급 사건 랭킹을 제공하는 대시보드 구현",
+              output: "레이더 구현"
+            },
+            {
+              q: 2,
+              plan: "개정안 복잡성 영향평가(Complexity Impact Assessment) 문항·관리레버 설계 및 시나리오 테스트",
+              output: "CIA 프로토콜"
+            },
+            {
+              q: 3,
+              plan: "지표·임계치·프로토콜 문항 교정, 전문가 피드백 및 사용자 관점 사용성 검증",
+              output: "현장 교정"
+            },
+            {
+              q: 4,
+              plan: "AI 변경관리 트리거, 모델 재검증·재학습, 시스템 업데이트 및 인간 검토 운영규칙 정리",
+              output: "전환 가이드"
+            }
+          ]
+        }
+      ];
 
-const baseYears = [
- {year:1, goal:"법체계 계량 인프라 구축 (측정 기반)", checkpoint:"법령 코퍼스 v1 + 조문 네트워크 v1 + 복잡성 지표 v1",
-  quarters:[
-   {q:1, plan:"연구대상 범위 확정, 법률·시행령·시행규칙 수집·정제 파이프라인 설계, 조문 식별자 및 개정 연혁 메타데이터 구조화", output:"기반 구축"},
-   {q:2, plan:"준용·인용, 위임, 예외, 정의 참조 추출 규칙 개발 및 표본 품질검증", output:"네트워크 v1"},
-   {q:3, plan:"구조·상호의존·언어 복잡성 지표 산출, 세목별 복잡성 지형 및 허브 조문 후보 도출", output:"지표 v1"},
-   {q:4, plan:"예규·심판·판례에서 인용 조문·쟁점 키워드 추출 파일럿, 불확실성 지표 설계", output:"쟁점 레이어 v1"}]},
- {year:2, goal:"개정 파급(ripple) 계량 확립 (모니터링 기반)", checkpoint:"개정 사건 DB + Amendment Ripple Index v1 + 세목별 사례연구",
-  quarters:[
-   {q:1, plan:"개정 사건 정의, 신·구법 매칭 테이블 구축, 개정 유형 분류 및 영향권 서브그래프 추출", output:"개정 사건 DB"},
-   {q:2, plan:"정의·요건·효과 문장의 신·구 차이를 활용한 의미적 파급지표 개발", output:"의미 파급"},
-   {q:3, plan:"구조·의미·실무 파급을 통합하여 Amendment Ripple Index v1 확정", output:"파급지수 v1"},
-   {q:4, plan:"세목별 사례연구 확장, 정기 업데이트 주기 및 경보 임계치 초안 설정", output:"모니터링 초안"}]},
- {year:3, goal:"정책도구화 및 AI 위험기반 세무행정 연계 (관리 기반)", checkpoint:"조세복잡성 레이더 + CIA 프로토콜 + AI 연계 운영 가이드",
-  quarters:[
-   {q:1, plan:"세목·법률·쟁점별 복잡성 추세, 취약 결합부 히트맵, 개정 파급 사건 랭킹을 제공하는 대시보드 구현", output:"레이더 구현"},
-   {q:2, plan:"개정안 복잡성 영향평가(Complexity Impact Assessment) 문항·관리레버 설계 및 시나리오 테스트", output:"CIA 프로토콜"},
-   {q:3, plan:"지표·임계치·프로토콜 문항 교정, 전문가 피드백 및 사용자 관점 사용성 검증", output:"현장 교정"},
-   {q:4, plan:"AI 변경관리 트리거, 모델 재검증·재학습, 시스템 업데이트 및 인간 검토 운영규칙 정리", output:"전환 가이드"}]}
-];
+      function makeInitial() {
+        return {
+          selectedYear: 1,
+          selectedPage: "overview",
+          years: baseYears.map((y) => ({
+            ...y,
+            quarters: y.quarters.map((q) => ({
+              ...q,
+              status: "미착수",
+              progress: 0,
+              actual: "",
+              memo: ""
+            }))
+          })),
+          pilot: {
+            title: "부가가치세법 4주 파일럿 테스트",
+            scope:
+              "부가가치세법·시행령·시행규칙의 서로 다른 개정유형을 깊게 검증한 뒤, 계보규칙이 안정되면 6대 세법으로 확장",
+            weeks: [
+              {
+                week: 1,
+                task: "ID·매니페스트·계보 Codebook 확정",
+                output: "schema-0.1, codebook-1.1",
+                criteria: "필드·코드·예외규칙 승인",
+                criteriaItems: [
+                  "필드 사전 승인",
+                  "계보 코드 승인",
+                  "예외규칙 승인"
+                ],
+                criteriaChecks: [false, false, false],
+                owner: "",
+                period: "",
+                caseTarget: "-",
+                caseDone: 0,
+                errorCount: 0,
+                pendingCount: 0,
+                status: "미착수",
+                progress: 0,
+                actual: "",
+                memo: ""
+              },
+              {
+                week: 2,
+                task: "부가가치세법·시행령·시행규칙 연혁 재수집",
+                output: "RAW 스냅숏·수집 매니페스트",
+                criteria: "원문·해시·MST 대사 100%",
+                criteriaItems: [
+                  "원문 수집 완료",
+                  "SHA-256 검증 100%",
+                  "MST 대사 100%"
+                ],
+                criteriaChecks: [false, false, false],
+                owner: "",
+                period: "",
+                caseTarget: "전체 연혁",
+                caseDone: 0,
+                errorCount: 0,
+                pendingCount: 0,
+                status: "미착수",
+                progress: 0,
+                actual: "",
+                memo: ""
+              },
+              {
+                week: 3,
+                task: "주요 개정사건 30~50건 계보 이중코딩",
+                output: "Gold Set·불일치 목록",
+                criteria: "원문 역추적 100%, 강제연결 0건",
+                criteriaItems: [
+                  "30~50건 이중코딩",
+                  "원문 역추적 100%",
+                  "강제연결 0건",
+                  "불일치 사례 검토"
+                ],
+                criteriaChecks: [false, false, false, false],
+                owner: "",
+                period: "",
+                caseTarget: "30~50건",
+                caseDone: 0,
+                errorCount: 0,
+                pendingCount: 0,
+                status: "미착수",
+                progress: 0,
+                actual: "",
+                memo: ""
+              },
+              {
+                week: 4,
+                task: "반자동 매칭시험·릴리스 동결",
+                output: "TRRE-DATA-0.1.0",
+                criteria: "재실행·복구·지수 재산출 성공",
+                criteriaItems: [
+                  "반자동 매칭 재실행 성공",
+                  "복구시험 성공",
+                  "지수 재산출 성공",
+                  "TRRE-DATA-0.1.0 릴리스 동결"
+                ],
+                criteriaChecks: [false, false, false, false],
+                owner: "",
+                period: "",
+                caseTarget: "통합 검증",
+                caseDone: 0,
+                errorCount: 0,
+                pendingCount: 0,
+                status: "미착수",
+                progress: 0,
+                actual: "",
+                memo: ""
+              }
+            ],
+            cases: [
+              "문언 일부수정과 동일 조문번호 유지 사례",
+              "조문번호 이동과 편·장·절 구조변경 사례",
+              "조문 신설·삭제 사례",
+              "하나의 조문이 복수 조문으로 분할된 사례",
+              "복수 조문이 하나로 병합된 사례",
+              "타법개정 또는 법률·시행령·시행규칙 간 연계가 변한 사례"
+            ],
+            gates: {
+              traceability: false,
+              integrity: false,
+              identifier: false,
+              lineage: false,
+              reproducibility: false
+            }
+          },
+          meetings: [],
+          codebook: {
+            versions: [
+              {
+                id: "cb_initial_20260902",
+                version: "CB-2026.09.02",
+                date: "2026-09-02",
+                status: "current",
+                owner: "",
+                changes:
+                  "조문 Lineage Codebook 최초 확정 기록. SAME, MODIFY, RENUMBER, NEW, REPEAL, SPLIT, MERGE, TRANSFER, UNRESOLVED 판정기준을 정리."
+              }
+            ]
+          },
+          risks: []
+        };
+      }
 
-function makeInitial(){
-  return {
-    selectedYear:1,
-    selectedPage:"overview",
-    years:baseYears.map(y=>({...y, quarters:y.quarters.map(q=>({...q,status:"미착수",progress:0,actual:"",memo:""}))})),
-    pilot:{
-      title:"부가가치세법 4주 파일럿 테스트",
-      scope:"부가가치세법·시행령·시행규칙의 서로 다른 개정유형을 깊게 검증한 뒤, 계보규칙이 안정되면 6대 세법으로 확장",
-      weeks:[
-        {week:1, task:"ID·매니페스트·계보 Codebook 확정", output:"schema-0.1, codebook-1.1", criteria:"필드·코드·예외규칙 승인", criteriaItems:["필드 사전 승인","계보 코드 승인","예외규칙 승인"], criteriaChecks:[false,false,false], owner:"", period:"", caseTarget:"-", caseDone:0, errorCount:0, pendingCount:0, status:"미착수", progress:0, actual:"", memo:""},
-        {week:2, task:"부가가치세법·시행령·시행규칙 연혁 재수집", output:"RAW 스냅숏·수집 매니페스트", criteria:"원문·해시·MST 대사 100%", criteriaItems:["원문 수집 완료","SHA-256 검증 100%","MST 대사 100%"], criteriaChecks:[false,false,false], owner:"", period:"", caseTarget:"전체 연혁", caseDone:0, errorCount:0, pendingCount:0, status:"미착수", progress:0, actual:"", memo:""},
-        {week:3, task:"주요 개정사건 30~50건 계보 이중코딩", output:"Gold Set·불일치 목록", criteria:"원문 역추적 100%, 강제연결 0건", criteriaItems:["30~50건 이중코딩","원문 역추적 100%","강제연결 0건","불일치 사례 검토"], criteriaChecks:[false,false,false,false], owner:"", period:"", caseTarget:"30~50건", caseDone:0, errorCount:0, pendingCount:0, status:"미착수", progress:0, actual:"", memo:""},
-        {week:4, task:"반자동 매칭시험·릴리스 동결", output:"TRRE-DATA-0.1.0", criteria:"재실행·복구·지수 재산출 성공", criteriaItems:["반자동 매칭 재실행 성공","복구시험 성공","지수 재산출 성공","TRRE-DATA-0.1.0 릴리스 동결"], criteriaChecks:[false,false,false,false], owner:"", period:"", caseTarget:"통합 검증", caseDone:0, errorCount:0, pendingCount:0, status:"미착수", progress:0, actual:"", memo:""}
-      ],
-      cases:[
-        "문언 일부수정과 동일 조문번호 유지 사례",
-        "조문번호 이동과 편·장·절 구조변경 사례",
-        "조문 신설·삭제 사례",
-        "하나의 조문이 복수 조문으로 분할된 사례",
-        "복수 조문이 하나로 병합된 사례",
-        "타법개정 또는 법률·시행령·시행규칙 간 연계가 변한 사례"
-      ],
-      gates:{traceability:false,integrity:false,identifier:false,lineage:false,reproducibility:false}
-    },
-    meetings:[],
-    codebook:{
-      versions:[
-        {id:"cb_initial_20260902",version:"CB-2026.09.02",date:"2026-09-02",status:"current",owner:"",changes:"조문 Lineage Codebook 최초 확정 기록. SAME, MODIFY, RENUMBER, NEW, REPEAL, SPLIT, MERGE, TRANSFER, UNRESOLVED 판정기준을 정리."}
-      ]
-    },
-    risks:[]
-  };
-}
+      let data = load();
+      if (!data.selectedPage) data.selectedPage = "overview";
+      if (!Array.isArray(data.meetings)) data.meetings = [];
+      if (!data.codebook || !Array.isArray(data.codebook.versions))
+        data.codebook = makeInitial().codebook;
+      if (!data.pilot) {
+        data.pilot = makeInitial().pilot;
+      } else {
+        const fresh = makeInitial().pilot;
+        data.pilot.gates = data.pilot.gates || fresh.gates;
+        data.pilot.weeks = data.pilot.weeks.map((w, i) => ({
+          ...fresh.weeks[i],
+          ...w,
+          criteriaItems: w.criteriaItems || fresh.weeks[i].criteriaItems,
+          criteriaChecks: w.criteriaChecks || fresh.weeks[i].criteriaChecks
+        }));
+      }
+      localStorage.setItem(KEY, JSON.stringify(data));
+      let editing = null;
 
-let data=load();
-if(!data.selectedPage) data.selectedPage="overview";
-if(!Array.isArray(data.meetings)) data.meetings=[];
-if(!data.codebook || !Array.isArray(data.codebook.versions)) data.codebook=makeInitial().codebook;
-if(!data.pilot){
-  data.pilot=makeInitial().pilot;
-}else{
-  const fresh=makeInitial().pilot;
-  data.pilot.gates=data.pilot.gates||fresh.gates;
-  data.pilot.weeks=data.pilot.weeks.map((w,i)=>({
-    ...fresh.weeks[i],
-    ...w,
-    criteriaItems:w.criteriaItems||fresh.weeks[i].criteriaItems,
-    criteriaChecks:w.criteriaChecks||fresh.weeks[i].criteriaChecks
-  }));
-}
-localStorage.setItem(KEY,JSON.stringify(data));
-let editing=null;
+      function load() {
+        try {
+          const x = JSON.parse(localStorage.getItem(KEY));
+          if (x && x.years) return x;
+        } catch (e) {}
+        const x = makeInitial();
+        localStorage.setItem(KEY, JSON.stringify(x));
+        return x;
+      }
+      function save() {
+        localStorage.setItem(KEY, JSON.stringify(data));
+      }
+      function esc(v) {
+        return String(v ?? "").replace(
+          /[&<>"']/g,
+          (m) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#039;"
+            })[m]
+        );
+      }
 
-function load(){
-  try{const x=JSON.parse(localStorage.getItem(KEY)); if(x&&x.years)return x;}catch(e){}
-  const x=makeInitial(); localStorage.setItem(KEY,JSON.stringify(x)); return x;
-}
-function save(){localStorage.setItem(KEY,JSON.stringify(data));}
-function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+      function render() {
+        renderMetrics();
+        renderYear();
+        renderRisks();
+        renderCheckpoint();
+        renderTabs();
+        renderMeetings();
+        renderPilotPage();
+        renderCodebook();
+        renderPageNav();
+      }
 
-function render(){
-  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs(); renderMeetings(); renderPilotPage(); renderCodebook(); renderPageNav();
-}
+      function renderPageNav() {
+        document
+          .querySelectorAll(".page-tab")
+          .forEach((b) =>
+            b.classList.toggle("active", b.dataset.page === data.selectedPage)
+          );
+        document
+          .getElementById("overviewPage")
+          .classList.toggle("active", data.selectedPage === "overview");
+        document
+          .getElementById("meetingsPage")
+          .classList.toggle("active", data.selectedPage === "meetings");
+        document
+          .getElementById("pilotPage")
+          .classList.toggle("active", data.selectedPage === "pilot");
+        document
+          .getElementById("codebookPage")
+          .classList.toggle("active", data.selectedPage === "codebook");
+      }
 
-function renderPageNav(){
-  document.querySelectorAll(".page-tab").forEach(b=>b.classList.toggle("active",b.dataset.page===data.selectedPage));
-  document.getElementById("overviewPage").classList.toggle("active",data.selectedPage==="overview");
-  document.getElementById("meetingsPage").classList.toggle("active",data.selectedPage==="meetings");
-  document.getElementById("pilotPage").classList.toggle("active",data.selectedPage==="pilot");
-  document.getElementById("codebookPage").classList.toggle("active",data.selectedPage==="codebook");
-}
+      function localDateKey() {
+        const d = new Date();
+        const y = d.getFullYear(),
+          m = String(d.getMonth() + 1).padStart(2, "0"),
+          day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
+      }
+      function meetingStamp(m) {
+        return `${m.date || "9999-12-31"}T${m.time || "23:59"}`;
+      }
+      function prettyDate(v) {
+        if (!v) return "미정";
+        const [y, m, d] = v.split("-");
+        return `${y}.${m}.${d}`;
+      }
+      function isUpcomingMeeting(m) {
+        const now = new Date();
+        const dt = new Date(`${m.date}T${m.time || "23:59"}:00`);
+        return !Number.isNaN(dt.getTime()) && dt >= now;
+      }
+      function renderMeetings() {
+        const list = document.getElementById("meetingList");
+        if (!list) return;
 
+        const meetings = [...(data.meetings || [])].sort((a, b) =>
+          meetingStamp(a).localeCompare(meetingStamp(b))
+        );
+        const upcoming = meetings.filter(isUpcomingMeeting);
+        const next = upcoming[0];
 
-function localDateKey(){
-  const d=new Date();
-  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,"0"), day=String(d.getDate()).padStart(2,"0");
-  return `${y}-${m}-${day}`;
-}
-function meetingStamp(m){
-  return `${m.date||"9999-12-31"}T${m.time||"23:59"}`;
-}
-function prettyDate(v){
-  if(!v) return "미정";
-  const [y,m,d]=v.split("-");
-  return `${y}.${m}.${d}`;
-}
-function isUpcomingMeeting(m){
-  const now=new Date();
-  const dt=new Date(`${m.date}T${m.time||"23:59"}:00`);
-  return !Number.isNaN(dt.getTime()) && dt>=now;
-}
-function renderMeetings(){
-  const list=document.getElementById("meetingList");
-  if(!list) return;
+        document.getElementById("nextMeetingDate").textContent = next
+          ? prettyDate(next.date)
+          : "미정";
+        document.getElementById("nextMeetingTime").textContent = next
+          ? next.time || "-"
+          : "-";
+        document.getElementById("upcomingMeetingCount").textContent =
+          upcoming.length;
+        document.getElementById("totalMeetingCount").textContent =
+          meetings.length;
 
-  const meetings=[...(data.meetings||[])].sort((a,b)=>meetingStamp(a).localeCompare(meetingStamp(b)));
-  const upcoming=meetings.filter(isUpcomingMeeting);
-  const next=upcoming[0];
-
-  document.getElementById("nextMeetingDate").textContent=next?prettyDate(next.date):"미정";
-  document.getElementById("nextMeetingTime").textContent=next?(next.time||"-"):"-";
-  document.getElementById("upcomingMeetingCount").textContent=upcoming.length;
-  document.getElementById("totalMeetingCount").textContent=meetings.length;
-
-  const card=document.getElementById("nextMeetingCard");
-  if(next){
-    card.innerHTML=`
+        const card = document.getElementById("nextMeetingCard");
+        if (next) {
+          card.innerHTML = `
       <div class="next-meeting-head">
         <div>
           <div class="small"><b>다음 예정 연구미팅</b></div>
-          <div class="next-date">${prettyDate(next.date)} · ${esc(next.time||"-")}</div>
+          <div class="next-date">${prettyDate(next.date)} · ${esc(next.time || "-")}</div>
           <div class="tmeta">
-            <span class="chip">${esc(next.mode||"")}</span>
-            ${next.place?`<span class="chip">${esc(next.place)}</span>`:""}
-            ${next.participants?`<span class="chip">참여자 ${esc(next.participants)}</span>`:""}
+            <span class="chip">${esc(next.mode || "")}</span>
+            ${next.place ? `<span class="chip">${esc(next.place)}</span>` : ""}
+            ${next.participants ? `<span class="chip">참여자 ${esc(next.participants)}</span>` : ""}
           </div>
         </div>
         <button class="btn-soft edit-meeting" data-meeting-id="${esc(next.id)}">수정</button>
       </div>
-      ${next.issues?`<div class="missue"><b>이슈 사항</b><br>${esc(next.issues)}</div>`:""}
+      ${next.issues ? `<div class="missue"><b>이슈 사항</b><br>${esc(next.issues)}</div>` : ""}
     `;
-  }else{
-    card.innerHTML=`<div class="small"><b>예정된 연구미팅이 없습니다.</b><br>아래의 ‘+ 연구미팅 추가’ 버튼으로 다음 미팅 일정을 등록하세요.</div>`;
-  }
+        } else {
+          card.innerHTML = `<div class="small"><b>예정된 연구미팅이 없습니다.</b><br>아래의 ‘+ 연구미팅 추가’ 버튼으로 다음 미팅 일정을 등록하세요.</div>`;
+        }
 
-  if(!meetings.length){
-    list.innerHTML=`<div class="meeting-empty">등록된 연구미팅이 없습니다.<br>미팅 예정일자를 등록하면 이곳에서 일자별 기록을 관리할 수 있습니다.</div>`;
-  }else{
-    list.innerHTML=meetings.map(m=>{
-      const past=!isUpcomingMeeting(m);
-      return `<article class="meeting-card ${past?"past":""}">
+        if (!meetings.length) {
+          list.innerHTML = `<div class="meeting-empty">등록된 연구미팅이 없습니다.<br>미팅 예정일자를 등록하면 이곳에서 일자별 기록을 관리할 수 있습니다.</div>`;
+        } else {
+          list.innerHTML = meetings
+            .map((m) => {
+              const past = !isUpcomingMeeting(m);
+              return `<article class="meeting-card ${past ? "past" : ""}">
         <div class="mhead">
           <div>
-            <div class="mdate">${prettyDate(m.date)} · ${esc(m.time||"-")}</div>
+            <div class="mdate">${prettyDate(m.date)} · ${esc(m.time || "-")}</div>
             <div class="mmeta">
-              <span class="badge ${past?"완료":"진행중"}">${past?"지난 미팅":"예정"}</span>
-              <span class="chip">${esc(m.mode||"-")}</span>
-              ${m.place?`<span class="chip">${esc(m.place)}</span>`:""}
+              <span class="badge ${past ? "완료" : "진행중"}">${past ? "지난 미팅" : "예정"}</span>
+              <span class="chip">${esc(m.mode || "-")}</span>
+              ${m.place ? `<span class="chip">${esc(m.place)}</span>` : ""}
             </div>
           </div>
         </div>
-        <div class="tblock" style="margin-top:11px"><b>참여자</b>${m.participants?esc(m.participants):"-"}</div>
-        <div class="missue"><b>이슈 사항 / 논의 안건</b><br>${m.issues?esc(m.issues):"등록된 이슈 사항이 없습니다."}</div>
-        ${m.notes?`<div class="tblock" style="margin-top:10px"><b>미팅 메모 / 결정사항</b>${esc(m.notes)}</div>`:""}
+        <div class="tblock" style="margin-top:11px"><b>참여자</b>${m.participants ? esc(m.participants) : "-"}</div>
+        <div class="missue"><b>이슈 사항 / 논의 안건</b><br>${m.issues ? esc(m.issues) : "등록된 이슈 사항이 없습니다."}</div>
+        ${m.notes ? `<div class="tblock" style="margin-top:10px"><b>미팅 메모 / 결정사항</b>${esc(m.notes)}</div>` : ""}
         <div class="mactions">
           <button class="btn-soft edit-meeting" data-meeting-id="${esc(m.id)}">수정</button>
           <button class="btn-danger delete-meeting" data-meeting-id="${esc(m.id)}">삭제</button>
         </div>
       </article>`;
-    }).join("");
-  }
+            })
+            .join("");
+        }
 
-  document.querySelectorAll(".edit-meeting").forEach(b=>b.addEventListener("click",()=>openMeeting(b.dataset.meetingId)));
-  document.querySelectorAll(".delete-meeting").forEach(b=>b.addEventListener("click",()=>{
-    if(confirm("이 연구미팅 기록을 삭제할까요?")){
-      data.meetings=data.meetings.filter(m=>String(m.id)!==String(b.dataset.meetingId));
-      save(); render();
-    }
-  }));
-}
+        document
+          .querySelectorAll(".edit-meeting")
+          .forEach((b) =>
+            b.addEventListener("click", () => openMeeting(b.dataset.meetingId))
+          );
+        document.querySelectorAll(".delete-meeting").forEach((b) =>
+          b.addEventListener("click", () => {
+            if (confirm("이 연구미팅 기록을 삭제할까요?")) {
+              data.meetings = data.meetings.filter(
+                (m) => String(m.id) !== String(b.dataset.meetingId)
+              );
+              save();
+              render();
+            }
+          })
+        );
+      }
 
-let editingMeetingId=null;
-function openMeeting(id=null){
-  editingMeetingId=id;
-  const m=id?data.meetings.find(x=>String(x.id)===String(id)):null;
-  document.getElementById("meetingModalTitle").textContent=m?"연구미팅 수정":"연구미팅 추가";
-  document.getElementById("mDate").value=m?.date||"";
-  document.getElementById("mTime").value=m?.time||"";
-  document.getElementById("mParticipants").value=m?.participants||"";
-  document.getElementById("mMode").value=m?.mode||"온라인";
-  document.getElementById("mPlace").value=m?.place||"";
-  document.getElementById("mIssues").value=m?.issues||"";
-  document.getElementById("mNotes").value=m?.notes||"";
-  document.getElementById("meetingModal").classList.add("show");
-}
-function closeMeeting(){document.getElementById("meetingModal").classList.remove("show");}
+      let editingMeetingId = null;
+      function openMeeting(id = null) {
+        editingMeetingId = id;
+        const m = id
+          ? data.meetings.find((x) => String(x.id) === String(id))
+          : null;
+        document.getElementById("meetingModalTitle").textContent = m
+          ? "연구미팅 수정"
+          : "연구미팅 추가";
+        document.getElementById("mDate").value = m?.date || "";
+        document.getElementById("mTime").value = m?.time || "";
+        document.getElementById("mParticipants").value = m?.participants || "";
+        document.getElementById("mMode").value = m?.mode || "온라인";
+        document.getElementById("mPlace").value = m?.place || "";
+        document.getElementById("mIssues").value = m?.issues || "";
+        document.getElementById("mNotes").value = m?.notes || "";
+        document.getElementById("meetingModal").classList.add("show");
+      }
+      function closeMeeting() {
+        document.getElementById("meetingModal").classList.remove("show");
+      }
 
-
-function renderPreTestHtml(){
-  const laws=[
-    ["소득세법","81","중심법령 표본 수집"],
-    ["법인세법","88","중심법령 표본 수집"],
-    ["부가가치세법","91","중심법령 표본 수집"],
-    ["국세기본법","75","중심법령 표본 수집"],
-    ["상속세 및 증여세법","107","중심법령 표본 수집"],
-    ["조세특례제한법","190","중심법령 표본 수집"]
-  ];
-  return `
+      function renderPreTestHtml() {
+        const laws = [
+          ["소득세법", "81", "중심법령 표본 수집"],
+          ["법인세법", "88", "중심법령 표본 수집"],
+          ["부가가치세법", "91", "중심법령 표본 수집"],
+          ["국세기본법", "75", "중심법령 표본 수집"],
+          ["상속세 및 증여세법", "107", "중심법령 표본 수집"],
+          ["조세특례제한법", "190", "중심법령 표본 수집"]
+        ];
+        return `
     <div class="pretest-section">
       <div class="pretest-hero">
         <div class="pretest-head">
@@ -777,7 +2291,7 @@ function renderPreTestHtml(){
             <table>
               <thead><tr><th>중심법령</th><th>당시 수집 조문 수</th><th>Pre-test 의미</th></tr></thead>
               <tbody>
-                ${laws.map(x=>`<tr><td><b>${x[0]}</b></td><td>${x[1]}건</td><td>${x[2]}</td></tr>`).join("")}
+                ${laws.map((x) => `<tr><td><b>${x[0]}</b></td><td>${x[1]}건</td><td>${x[2]}</td></tr>`).join("")}
               </tbody>
             </table>
           </div>
@@ -810,143 +2324,291 @@ function renderPreTestHtml(){
       <div class="pretest-divider"><span>PRE-TEST 완료 · 본 파일럿 시작</span></div>
     </div>
   `;
-}
+      }
 
+      function renderCodebook() {
+        const relations = [
+          [
+            "SAME",
+            "실질적 변화 없음",
+            "동일 위치·정규화 문언 동일. MST 변경만으로 새 provision_version을 만들지 않음."
+          ],
+          [
+            "MODIFY",
+            "내용 변경",
+            "동일 규제단위는 유지되나 문언 또는 규범적 내용이 실제 변경됨."
+          ],
+          [
+            "RENUMBER",
+            "위치 변경",
+            "동일 규제단위가 다른 조·항·호 등 구조적 위치로 이동."
+          ],
+          [
+            "NEW",
+            "새 규제단위 출현",
+            "기존 규제단위와 계보적 연속성이 없는 새로운 규제단위."
+          ],
+          [
+            "REPEAL",
+            "규제단위 소멸",
+            "기존 규제단위가 종료되고 이를 승계하는 후속 규제단위가 없음."
+          ],
+          [
+            "SPLIT",
+            "1 → N 분화",
+            "하나의 규제단위가 둘 이상의 독립 규제단위로 분화."
+          ],
+          [
+            "MERGE",
+            "N → 1 통합",
+            "둘 이상의 규제단위가 하나의 새로운 규제단위로 통합."
+          ],
+          [
+            "TRANSFER",
+            "법률 간 이전",
+            "동일·연속 규제단위가 다른 법률로 이전."
+          ],
+          [
+            "UNRESOLVED",
+            "판정 보류",
+            "현재 증거만으로 다른 유형을 신뢰성 있게 확정할 수 없음."
+          ]
+        ];
+        const rules = [
+          ["SAME", "변화 없음", "유지", "유지", "새 MST 기준 신규"],
+          ["MODIFY", "내용 변경", "유지", "신규 생성", "새 MST 기준 신규"],
+          ["RENUMBER", "위치 변경", "유지", "신규 생성", "신규 생성"],
+          ["NEW", "새 규제단위", "신규 발급", "신규 V001", "신규 생성"],
+          [
+            "REPEAL",
+            "규제단위 소멸",
+            "종료·보존",
+            "신규 생성 안 함",
+            "신규 없음"
+          ],
+          [
+            "SPLIT",
+            "1→N",
+            "기존 종료·후속 신규",
+            "후속 각각 V001",
+            "후속 각각 신규"
+          ],
+          ["MERGE", "N→1", "기존 종료·후속 신규", "후속 V001", "통합 후 신규"],
+          [
+            "TRANSFER",
+            "법률 간 이전",
+            "기존 종료·이전 후 신규",
+            "이전 후 V001",
+            "이전 후 법률 기준 신규"
+          ],
+          [
+            "UNRESOLVED",
+            "확정 불가",
+            "판정 보류",
+            "계보 연결 보류",
+            "실제 위치별 생성·보존"
+          ]
+        ];
+        document.getElementById("cbRelations").innerHTML = relations
+          .map(
+            (r) =>
+              `<div class="cb-rel"><b>${r[0]}</b><div><strong>${r[1]}</strong><br>${r[2]}</div></div>`
+          )
+          .join("");
+        document.getElementById("cbRuleTable").innerHTML = rules
+          .map(
+            (r) =>
+              `<tr>${r.map((c, i) => `<td>${i === 0 ? `<b>${c}</b>` : c}</td>`).join("")}</tr>`
+          )
+          .join("");
 
-function renderCodebook(){
-  const relations=[
-    ["SAME","실질적 변화 없음","동일 위치·정규화 문언 동일. MST 변경만으로 새 provision_version을 만들지 않음."],
-    ["MODIFY","내용 변경","동일 규제단위는 유지되나 문언 또는 규범적 내용이 실제 변경됨."],
-    ["RENUMBER","위치 변경","동일 규제단위가 다른 조·항·호 등 구조적 위치로 이동."],
-    ["NEW","새 규제단위 출현","기존 규제단위와 계보적 연속성이 없는 새로운 규제단위."],
-    ["REPEAL","규제단위 소멸","기존 규제단위가 종료되고 이를 승계하는 후속 규제단위가 없음."],
-    ["SPLIT","1 → N 분화","하나의 규제단위가 둘 이상의 독립 규제단위로 분화."],
-    ["MERGE","N → 1 통합","둘 이상의 규제단위가 하나의 새로운 규제단위로 통합."],
-    ["TRANSFER","법률 간 이전","동일·연속 규제단위가 다른 법률로 이전."],
-    ["UNRESOLVED","판정 보류","현재 증거만으로 다른 유형을 신뢰성 있게 확정할 수 없음."]
-  ];
-  const rules=[
-    ["SAME","변화 없음","유지","유지","새 MST 기준 신규"],
-    ["MODIFY","내용 변경","유지","신규 생성","새 MST 기준 신규"],
-    ["RENUMBER","위치 변경","유지","신규 생성","신규 생성"],
-    ["NEW","새 규제단위","신규 발급","신규 V001","신규 생성"],
-    ["REPEAL","규제단위 소멸","종료·보존","신규 생성 안 함","신규 없음"],
-    ["SPLIT","1→N","기존 종료·후속 신규","후속 각각 V001","후속 각각 신규"],
-    ["MERGE","N→1","기존 종료·후속 신규","후속 V001","통합 후 신규"],
-    ["TRANSFER","법률 간 이전","기존 종료·이전 후 신규","이전 후 V001","이전 후 법률 기준 신규"],
-    ["UNRESOLVED","확정 불가","판정 보류","계보 연결 보류","실제 위치별 생성·보존"]
-  ];
-  document.getElementById("cbRelations").innerHTML=relations.map(r=>`<div class="cb-rel"><b>${r[0]}</b><div><strong>${r[1]}</strong><br>${r[2]}</div></div>`).join("");
-  document.getElementById("cbRuleTable").innerHTML=rules.map(r=>`<tr>${r.map((c,i)=>`<td>${i===0?`<b>${c}</b>`:c}</td>`).join("")}</tr>`).join("");
+        const vs = [...(data.codebook?.versions || [])].sort((a, b) =>
+          (b.date || "").localeCompare(a.date || "")
+        );
+        const current = vs.find((v) => v.status === "current") || vs[0];
+        document.getElementById("cbCurrentVersion").textContent =
+          current?.version || "미지정";
+        document.getElementById("cbUpdatedDate").textContent = current?.date
+          ? prettyDate(current.date)
+          : "-";
+        document.getElementById("cbCurrentHero").textContent =
+          current?.version || "미지정";
+        document.getElementById("cbCurrentNote").textContent = current
+          ? `${prettyDate(current.date)} · ${current.changes || "변경내용 미입력"}`
+          : "등록된 버전이 없습니다.";
 
-  const vs=[...(data.codebook?.versions||[])].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
-  const current=vs.find(v=>v.status==="current")||vs[0];
-  document.getElementById("cbCurrentVersion").textContent=current?.version||"미지정";
-  document.getElementById("cbUpdatedDate").textContent=current?.date?prettyDate(current.date):"-";
-  document.getElementById("cbCurrentHero").textContent=current?.version||"미지정";
-  document.getElementById("cbCurrentNote").textContent=current?`${prettyDate(current.date)} · ${current.changes||"변경내용 미입력"}`:"등록된 버전이 없습니다.";
-
-  const statusName={current:"현재",draft:"초안",archived:"이전"};
-  const list=document.getElementById("cbVersionList");
-  if(!vs.length){
-    list.innerHTML='<div class="empty">등록된 Codebook 버전이 없습니다.</div>';
-  }else{
-    list.innerHTML=vs.map(v=>`<div class="cb-version-row">
+        const statusName = { current: "현재", draft: "초안", archived: "이전" };
+        const list = document.getElementById("cbVersionList");
+        if (!vs.length) {
+          list.innerHTML =
+            '<div class="empty">등록된 Codebook 버전이 없습니다.</div>';
+        } else {
+          list.innerHTML = vs
+            .map(
+              (v) => `<div class="cb-version-row">
       <div><b>${esc(v.version)}</b></div>
       <div class="small">${prettyDate(v.date)}</div>
-      <div><span class="cb-status ${v.status}">${statusName[v.status]||v.status}</span></div>
-      <div class="small">${esc(v.changes||"")}${v.owner?`<br><b>확정:</b> ${esc(v.owner)}`:""}</div>
+      <div><span class="cb-status ${v.status}">${statusName[v.status] || v.status}</span></div>
+      <div class="small">${esc(v.changes || "")}${v.owner ? `<br><b>확정:</b> ${esc(v.owner)}` : ""}</div>
       <div><button class="btn-soft edit-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">수정</button> <button class="btn-danger delete-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">삭제</button></div>
-    </div>`).join("");
-  }
-  document.querySelectorAll(".edit-cb-version").forEach(b=>b.addEventListener("click",()=>openCbVersion(b.dataset.id)));
-  document.querySelectorAll(".delete-cb-version").forEach(b=>b.addEventListener("click",()=>{
-    if(confirm("이 Codebook 버전 기록을 삭제할까요?")){
-      data.codebook.versions=data.codebook.versions.filter(v=>String(v.id)!==String(b.dataset.id));
-      save(); render();
-    }
-  }));
-}
+    </div>`
+            )
+            .join("");
+        }
+        document
+          .querySelectorAll(".edit-cb-version")
+          .forEach((b) =>
+            b.addEventListener("click", () => openCbVersion(b.dataset.id))
+          );
+        document.querySelectorAll(".delete-cb-version").forEach((b) =>
+          b.addEventListener("click", () => {
+            if (confirm("이 Codebook 버전 기록을 삭제할까요?")) {
+              data.codebook.versions = data.codebook.versions.filter(
+                (v) => String(v.id) !== String(b.dataset.id)
+              );
+              save();
+              render();
+            }
+          })
+        );
+      }
 
-let editingCbVersionId=null;
-function openCbVersion(id=null){
-  editingCbVersionId=id;
-  const v=id?data.codebook.versions.find(x=>String(x.id)===String(id)):null;
-  document.getElementById("cbVersionModalTitle").textContent=v?"Codebook 버전 수정":"Codebook 버전 등록";
-  document.getElementById("cbVersionName").value=v?.version||"";
-  document.getElementById("cbVersionDate").value=v?.date||"";
-  document.getElementById("cbVersionStatus").value=v?.status||"draft";
-  document.getElementById("cbVersionOwner").value=v?.owner||"";
-  document.getElementById("cbVersionChanges").value=v?.changes||"";
-  document.getElementById("codebookVersionModal").classList.add("show");
-}
-function closeCbVersion(){document.getElementById("codebookVersionModal").classList.remove("show");}
+      let editingCbVersionId = null;
+      function openCbVersion(id = null) {
+        editingCbVersionId = id;
+        const v = id
+          ? data.codebook.versions.find((x) => String(x.id) === String(id))
+          : null;
+        document.getElementById("cbVersionModalTitle").textContent = v
+          ? "Codebook 버전 수정"
+          : "Codebook 버전 등록";
+        document.getElementById("cbVersionName").value = v?.version || "";
+        document.getElementById("cbVersionDate").value = v?.date || "";
+        document.getElementById("cbVersionStatus").value = v?.status || "draft";
+        document.getElementById("cbVersionOwner").value = v?.owner || "";
+        document.getElementById("cbVersionChanges").value = v?.changes || "";
+        document.getElementById("codebookVersionModal").classList.add("show");
+      }
+      function closeCbVersion() {
+        document
+          .getElementById("codebookVersionModal")
+          .classList.remove("show");
+      }
 
-function renderPilotPage(){
-  const el=document.getElementById("pilotPageView");
-  if(!el) return;
-  el.innerHTML=renderPreTestHtml()+renderPilotHtml();
-  document.querySelectorAll(".edit-pilot").forEach(b=>b.addEventListener("click",()=>openPilot(Number(b.dataset.week))));
-  document.querySelectorAll(".criterion-check").forEach(c=>c.addEventListener("change",()=>{
-    const w=data.pilot.weeks.find(x=>x.week===Number(c.dataset.week));
-    if(!w.criteriaChecks) w.criteriaChecks=(w.criteriaItems||[w.criteria]).map(()=>false);
-    w.criteriaChecks[Number(c.dataset.idx)]=c.checked;
-    save(); render();
-  }));
-  document.querySelectorAll(".gate-btn").forEach(b=>b.addEventListener("click",()=>{
-    if(!data.pilot.gates) data.pilot.gates={};
-    data.pilot.gates[b.dataset.gate]=!data.pilot.gates[b.dataset.gate];
-    save(); render();
-  }));
-}
-function renderMetrics(){
-  const qs=data.years.flatMap(y=>y.quarters);
-  const avg=Math.round(qs.reduce((s,q)=>s+Number(q.progress||0),0)/qs.length);
-  document.getElementById("overall").textContent=avg+"%";
-  document.getElementById("doneQ").textContent=qs.filter(q=>q.status==="완료").length+"/12";
-  document.getElementById("activeQ").textContent=qs.filter(q=>q.status==="진행중").length;
-  document.getElementById("riskQ").textContent=qs.filter(q=>["주의","지연"].includes(q.status)).length;
-  document.getElementById("riskCount").textContent=data.risks.length;
-}
-function renderTabs(){
-  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",Number(b.dataset.year)===data.selectedYear));
-}
-function renderYear(){
-  const y=data.years.find(x=>x.year===data.selectedYear);
-  document.getElementById("yearView").innerHTML=`
+      function renderPilotPage() {
+        const el = document.getElementById("pilotPageView");
+        if (!el) return;
+        el.innerHTML = renderPreTestHtml() + renderPilotHtml();
+        document
+          .querySelectorAll(".edit-pilot")
+          .forEach((b) =>
+            b.addEventListener("click", () => openPilot(Number(b.dataset.week)))
+          );
+        document.querySelectorAll(".criterion-check").forEach((c) =>
+          c.addEventListener("change", () => {
+            const w = data.pilot.weeks.find(
+              (x) => x.week === Number(c.dataset.week)
+            );
+            if (!w.criteriaChecks)
+              w.criteriaChecks = (w.criteriaItems || [w.criteria]).map(
+                () => false
+              );
+            w.criteriaChecks[Number(c.dataset.idx)] = c.checked;
+            save();
+            render();
+          })
+        );
+        document.querySelectorAll(".gate-btn").forEach((b) =>
+          b.addEventListener("click", () => {
+            if (!data.pilot.gates) data.pilot.gates = {};
+            data.pilot.gates[b.dataset.gate] =
+              !data.pilot.gates[b.dataset.gate];
+            save();
+            render();
+          })
+        );
+      }
+      function renderMetrics() {
+        const qs = data.years.flatMap((y) => y.quarters);
+        const avg = Math.round(
+          qs.reduce((s, q) => s + Number(q.progress || 0), 0) / qs.length
+        );
+        document.getElementById("overall").textContent = avg + "%";
+        document.getElementById("doneQ").textContent =
+          qs.filter((q) => q.status === "완료").length + "/12";
+        document.getElementById("activeQ").textContent = qs.filter(
+          (q) => q.status === "진행중"
+        ).length;
+        document.getElementById("riskQ").textContent = qs.filter((q) =>
+          ["주의", "지연"].includes(q.status)
+        ).length;
+        document.getElementById("riskCount").textContent = data.risks.length;
+      }
+      function renderTabs() {
+        document
+          .querySelectorAll(".tab")
+          .forEach((b) =>
+            b.classList.toggle(
+              "active",
+              Number(b.dataset.year) === data.selectedYear
+            )
+          );
+      }
+      function renderYear() {
+        const y = data.years.find((x) => x.year === data.selectedYear);
+        document.getElementById("yearView").innerHTML = `
    <div class="year-head"><div><div class="year-title">${y.year}차년도</div><div class="year-goal">${esc(y.goal)}</div></div><div class="small">${esc(y.checkpoint)}</div></div>
    <div class="quarter-grid">
-   ${y.quarters.map(q=>`
+   ${y.quarters
+     .map(
+       (q) => `
     <article class="qcard">
       <div class="qtop"><div class="qname">${q.q}분기</div><span class="badge ${q.status}">${q.status}</span></div>
       <div class="qcontent"><b>계획:</b> ${esc(q.plan)}</div>
       <div class="output"><b>산출물:</b> ${esc(q.output)}</div>
-      <div class="progress"><span style="width:${Math.max(0,Math.min(100,Number(q.progress)||0))}%"></span></div>
-      <div class="small" style="margin-top:6px">진행률 ${Number(q.progress)||0}%</div>
-      ${q.actual?`<div class="qcontent"><b>실제 수행:</b> ${esc(q.actual)}</div>`:""}
-      ${q.memo?`<div class="output"><b>메모:</b> ${esc(q.memo)}</div>`:""}
+      <div class="progress"><span style="width:${Math.max(0, Math.min(100, Number(q.progress) || 0))}%"></span></div>
+      <div class="small" style="margin-top:6px">진행률 ${Number(q.progress) || 0}%</div>
+      ${q.actual ? `<div class="qcontent"><b>실제 수행:</b> ${esc(q.actual)}</div>` : ""}
+      ${q.memo ? `<div class="output"><b>메모:</b> ${esc(q.memo)}</div>` : ""}
       <div class="qactions"><button class="btn-soft edit-q" data-year="${y.year}" data-q="${q.q}">수정</button></div>
-    </article>`).join("")}
+    </article>`
+     )
+     .join("")}
    </div>`;
-  document.querySelectorAll(".edit-q").forEach(b=>b.addEventListener("click",()=>openQuarter(Number(b.dataset.year),Number(b.dataset.q))));
-}
+        document
+          .querySelectorAll(".edit-q")
+          .forEach((b) =>
+            b.addEventListener("click", () =>
+              openQuarter(Number(b.dataset.year), Number(b.dataset.q))
+            )
+          );
+      }
 
-function renderPilotHtml(){
-  const p=data.pilot;
-  const avg=Math.round(p.weeks.reduce((s,w)=>s+Number(w.progress||0),0)/p.weeks.length);
-  const completed=p.weeks.filter(w=>w.status==="완료").length;
-  const active=p.weeks.filter(w=>w.status==="진행중").length;
-  const criteriaTotal=p.weeks.reduce((s,w)=>s+(w.criteriaChecks?.length||1),0);
-  const criteriaDone=p.weeks.reduce((s,w)=>s+(w.criteriaChecks?.filter(Boolean).length||0),0);
+      function renderPilotHtml() {
+        const p = data.pilot;
+        const avg = Math.round(
+          p.weeks.reduce((s, w) => s + Number(w.progress || 0), 0) /
+            p.weeks.length
+        );
+        const completed = p.weeks.filter((w) => w.status === "완료").length;
+        const active = p.weeks.filter((w) => w.status === "진행중").length;
+        const criteriaTotal = p.weeks.reduce(
+          (s, w) => s + (w.criteriaChecks?.length || 1),
+          0
+        );
+        const criteriaDone = p.weeks.reduce(
+          (s, w) => s + (w.criteriaChecks?.filter(Boolean).length || 0),
+          0
+        );
 
-  return `
+        return `
     <div class="pilot-section">
       <div class="pilot-head">
         <div>
           <div class="pilot-title">파일럿 테스트 · ${esc(p.title)}</div>
           <div class="pilot-sub">${esc(p.scope)}</div>
         </div>
-        <div class="small"><span class="health-dot ${avg>=80?'health-good':avg>=40?'health-warn':'health-off'}"></span><b>파일럿 진행률 ${avg}%</b></div>
+        <div class="small"><span class="health-dot ${avg >= 80 ? "health-good" : avg >= 40 ? "health-warn" : "health-off"}"></span><b>파일럿 진행률 ${avg}%</b></div>
       </div>
 
       <div class="pilot-summary">
@@ -957,7 +2619,9 @@ function renderPilotHtml(){
       </div>
 
       <div class="timeline">
-        ${p.weeks.map(w=>`
+        ${p.weeks
+          .map(
+            (w) => `
           <div class="trow">
             <div class="tcard">
               <div class="thead">
@@ -966,47 +2630,53 @@ function renderPilotHtml(){
                   <div class="tmeta">
                     <span class="badge ${w.status}">${w.status}</span>
                     <span class="chip">산출물 ${esc(w.output)}</span>
-                    <span class="chip">진행률 ${Number(w.progress)||0}%</span>
-                    ${w.owner?`<span class="chip">담당 ${esc(w.owner)}</span>`:""}
-                    ${w.period?`<span class="chip">${esc(w.period)}</span>`:""}
+                    <span class="chip">진행률 ${Number(w.progress) || 0}%</span>
+                    ${w.owner ? `<span class="chip">담당 ${esc(w.owner)}</span>` : ""}
+                    ${w.period ? `<span class="chip">${esc(w.period)}</span>` : ""}
                   </div>
                 </div>
                 <button class="btn-soft edit-pilot" data-week="${w.week}">수정</button>
               </div>
 
-              <div class="progress"><span style="width:${Math.max(0,Math.min(100,Number(w.progress)||0))}%"></span></div>
+              <div class="progress"><span style="width:${Math.max(0, Math.min(100, Number(w.progress) || 0))}%"></span></div>
 
               <div class="tgrid">
                 <div class="tblock">
                   <b>실제 수행 내용</b>
                   ${w.actual ? esc(w.actual) : "아직 입력된 수행내용이 없습니다."}
-                  ${w.memo?`<div style="margin-top:8px"><b>다음 할 일 / 메모</b>${esc(w.memo)}</div>`:""}
+                  ${w.memo ? `<div style="margin-top:8px"><b>다음 할 일 / 메모</b>${esc(w.memo)}</div>` : ""}
                 </div>
                 <div class="tblock">
                   <b>통과기준</b>
                   <div class="criteria-list">
-                    ${(w.criteriaItems||[w.criteria]).map((c,idx)=>`
+                    ${(w.criteriaItems || [w.criteria])
+                      .map(
+                        (c, idx) => `
                       <label class="criterion">
-                        <input type="checkbox" class="criterion-check" data-week="${w.week}" data-idx="${idx}" ${w.criteriaChecks?.[idx]?"checked":""}>
+                        <input type="checkbox" class="criterion-check" data-week="${w.week}" data-idx="${idx}" ${w.criteriaChecks?.[idx] ? "checked" : ""}>
                         <span>${esc(c)}</span>
-                      </label>`).join("")}
+                      </label>`
+                      )
+                      .join("")}
                   </div>
                 </div>
               </div>
 
               <div class="stat-row">
-                <div class="statbox"><div class="slabel">대상 사건</div><div class="sval">${w.caseTarget||"-"}</div></div>
-                <div class="statbox"><div class="slabel">처리 건수</div><div class="sval">${w.caseDone||0}</div></div>
-                <div class="statbox"><div class="slabel">오류/불일치</div><div class="sval">${w.errorCount||0}</div></div>
-                <div class="statbox"><div class="slabel">검토대기</div><div class="sval">${w.pendingCount||0}</div></div>
+                <div class="statbox"><div class="slabel">대상 사건</div><div class="sval">${w.caseTarget || "-"}</div></div>
+                <div class="statbox"><div class="slabel">처리 건수</div><div class="sval">${w.caseDone || 0}</div></div>
+                <div class="statbox"><div class="slabel">오류/불일치</div><div class="sval">${w.errorCount || 0}</div></div>
+                <div class="statbox"><div class="slabel">검토대기</div><div class="sval">${w.pendingCount || 0}</div></div>
               </div>
             </div>
-          </div>`).join("")}
+          </div>`
+          )
+          .join("")}
       </div>
 
       <div class="case-box">
         <b>파일럿 사건 구성</b>
-        <ol>${p.cases.map(c=>`<li>${esc(c)}</li>`).join("")}</ol>
+        <ol>${p.cases.map((c) => `<li>${esc(c)}</li>`).join("")}</ol>
       </div>
 
       <div style="margin-top:16px">
@@ -1026,162 +2696,257 @@ function renderPilotHtml(){
         </div>
       </div>
     </div>`;
-}
+      }
 
-function gateBadge(key){
-  const ok=data.pilot.gates?.[key];
-  return `<button class="${ok?'btn-primary':'btn-ghost'} gate-btn" data-gate="${key}" style="padding:6px 9px;font-size:11px">${ok?'완료':'미완료'}</button>`;
-}
+      function gateBadge(key) {
+        const ok = data.pilot.gates?.[key];
+        return `<button class="${ok ? "btn-primary" : "btn-ghost"} gate-btn" data-gate="${key}" style="padding:6px 9px;font-size:11px">${ok ? "완료" : "미완료"}</button>`;
+      }
 
-function renderRisks(){
-  const el=document.getElementById("riskList");
-  if(!data.risks.length){el.innerHTML='<div class="empty">등록된 이슈/리스크가 없습니다.</div>';return;}
-  el.innerHTML=data.risks.map((r,i)=>`<div class="risk ${r.level==="지연"?"bad":""}">
-    <strong>${esc(r.title)}</strong><div>${esc(r.text||"")}</div><div class="small" style="margin-top:5px">${esc(r.year)} · ${esc(r.level)}</div>
+      function renderRisks() {
+        const el = document.getElementById("riskList");
+        if (!data.risks.length) {
+          el.innerHTML =
+            '<div class="empty">등록된 이슈/리스크가 없습니다.</div>';
+          return;
+        }
+        el.innerHTML = data.risks
+          .map(
+            (r, i) => `<div class="risk ${r.level === "지연" ? "bad" : ""}">
+    <strong>${esc(r.title)}</strong><div>${esc(r.text || "")}</div><div class="small" style="margin-top:5px">${esc(r.year)} · ${esc(r.level)}</div>
     <button class="btn-danger" style="margin-top:7px;padding:6px 8px;font-size:11px" data-del-risk="${i}">삭제</button>
-  </div>`).join("");
-  el.querySelectorAll("[data-del-risk]").forEach(b=>b.addEventListener("click",()=>{data.risks.splice(Number(b.dataset.delRisk),1);save();render();}));
-}
-function renderCheckpoint(){
-  const y=data.years.find(x=>x.year===data.selectedYear);
-  const qtxt=y.quarters.map(q=>`${q.q}분기 ${q.status} (${q.progress}%)`).join("<br>");
-  document.getElementById("checkpoint").innerHTML=`<b>${esc(y.checkpoint)}</b><br><br>${qtxt}`;
-}
-function openQuarter(year,qnum){
-  editing={type:"quarter",year,qnum};
-  const q=data.years.find(y=>y.year===year).quarters.find(x=>x.q===qnum);
-  document.getElementById("qStatus").value=q.status;
-  document.getElementById("qProgress").value=q.progress;
-  document.getElementById("qActual").value=q.actual||"";
-  document.getElementById("qMemo").value=q.memo||"";
-  document.getElementById("qOwner").value="";
-  document.getElementById("qPeriod").value="";
-  document.getElementById("qCaseDone").value=0;
-  document.getElementById("qErrorCount").value=0;
-  document.getElementById("qPendingCount").value=0;
-  document.getElementById("quarterModal").classList.add("show");
-}
-function openPilot(week){
-  editing={type:"pilot",week};
-  const q=data.pilot.weeks.find(x=>x.week===week);
-  document.getElementById("qStatus").value=q.status;
-  document.getElementById("qProgress").value=q.progress;
-  document.getElementById("qActual").value=q.actual||"";
-  document.getElementById("qMemo").value=q.memo||"";
-  document.getElementById("qOwner").value=q.owner||"";
-  document.getElementById("qPeriod").value=q.period||"";
-  document.getElementById("qCaseDone").value=Number(q.caseDone)||0;
-  document.getElementById("qErrorCount").value=Number(q.errorCount)||0;
-  document.getElementById("qPendingCount").value=Number(q.pendingCount)||0;
-  document.getElementById("quarterModal").classList.add("show");
-}
-function closeQuarter(){document.getElementById("quarterModal").classList.remove("show");}
-document.getElementById("quarterForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  let q;
-  if(editing.type==="pilot"){
-    q=data.pilot.weeks.find(x=>x.week===editing.week);
-  }else{
-    q=data.years.find(y=>y.year===editing.year).quarters.find(x=>x.q===editing.qnum);
-  }
-  q.status=document.getElementById("qStatus").value;
-  q.progress=Math.max(0,Math.min(100,Number(document.getElementById("qProgress").value)||0));
-  q.actual=document.getElementById("qActual").value.trim();
-  q.memo=document.getElementById("qMemo").value.trim();
-  if(editing.type==="pilot"){
-    q.owner=document.getElementById("qOwner").value.trim();
-    q.period=document.getElementById("qPeriod").value.trim();
-    q.caseDone=Math.max(0,Number(document.getElementById("qCaseDone").value)||0);
-    q.errorCount=Math.max(0,Number(document.getElementById("qErrorCount").value)||0);
-    q.pendingCount=Math.max(0,Number(document.getElementById("qPendingCount").value)||0);
-  }
-  save();closeQuarter();render();
-});
-document.getElementById("closeQuarter").onclick=closeQuarter;
-document.getElementById("cancelQuarter").onclick=closeQuarter;
+  </div>`
+          )
+          .join("");
+        el.querySelectorAll("[data-del-risk]").forEach((b) =>
+          b.addEventListener("click", () => {
+            data.risks.splice(Number(b.dataset.delRisk), 1);
+            save();
+            render();
+          })
+        );
+      }
+      function renderCheckpoint() {
+        const y = data.years.find((x) => x.year === data.selectedYear);
+        const qtxt = y.quarters
+          .map((q) => `${q.q}분기 ${q.status} (${q.progress}%)`)
+          .join("<br>");
+        document.getElementById("checkpoint").innerHTML =
+          `<b>${esc(y.checkpoint)}</b><br><br>${qtxt}`;
+      }
+      function openQuarter(year, qnum) {
+        editing = { type: "quarter", year, qnum };
+        const q = data.years
+          .find((y) => y.year === year)
+          .quarters.find((x) => x.q === qnum);
+        document.getElementById("qStatus").value = q.status;
+        document.getElementById("qProgress").value = q.progress;
+        document.getElementById("qActual").value = q.actual || "";
+        document.getElementById("qMemo").value = q.memo || "";
+        document.getElementById("qOwner").value = "";
+        document.getElementById("qPeriod").value = "";
+        document.getElementById("qCaseDone").value = 0;
+        document.getElementById("qErrorCount").value = 0;
+        document.getElementById("qPendingCount").value = 0;
+        document.getElementById("quarterModal").classList.add("show");
+      }
+      function openPilot(week) {
+        editing = { type: "pilot", week };
+        const q = data.pilot.weeks.find((x) => x.week === week);
+        document.getElementById("qStatus").value = q.status;
+        document.getElementById("qProgress").value = q.progress;
+        document.getElementById("qActual").value = q.actual || "";
+        document.getElementById("qMemo").value = q.memo || "";
+        document.getElementById("qOwner").value = q.owner || "";
+        document.getElementById("qPeriod").value = q.period || "";
+        document.getElementById("qCaseDone").value = Number(q.caseDone) || 0;
+        document.getElementById("qErrorCount").value =
+          Number(q.errorCount) || 0;
+        document.getElementById("qPendingCount").value =
+          Number(q.pendingCount) || 0;
+        document.getElementById("quarterModal").classList.add("show");
+      }
+      function closeQuarter() {
+        document.getElementById("quarterModal").classList.remove("show");
+      }
+      document.getElementById("quarterForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        let q;
+        if (editing.type === "pilot") {
+          q = data.pilot.weeks.find((x) => x.week === editing.week);
+        } else {
+          q = data.years
+            .find((y) => y.year === editing.year)
+            .quarters.find((x) => x.q === editing.qnum);
+        }
+        q.status = document.getElementById("qStatus").value;
+        q.progress = Math.max(
+          0,
+          Math.min(100, Number(document.getElementById("qProgress").value) || 0)
+        );
+        q.actual = document.getElementById("qActual").value.trim();
+        q.memo = document.getElementById("qMemo").value.trim();
+        if (editing.type === "pilot") {
+          q.owner = document.getElementById("qOwner").value.trim();
+          q.period = document.getElementById("qPeriod").value.trim();
+          q.caseDone = Math.max(
+            0,
+            Number(document.getElementById("qCaseDone").value) || 0
+          );
+          q.errorCount = Math.max(
+            0,
+            Number(document.getElementById("qErrorCount").value) || 0
+          );
+          q.pendingCount = Math.max(
+            0,
+            Number(document.getElementById("qPendingCount").value) || 0
+          );
+        }
+        save();
+        closeQuarter();
+        render();
+      });
+      document.getElementById("closeQuarter").onclick = closeQuarter;
+      document.getElementById("cancelQuarter").onclick = closeQuarter;
 
-document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{data.selectedYear=Number(b.dataset.year);save();render();}));
+      document.querySelectorAll(".tab").forEach((b) =>
+        b.addEventListener("click", () => {
+          data.selectedYear = Number(b.dataset.year);
+          save();
+          render();
+        })
+      );
 
-document.querySelectorAll(".page-tab").forEach(b=>b.addEventListener("click",()=>{
-  data.selectedPage=b.dataset.page;
-  save();
-  renderPageNav();
-  window.scrollTo({top:0,behavior:"smooth"});
-}));
+      document.querySelectorAll(".page-tab").forEach((b) =>
+        b.addEventListener("click", () => {
+          data.selectedPage = b.dataset.page;
+          save();
+          renderPageNav();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        })
+      );
 
+      document.getElementById("addCodebookVersionBtn").onclick = () =>
+        openCbVersion();
+      document.getElementById("closeCbVersion").onclick = closeCbVersion;
+      document.getElementById("cancelCbVersion").onclick = closeCbVersion;
+      document
+        .getElementById("cbVersionForm")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          const status = document.getElementById("cbVersionStatus").value;
+          const payload = {
+            id: editingCbVersionId || "cb_" + Date.now(),
+            version: document.getElementById("cbVersionName").value.trim(),
+            date: document.getElementById("cbVersionDate").value,
+            status,
+            owner: document.getElementById("cbVersionOwner").value.trim(),
+            changes: document.getElementById("cbVersionChanges").value.trim()
+          };
+          if (status === "current") {
+            data.codebook.versions.forEach((v) => {
+              if (String(v.id) !== String(editingCbVersionId))
+                v.status = "archived";
+            });
+          }
+          if (editingCbVersionId) {
+            const idx = data.codebook.versions.findIndex(
+              (v) => String(v.id) === String(editingCbVersionId)
+            );
+            if (idx >= 0) data.codebook.versions[idx] = payload;
+          } else {
+            data.codebook.versions.push(payload);
+          }
+          save();
+          closeCbVersion();
+          render();
+        });
 
+      document.getElementById("addMeetingBtn").onclick = () => openMeeting();
+      document.getElementById("closeMeeting").onclick = closeMeeting;
+      document.getElementById("cancelMeeting").onclick = closeMeeting;
+      document.getElementById("meetingForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const payload = {
+          id: editingMeetingId || "m_" + Date.now(),
+          date: document.getElementById("mDate").value,
+          time: document.getElementById("mTime").value,
+          participants: document.getElementById("mParticipants").value.trim(),
+          mode: document.getElementById("mMode").value,
+          place: document.getElementById("mPlace").value.trim(),
+          issues: document.getElementById("mIssues").value.trim(),
+          notes: document.getElementById("mNotes").value.trim()
+        };
+        if (editingMeetingId) {
+          const idx = data.meetings.findIndex(
+            (x) => String(x.id) === String(editingMeetingId)
+          );
+          if (idx >= 0) data.meetings[idx] = payload;
+        } else {
+          data.meetings.push(payload);
+        }
+        save();
+        closeMeeting();
+        render();
+      });
 
-document.getElementById("addCodebookVersionBtn").onclick=()=>openCbVersion();
-document.getElementById("closeCbVersion").onclick=closeCbVersion;
-document.getElementById("cancelCbVersion").onclick=closeCbVersion;
-document.getElementById("cbVersionForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  const status=document.getElementById("cbVersionStatus").value;
-  const payload={
-    id:editingCbVersionId||("cb_"+Date.now()),
-    version:document.getElementById("cbVersionName").value.trim(),
-    date:document.getElementById("cbVersionDate").value,
-    status,
-    owner:document.getElementById("cbVersionOwner").value.trim(),
-    changes:document.getElementById("cbVersionChanges").value.trim()
-  };
-  if(status==="current"){
-    data.codebook.versions.forEach(v=>{if(String(v.id)!==String(editingCbVersionId))v.status="archived";});
-  }
-  if(editingCbVersionId){
-    const idx=data.codebook.versions.findIndex(v=>String(v.id)===String(editingCbVersionId));
-    if(idx>=0)data.codebook.versions[idx]=payload;
-  }else{
-    data.codebook.versions.push(payload);
-  }
-  save();closeCbVersion();render();
-});
+      function openRisk() {
+        document.getElementById("riskForm").reset();
+        document.getElementById("riskModal").classList.add("show");
+      }
+      function closeRisk() {
+        document.getElementById("riskModal").classList.remove("show");
+      }
+      document.getElementById("addRiskBtn").onclick = openRisk;
+      document.getElementById("closeRisk").onclick = closeRisk;
+      document.getElementById("cancelRisk").onclick = closeRisk;
+      document.getElementById("riskForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        data.risks.unshift({
+          level: document.getElementById("rLevel").value,
+          year: document.getElementById("rYear").value,
+          title: document.getElementById("rTitle").value.trim(),
+          text: document.getElementById("rText").value.trim()
+        });
+        save();
+        closeRisk();
+        render();
+      });
 
-document.getElementById("addMeetingBtn").onclick=()=>openMeeting();
-document.getElementById("closeMeeting").onclick=closeMeeting;
-document.getElementById("cancelMeeting").onclick=closeMeeting;
-document.getElementById("meetingForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  const payload={
-    id: editingMeetingId || ("m_"+Date.now()),
-    date: document.getElementById("mDate").value,
-    time: document.getElementById("mTime").value,
-    participants: document.getElementById("mParticipants").value.trim(),
-    mode: document.getElementById("mMode").value,
-    place: document.getElementById("mPlace").value.trim(),
-    issues: document.getElementById("mIssues").value.trim(),
-    notes: document.getElementById("mNotes").value.trim()
-  };
-  if(editingMeetingId){
-    const idx=data.meetings.findIndex(x=>String(x.id)===String(editingMeetingId));
-    if(idx>=0) data.meetings[idx]=payload;
-  }else{
-    data.meetings.push(payload);
-  }
-  save(); closeMeeting(); render();
-});
-
-function openRisk(){document.getElementById("riskForm").reset();document.getElementById("riskModal").classList.add("show");}
-function closeRisk(){document.getElementById("riskModal").classList.remove("show");}
-document.getElementById("addRiskBtn").onclick=openRisk;
-document.getElementById("closeRisk").onclick=closeRisk;
-document.getElementById("cancelRisk").onclick=closeRisk;
-document.getElementById("riskForm").addEventListener("submit",e=>{
- e.preventDefault();
- data.risks.unshift({level:document.getElementById("rLevel").value,year:document.getElementById("rYear").value,title:document.getElementById("rTitle").value.trim(),text:document.getElementById("rText").value.trim()});
- save();closeRisk();render();
-});
-
-document.getElementById("resetBtn").onclick=()=>{
- if(confirm("입력한 진행상황과 리스크를 모두 지우고 연구계획서 기준 초기 상태로 되돌릴까요?")){data=makeInitial();save();render();}
-};
-document.getElementById("exportBtn").onclick=()=>{
- const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json;charset=utf-8"});
- const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="tax_complexity_research_dashboard_backup.json"; document.body.appendChild(a); a.click(); a.remove();
-};
-document.querySelectorAll(".modal-bg").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("show");}));
-document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal-bg.show").forEach(m=>m.classList.remove("show"));});
-render();
-</script>
-</body>
+      document.getElementById("resetBtn").onclick = () => {
+        if (
+          confirm(
+            "입력한 진행상황과 리스크를 모두 지우고 연구계획서 기준 초기 상태로 되돌릴까요?"
+          )
+        ) {
+          data = makeInitial();
+          save();
+          render();
+        }
+      };
+      document.getElementById("exportBtn").onclick = () => {
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: "application/json;charset=utf-8"
+        });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "tax_complexity_research_dashboard_backup.json";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      };
+      document.querySelectorAll(".modal-bg").forEach((m) =>
+        m.addEventListener("click", (e) => {
+          if (e.target === m) m.classList.remove("show");
+        })
+      );
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape")
+          document
+            .querySelectorAll(".modal-bg.show")
+            .forEach((m) => m.classList.remove("show"));
+      });
+      render();
+    </script>
+  </body>
 </html>

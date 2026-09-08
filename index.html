@@ -1,121 +1,424 @@
 <!DOCTYPE html>
-2
 <html lang="ko">
-3
 <head>
-4
-<meta charset="UTF-8">
-5
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-6
-<title>조세법 체계 복잡성 연구 대시보드</title>
-7
- 
-8
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>조세법 복잡성 연구 진행 대시보드</title>
 <style>
-9
-body{
-10
-font-family: "Malgun Gothic", sans-serif;
-11
-max-width:1000px;
-12
-margin:40px auto;
-13
-padding:20px;
-14
-background:#f8f9fa;
-15
+:root{
+  --bg:#f4f6f8; --card:#fff; --text:#17202a; --muted:#6b7280; --line:#e5e7eb;
+  --accent:#234f8f; --accent-bg:#eaf1fb; --good:#14804a; --warn:#b7791f; --bad:#c0392b; --done:#5b6472;
 }
-16
- 
-17
-h1{
-18
-color:#003366;
-19
-}
-20
- 
-21
-.card{
-22
-background:white;
-23
-border-radius:10px;
-24
-padding:20px;
-25
-margin-bottom:20px;
-26
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-27
-}
-28
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans KR","Apple SD Gothic Neo",sans-serif}
+.wrap{max-width:1480px;margin:0 auto;padding:24px}
+.hero{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:18px}
+h1{margin:0;font-size:28px;line-height:1.35}
+.subtitle{margin-top:7px;color:var(--muted);font-size:14px;line-height:1.6}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+button,select,input,textarea{font:inherit}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-soft{background:var(--accent-bg);color:var(--accent)}
+.btn-ghost{background:#eef0f3;color:#374151}
+.btn-danger{background:#fde8e7;color:#9b1c1c}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.metric{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.metric .label{font-size:12px;color:var(--muted)}
+.metric .value{font-size:27px;font-weight:800;margin-top:7px}
+.metric .hint{font-size:12px;color:var(--muted);margin-top:5px}
+.layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(330px,1fr);gap:16px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+.panel h2{margin:0 0 13px;font-size:18px}
+.objective{line-height:1.7;font-size:14px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab{background:#f0f2f5;color:#4b5563}
+.tab.active{background:var(--accent);color:#fff}
+.year-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-bottom:12px}
+.year-title{font-size:20px;font-weight:800}
+.year-goal{font-size:13px;color:var(--muted);margin-top:4px}
+.quarter-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.qcard{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fafbfc}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.qname{font-weight:800}
+.badge{padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800;display:inline-block}
+.미착수{background:#edf0f3;color:#586170}
+.진행중{background:#eaf1fb;color:#234f8f}
+.주의{background:#fff4d6;color:#8a5a00}
+.지연{background:#fde8e7;color:#9b1c1c}
+.완료{background:#e7f5ec;color:#166534}
+.qcontent{font-size:13px;line-height:1.65;margin-top:10px;min-height:62px}
+.output{font-size:12px;color:var(--muted);margin-top:8px}
+.progress{height:8px;border-radius:999px;background:#e5e7eb;overflow:hidden;margin-top:12px}
+.progress span{display:block;height:100%;background:var(--accent);border-radius:999px}
+.qactions{display:flex;gap:7px;margin-top:12px}
+.qactions button{padding:7px 9px;font-size:12px}
+.pilot-section{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.pilot-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;margin-bottom:12px}
+.pilot-title{font-size:18px;font-weight:800}
+.pilot-sub{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5}
+.pilot-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.pilot-card{border:1px solid #d9e4f2;background:#f8fbff;border-radius:14px;padding:14px}
+.pilot-week{font-weight:800}
+.pilot-task{font-size:13px;line-height:1.6;margin-top:9px}
+.criteria{font-size:12px;color:#44546a;margin-top:8px;padding:8px 9px;background:#fff;border-radius:8px;border:1px solid var(--line)}
+.case-box{margin-top:14px;padding:13px;background:#fafafa;border:1px solid var(--line);border-radius:12px}
+.case-box b{display:block;margin-bottom:7px}
+.case-box ol{margin:0;padding-left:20px;font-size:12px;color:#4b5563;line-height:1.7}
+.workstreams{display:grid;gap:10px}
+.ws{border-left:4px solid #8aa4c7;padding:9px 10px;background:#f8fafc;border-radius:8px}
+.ws b{display:block;margin-bottom:4px}
+.ws span{font-size:12px;color:var(--muted);line-height:1.5}
+.risk{padding:11px 12px;border-left:4px solid var(--warn);background:#fffaf0;border-radius:9px;margin-bottom:9px;font-size:13px;line-height:1.55}
+.risk.bad{border-color:var(--bad);background:#fff5f4}
+.risk strong{display:block;margin-bottom:3px}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th,td{padding:11px 10px;border-bottom:1px solid var(--line);font-size:13px;text-align:left;vertical-align:top}
+th{color:var(--muted);background:#fafafa}
+.notice{background:#eef4fb;border:1px solid #d9e4f2;color:#294e7a;padding:11px 13px;border-radius:10px;font-size:13px;margin-bottom:15px}
+.empty{padding:18px;color:var(--muted);text-align:center}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(17,24,39,.45);z-index:50;align-items:center;justify-content:center;padding:18px}
+.modal-bg.show{display:flex}
+.modal{width:min(720px,100%);max-height:90vh;overflow:auto;background:white;border-radius:17px;padding:20px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.modal-head h3{margin:0}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;font-weight:700;color:var(--muted)}
+input,select,textarea{border:1px solid var(--line);border-radius:9px;padding:10px 11px;background:#fff}
+textarea{min-height:85px;resize:vertical}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}
+.small{font-size:12px;color:var(--muted)}
+@media(max-width:1050px){.metrics{grid-template-columns:repeat(3,1fr)}.layout{grid-template-columns:1fr}}
+@media(max-width:700px){.wrap{padding:14px}.hero{flex-direction:column}.metrics{grid-template-columns:1fr 1fr}.quarter-grid,.pilot-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
 </style>
-29
 </head>
-30
- 
-31
 <body>
-32
- 
-33
-<h1>조세법 체계의 복잡성 측정·모니터링·관리</h1>
-34
- 
-35
-<div class="card">
-36
-<h2>1차년도</h2>
-37
-<p>법체계 계량 인프라 구축 (측정 기반)</p>
-38
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>조세법 체계의 복잡성 측정·모니터링·관리</h1>
+      <div class="subtitle">
+        법령 네트워크와 개정 파급(ripple) 계량을 통한 AI 기반 위험기반 세무행정 전환 지원<br>
+        연구기간: 2026.06.01 ~ 2029.05.31
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="btn-primary" id="addRiskBtn">+ 이슈/리스크 추가</button>
+      <button class="btn-soft" id="exportBtn">데이터 백업</button>
+      <button class="btn-ghost" id="resetBtn">초기화</button>
+    </div>
+  </div>
+
+  <div class="notice">각 분기의 <b>수정</b> 버튼을 눌러 진행률, 상태, 실제 수행내용, 메모를 직접 바꿀 수 있습니다. 입력 내용은 브라우저에 자동 저장됩니다.</div>
+
+  <section class="metrics">
+    <div class="metric"><div class="label">전체 연구 진행률</div><div class="value" id="overall">0%</div><div class="hint">12개 분기 평균</div></div>
+    <div class="metric"><div class="label">완료 분기</div><div class="value" id="doneQ">0/12</div><div class="hint">상태가 ‘완료’인 분기</div></div>
+    <div class="metric"><div class="label">진행 중 분기</div><div class="value" id="activeQ">0</div><div class="hint">현재 수행 중</div></div>
+    <div class="metric"><div class="label">주의/지연</div><div class="value" id="riskQ">0</div><div class="hint">관리 필요</div></div>
+    <div class="metric"><div class="label">등록 리스크</div><div class="value" id="riskCount">0</div><div class="hint">직접 추가 가능</div></div>
+  </section>
+
+  <div class="layout">
+    <main>
+      <section class="panel">
+        <h2>연구 목표</h2>
+        <div class="objective">
+          한국 조세법 체계를 복잡계 관점에서 정량화하고, 복잡성의 측정·모니터링·관리 기능을 갖춘 정책도구를 개발하여
+          AI 기반 위험기반 세무행정 전환을 지원하는 설명가능한 인프라로 연결하는 것을 최종 목표로 합니다.
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="tabs">
+          <button class="tab active" data-year="1">1차년도</button>
+          <button class="tab" data-year="2">2차년도</button>
+          <button class="tab" data-year="3">3차년도</button>
+        </div>
+        <div id="yearView"></div>
+      </section>
+
+      <section class="panel">
+        <h2>핵심 산출물 로드맵</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>연차</th><th>핵심 산출물</th><th>역할</th></tr></thead>
+            <tbody>
+              <tr><td>1차년도</td><td>법령 코퍼스 v1 · 조문 네트워크 v1 · 복잡성 지표 v1</td><td>측정 기반 구축</td></tr>
+              <tr><td>2차년도</td><td>개정 사건 DB · Amendment Ripple Index v1 · 세목별 사례연구</td><td>모니터링 기반 확립</td></tr>
+              <tr><td>3차년도</td><td>조세복잡성 레이더 · CIA 프로토콜 · AI 연계 운영 가이드</td><td>관리 도구화</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <section class="panel">
+        <h2>핵심 연구축</h2>
+        <div class="workstreams">
+          <div class="ws"><b>① 다층 법령 네트워크</b><span>조문-개념-쟁점 레이어와 준용·위임·예외·정의 연결 구조 구축</span></div>
+          <div class="ws"><b>② 복잡성 지표</b><span>구조·상호의존·언어 차원의 복잡성 지표와 기준선 산출</span></div>
+          <div class="ws"><b>③ 개정 파급지수</b><span>개정 전후 연결 재배선, 의미 변화, 실무 쟁점 변동 통합</span></div>
+          <div class="ws"><b>④ 정책도구화</b><span>모니터링 대시보드, 경보체계, Complexity Impact Assessment</span></div>
+          <div class="ws"><b>⑤ AI 행정 연계</b><span>변경관리 트리거, 인간 검토, 근거제시, 이의제기 강화 운영규칙</span></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>이슈 / 리스크</h2>
+        <div id="riskList"></div>
+      </section>
+
+      <section class="panel">
+        <h2>현재 연차 체크포인트</h2>
+        <div id="checkpoint" class="small"></div>
+      </section>
+    </aside>
+  </div>
 </div>
-39
- 
-40
-<div class="card">
-41
-<h2>2차년도</h2>
-42
-<p>개정 파급(Ripple) 계량 확립 (모니터링 기반)</p>
-43
+
+<div class="modal-bg" id="quarterModal">
+  <div class="modal">
+    <div class="modal-head"><h3>분기 진행상황 수정</h3><button class="btn-ghost" id="closeQuarter">닫기</button></div>
+    <form id="quarterForm">
+      <div class="form-grid">
+        <div class="field"><label>상태</label>
+          <select id="qStatus"><option>미착수</option><option>진행중</option><option>주의</option><option>지연</option><option>완료</option></select>
+        </div>
+        <div class="field"><label>진행률 (%)</label><input id="qProgress" type="number" min="0" max="100"></div>
+        <div class="field full"><label>실제 수행내용</label><textarea id="qActual"></textarea></div>
+        <div class="field full"><label>메모 / 다음 할 일</label><textarea id="qMemo"></textarea></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelQuarter">취소</button><button type="submit" class="btn-primary">저장</button></div>
+    </form>
+  </div>
 </div>
-44
- 
-45
-<div class="card">
-46
-<h2>3차년도</h2>
-47
-<p>정책도구화 및 AI 위험기반 세무행정 연계 (관리 기반)</p>
-48
+
+<div class="modal-bg" id="riskModal">
+  <div class="modal">
+    <div class="modal-head"><h3>이슈 / 리스크 등록</h3><button class="btn-ghost" id="closeRisk">닫기</button></div>
+    <form id="riskForm">
+      <div class="form-grid">
+        <div class="field"><label>구분</label><select id="rLevel"><option>주의</option><option>지연</option></select></div>
+        <div class="field"><label>관련 연차</label><select id="rYear"><option>1차년도</option><option>2차년도</option><option>3차년도</option><option>공통</option></select></div>
+        <div class="field full"><label>이슈 제목</label><input id="rTitle" required></div>
+        <div class="field full"><label>내용 / 대응방안</label><textarea id="rText"></textarea></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelRisk">취소</button><button type="submit" class="btn-primary">등록</button></div>
+    </form>
+  </div>
 </div>
-49
- 
-50
-<div class="card">
-51
-<h2>부가가치세법 4주 파일럿</h2>
-52
-<ul>
-53
-<li>1주차: 계보 Codebook 확정</li>
-54
-<li>2주차: 연혁 재수집</li>
-55
-<li>3주차: 개정사건 계보 이중코딩</li>
-56
-<li>4주차: 반자동 매칭시험 및 릴리스 동결</li>
-57
-</ul>
-58
-</div>
-59
- 
-60
+
+<script>
+const KEY="tax-complexity-research-dashboard-v1";
+
+const baseYears = [
+ {year:1, goal:"법체계 계량 인프라 구축 (측정 기반)", checkpoint:"법령 코퍼스 v1 + 조문 네트워크 v1 + 복잡성 지표 v1",
+  quarters:[
+   {q:1, plan:"연구대상 범위 확정, 법률·시행령·시행규칙 수집·정제 파이프라인 설계, 조문 식별자 및 개정 연혁 메타데이터 구조화", output:"기반 구축"},
+   {q:2, plan:"준용·인용, 위임, 예외, 정의 참조 추출 규칙 개발 및 표본 품질검증", output:"네트워크 v1"},
+   {q:3, plan:"구조·상호의존·언어 복잡성 지표 산출, 세목별 복잡성 지형 및 허브 조문 후보 도출", output:"지표 v1"},
+   {q:4, plan:"예규·심판·판례에서 인용 조문·쟁점 키워드 추출 파일럿, 불확실성 지표 설계", output:"쟁점 레이어 v1"}]},
+ {year:2, goal:"개정 파급(ripple) 계량 확립 (모니터링 기반)", checkpoint:"개정 사건 DB + Amendment Ripple Index v1 + 세목별 사례연구",
+  quarters:[
+   {q:1, plan:"개정 사건 정의, 신·구법 매칭 테이블 구축, 개정 유형 분류 및 영향권 서브그래프 추출", output:"개정 사건 DB"},
+   {q:2, plan:"정의·요건·효과 문장의 신·구 차이를 활용한 의미적 파급지표 개발", output:"의미 파급"},
+   {q:3, plan:"구조·의미·실무 파급을 통합하여 Amendment Ripple Index v1 확정", output:"파급지수 v1"},
+   {q:4, plan:"세목별 사례연구 확장, 정기 업데이트 주기 및 경보 임계치 초안 설정", output:"모니터링 초안"}]},
+ {year:3, goal:"정책도구화 및 AI 위험기반 세무행정 연계 (관리 기반)", checkpoint:"조세복잡성 레이더 + CIA 프로토콜 + AI 연계 운영 가이드",
+  quarters:[
+   {q:1, plan:"세목·법률·쟁점별 복잡성 추세, 취약 결합부 히트맵, 개정 파급 사건 랭킹을 제공하는 대시보드 구현", output:"레이더 구현"},
+   {q:2, plan:"개정안 복잡성 영향평가(Complexity Impact Assessment) 문항·관리레버 설계 및 시나리오 테스트", output:"CIA 프로토콜"},
+   {q:3, plan:"지표·임계치·프로토콜 문항 교정, 전문가 피드백 및 사용자 관점 사용성 검증", output:"현장 교정"},
+   {q:4, plan:"AI 변경관리 트리거, 모델 재검증·재학습, 시스템 업데이트 및 인간 검토 운영규칙 정리", output:"전환 가이드"}]}
+];
+
+function makeInitial(){
+  return {
+    selectedYear:1,
+    years:baseYears.map(y=>({...y, quarters:y.quarters.map(q=>({...q,status:"미착수",progress:0,actual:"",memo:""}))})),
+    pilot:{
+      title:"부가가치세법 4주 파일럿 테스트",
+      scope:"부가가치세법·시행령·시행규칙의 서로 다른 개정유형을 깊게 검증한 뒤, 계보규칙이 안정되면 6대 세법으로 확장",
+      weeks:[
+        {week:1, task:"ID·매니페스트·계보 Codebook 확정", output:"schema-0.1, codebook-1.1", criteria:"필드·코드·예외규칙 승인", status:"미착수", progress:0, actual:"", memo:""},
+        {week:2, task:"부가가치세법·시행령·시행규칙 연혁 재수집", output:"RAW 스냅숏·수집 매니페스트", criteria:"원문·해시·MST 대사 100%", status:"미착수", progress:0, actual:"", memo:""},
+        {week:3, task:"주요 개정사건 30~50건 계보 이중코딩", output:"Gold Set·불일치 목록", criteria:"원문 역추적 100%, 강제연결 0건", status:"미착수", progress:0, actual:"", memo:""},
+        {week:4, task:"반자동 매칭시험·릴리스 동결", output:"TRRE-DATA-0.1.0", criteria:"재실행·복구·지수 재산출 성공", status:"미착수", progress:0, actual:"", memo:""}
+      ],
+      cases:[
+        "문언 일부수정과 동일 조문번호 유지 사례",
+        "조문번호 이동과 편·장·절 구조변경 사례",
+        "조문 신설·삭제 사례",
+        "하나의 조문이 복수 조문으로 분할된 사례",
+        "복수 조문이 하나로 병합된 사례",
+        "타법개정 또는 법률·시행령·시행규칙 간 연계가 변한 사례"
+      ]
+    },
+    risks:[]
+  };
+}
+
+let data=load();
+if(!data.pilot){
+  data.pilot=makeInitial().pilot;
+  localStorage.setItem(KEY,JSON.stringify(data));
+}
+let editing=null;
+
+function load(){
+  try{const x=JSON.parse(localStorage.getItem(KEY)); if(x&&x.years)return x;}catch(e){}
+  const x=makeInitial(); localStorage.setItem(KEY,JSON.stringify(x)); return x;
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+
+function render(){
+  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs();
+}
+function renderMetrics(){
+  const qs=data.years.flatMap(y=>y.quarters);
+  const avg=Math.round(qs.reduce((s,q)=>s+Number(q.progress||0),0)/qs.length);
+  document.getElementById("overall").textContent=avg+"%";
+  document.getElementById("doneQ").textContent=qs.filter(q=>q.status==="완료").length+"/12";
+  document.getElementById("activeQ").textContent=qs.filter(q=>q.status==="진행중").length;
+  document.getElementById("riskQ").textContent=qs.filter(q=>["주의","지연"].includes(q.status)).length;
+  document.getElementById("riskCount").textContent=data.risks.length;
+}
+function renderTabs(){
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",Number(b.dataset.year)===data.selectedYear));
+}
+function renderYear(){
+  const y=data.years.find(x=>x.year===data.selectedYear);
+  document.getElementById("yearView").innerHTML=`
+   <div class="year-head"><div><div class="year-title">${y.year}차년도</div><div class="year-goal">${esc(y.goal)}</div></div><div class="small">${esc(y.checkpoint)}</div></div>
+   <div class="quarter-grid">
+   ${y.quarters.map(q=>`
+    <article class="qcard">
+      <div class="qtop"><div class="qname">${q.q}분기</div><span class="badge ${q.status}">${q.status}</span></div>
+      <div class="qcontent"><b>계획:</b> ${esc(q.plan)}</div>
+      <div class="output"><b>산출물:</b> ${esc(q.output)}</div>
+      <div class="progress"><span style="width:${Math.max(0,Math.min(100,Number(q.progress)||0))}%"></span></div>
+      <div class="small" style="margin-top:6px">진행률 ${Number(q.progress)||0}%</div>
+      ${q.actual?`<div class="qcontent"><b>실제 수행:</b> ${esc(q.actual)}</div>`:""}
+      ${q.memo?`<div class="output"><b>메모:</b> ${esc(q.memo)}</div>`:""}
+      <div class="qactions"><button class="btn-soft edit-q" data-year="${y.year}" data-q="${q.q}">수정</button></div>
+    </article>`).join("")}
+   </div>
+   ${y.year===1 ? renderPilotHtml() : ""}`;
+  document.querySelectorAll(".edit-q").forEach(b=>b.addEventListener("click",()=>openQuarter(Number(b.dataset.year),Number(b.dataset.q))));
+  document.querySelectorAll(".edit-pilot").forEach(b=>b.addEventListener("click",()=>openPilot(Number(b.dataset.week))));
+}
+
+function renderPilotHtml(){
+  const p=data.pilot;
+  const avg=Math.round(p.weeks.reduce((s,w)=>s+Number(w.progress||0),0)/p.weeks.length);
+  return `
+    <div class="pilot-section">
+      <div class="pilot-head">
+        <div>
+          <div class="pilot-title">파일럿 테스트 · ${esc(p.title)}</div>
+          <div class="pilot-sub">${esc(p.scope)}</div>
+        </div>
+        <div class="small"><b>파일럿 진행률 ${avg}%</b></div>
+      </div>
+      <div class="pilot-grid">
+        ${p.weeks.map(w=>`
+          <article class="pilot-card">
+            <div class="qtop"><div class="pilot-week">${w.week}주차</div><span class="badge ${w.status}">${w.status}</span></div>
+            <div class="pilot-task"><b>핵심과업:</b> ${esc(w.task)}</div>
+            <div class="output"><b>산출물:</b> ${esc(w.output)}</div>
+            <div class="criteria"><b>통과기준:</b> ${esc(w.criteria)}</div>
+            <div class="progress"><span style="width:${Math.max(0,Math.min(100,Number(w.progress)||0))}%"></span></div>
+            <div class="small" style="margin-top:6px">진행률 ${Number(w.progress)||0}%</div>
+            ${w.actual?`<div class="qcontent"><b>실제 수행:</b> ${esc(w.actual)}</div>`:""}
+            ${w.memo?`<div class="output"><b>메모:</b> ${esc(w.memo)}</div>`:""}
+            <div class="qactions"><button class="btn-soft edit-pilot" data-week="${w.week}">수정</button></div>
+          </article>`).join("")}
+      </div>
+      <div class="case-box">
+        <b>파일럿 사건 구성</b>
+        <ol>${p.cases.map(c=>`<li>${esc(c)}</li>`).join("")}</ol>
+      </div>
+    </div>`;
+}
+function renderRisks(){
+  const el=document.getElementById("riskList");
+  if(!data.risks.length){el.innerHTML='<div class="empty">등록된 이슈/리스크가 없습니다.</div>';return;}
+  el.innerHTML=data.risks.map((r,i)=>`<div class="risk ${r.level==="지연"?"bad":""}">
+    <strong>${esc(r.title)}</strong><div>${esc(r.text||"")}</div><div class="small" style="margin-top:5px">${esc(r.year)} · ${esc(r.level)}</div>
+    <button class="btn-danger" style="margin-top:7px;padding:6px 8px;font-size:11px" data-del-risk="${i}">삭제</button>
+  </div>`).join("");
+  el.querySelectorAll("[data-del-risk]").forEach(b=>b.addEventListener("click",()=>{data.risks.splice(Number(b.dataset.delRisk),1);save();render();}));
+}
+function renderCheckpoint(){
+  const y=data.years.find(x=>x.year===data.selectedYear);
+  const qtxt=y.quarters.map(q=>`${q.q}분기 ${q.status} (${q.progress}%)`).join("<br>");
+  document.getElementById("checkpoint").innerHTML=`<b>${esc(y.checkpoint)}</b><br><br>${qtxt}`;
+}
+function openQuarter(year,qnum){
+  editing={type:"quarter",year,qnum};
+  const q=data.years.find(y=>y.year===year).quarters.find(x=>x.q===qnum);
+  document.getElementById("qStatus").value=q.status;
+  document.getElementById("qProgress").value=q.progress;
+  document.getElementById("qActual").value=q.actual||"";
+  document.getElementById("qMemo").value=q.memo||"";
+  document.getElementById("quarterModal").classList.add("show");
+}
+function openPilot(week){
+  editing={type:"pilot",week};
+  const q=data.pilot.weeks.find(x=>x.week===week);
+  document.getElementById("qStatus").value=q.status;
+  document.getElementById("qProgress").value=q.progress;
+  document.getElementById("qActual").value=q.actual||"";
+  document.getElementById("qMemo").value=q.memo||"";
+  document.getElementById("quarterModal").classList.add("show");
+}
+function closeQuarter(){document.getElementById("quarterModal").classList.remove("show");}
+document.getElementById("quarterForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  let q;
+  if(editing.type==="pilot"){
+    q=data.pilot.weeks.find(x=>x.week===editing.week);
+  }else{
+    q=data.years.find(y=>y.year===editing.year).quarters.find(x=>x.q===editing.qnum);
+  }
+  q.status=document.getElementById("qStatus").value;
+  q.progress=Math.max(0,Math.min(100,Number(document.getElementById("qProgress").value)||0));
+  q.actual=document.getElementById("qActual").value.trim();
+  q.memo=document.getElementById("qMemo").value.trim();
+  save();closeQuarter();render();
+});
+document.getElementById("closeQuarter").onclick=closeQuarter;
+document.getElementById("cancelQuarter").onclick=closeQuarter;
+
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{data.selectedYear=Number(b.dataset.year);save();render();}));
+
+function openRisk(){document.getElementById("riskForm").reset();document.getElementById("riskModal").classList.add("show");}
+function closeRisk(){document.getElementById("riskModal").classList.remove("show");}
+document.getElementById("addRiskBtn").onclick=openRisk;
+document.getElementById("closeRisk").onclick=closeRisk;
+document.getElementById("cancelRisk").onclick=closeRisk;
+document.getElementById("riskForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ data.risks.unshift({level:document.getElementById("rLevel").value,year:document.getElementById("rYear").value,title:document.getElementById("rTitle").value.trim(),text:document.getElementById("rText").value.trim()});
+ save();closeRisk();render();
+});
+
+document.getElementById("resetBtn").onclick=()=>{
+ if(confirm("입력한 진행상황과 리스크를 모두 지우고 연구계획서 기준 초기 상태로 되돌릴까요?")){data=makeInitial();save();render();}
+};
+document.getElementById("exportBtn").onclick=()=>{
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json;charset=utf-8"});
+ const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="tax_complexity_research_dashboard_backup.json"; document.body.appendChild(a); a.click(); a.remove();
+};
+document.querySelectorAll(".modal-bg").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("show");}));
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal-bg.show").forEach(m=>m.classList.remove("show"));});
+render();
+</script>
 </body>
-61
 </html>

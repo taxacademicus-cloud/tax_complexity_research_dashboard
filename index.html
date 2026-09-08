@@ -282,6 +282,27 @@ h1{font-size:30px;letter-spacing:-.4px}
   overflow-wrap: anywhere;
 }
 
+
+/* ===== Research journal page ===== */
+.journal-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.journal-kpi{background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px;box-shadow:0 5px 18px rgba(31,54,88,.04)}
+.journal-kpi .jlabel{font-size:11px;color:var(--muted)}
+.journal-kpi .jvalue{font-size:22px;font-weight:800;margin-top:6px}
+.journal-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.journal-list{display:grid;gap:10px}
+.journal-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 3px 10px rgba(31,54,88,.035)}
+.journal-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.journal-no{font-size:11px;color:var(--accent);font-weight:800;margin-bottom:4px}
+.journal-title{font-size:15px;font-weight:800;line-height:1.45}
+.journal-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px;font-size:11px;color:var(--muted)}
+.journal-url{margin-top:10px;padding:9px 10px;background:#f8fafc;border:1px solid #e6ebf0;border-radius:9px;font-size:11px;word-break:break-all}
+.journal-status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;white-space:nowrap}
+.journal-status.done{background:#e7f5ec;color:#166534}.journal-status.active{background:#eaf1fb;color:#234f8f}
+.journal-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.journal-actions button{padding:6px 8px;font-size:11px}
+.journal-empty{padding:38px 18px;text-align:center;color:var(--muted);border:1px dashed #cfd8e3;border-radius:14px;background:#fbfcfe}
+@media(max-width:800px){.journal-summary{grid-template-columns:1fr 1fr}}
+
 </style>
 </head>
 <body>
@@ -307,6 +328,7 @@ h1{font-size:30px;letter-spacing:-.4px}
   <div class="page-nav">
     <button class="page-tab active" data-page="overview">전체 연구현황</button>
     <button class="page-tab" data-page="meetings">연구미팅</button>
+    <button class="page-tab" data-page="journal">연구일지</button>
     <button class="page-tab" data-page="pilot">파일럿 테스트</button>
     <button class="page-tab" data-page="codebook">코드북</button>
   </div>
@@ -417,6 +439,27 @@ h1{font-size:30px;letter-spacing:-.4px}
         <button class="btn-primary" id="addMeetingBtn">+ 연구미팅 추가</button>
       </div>
       <div class="meeting-list" id="meetingList"></div>
+    </section>
+  </div>
+
+  <div id="journalPage" class="main-page">
+    <div class="notice">현재 웹에 작성 중인 연구일지를 번호별로 정리하는 페이지입니다. 연구일지 번호, 제목, 작성자, 일자, 작성상황, URL을 기록할 수 있습니다.</div>
+
+    <div class="journal-summary">
+      <div class="journal-kpi"><div class="jlabel">전체 연구일지</div><div class="jvalue" id="journalTotal">0</div></div>
+      <div class="journal-kpi"><div class="jlabel">작성 완료</div><div class="jvalue" id="journalDone">0</div></div>
+      <div class="journal-kpi"><div class="jlabel">작성 진행</div><div class="jvalue" id="journalActive">0</div></div>
+    </div>
+
+    <section class="panel">
+      <div class="journal-toolbar">
+        <div>
+          <h2 style="margin-bottom:4px">연구일지 목록</h2>
+          <div class="small">웹에 작성한 연구일지를 번호와 URL 기준으로 관리합니다.</div>
+        </div>
+        <button class="btn-primary" id="addJournalBtn">+ 연구일지 추가</button>
+      </div>
+      <div class="journal-list" id="journalList"></div>
     </section>
   </div>
 
@@ -630,6 +673,23 @@ h1{font-size:30px;letter-spacing:-.4px}
   </div>
 </div>
 
+<div class="modal-bg" id="journalModal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="journalModalTitle">연구일지 추가</h3><button class="btn-ghost" id="closeJournal">닫기</button></div>
+    <form id="journalForm">
+      <div class="form-grid">
+        <div class="field"><label>연구일지 번호</label><input id="jNo" placeholder="예: 15" required></div>
+        <div class="field"><label>일자</label><input id="jDate" type="date" required></div>
+        <div class="field full"><label>제목</label><input id="jTitle" required placeholder="연구일지 제목"></div>
+        <div class="field"><label>작성자</label><input id="jAuthor" placeholder="예: 강민조 / 조혜지"></div>
+        <div class="field"><label>작성상황</label><select id="jStatus"><option value="완료">완료</option><option value="진행">진행</option></select></div>
+        <div class="field full"><label>URL</label><input id="jUrl" placeholder="https://..."></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelJournal">취소</button><button type="submit" class="btn-primary">저장</button></div>
+    </form>
+  </div>
+</div>
+
 <div class="modal-bg" id="meetingModal">
   <div class="modal">
     <div class="modal-head"><h3 id="meetingModalTitle">연구미팅 추가</h3><button class="btn-ghost" id="closeMeeting">닫기</button></div>
@@ -714,6 +774,7 @@ function makeInitial(){
       gates:{traceability:false,integrity:false,identifier:false,lineage:false,reproducibility:false}
     },
     meetings:[],
+    journals:[],
     references:[],
     codebook:{
       versions:[
@@ -735,6 +796,7 @@ data.years.forEach(y=>y.quarters.forEach(q=>{
   q.memo="";
 }));
 if(!Array.isArray(data.meetings)) data.meetings=[];
+if(!Array.isArray(data.journals)) data.journals=[];
 if(!Array.isArray(data.references)) data.references=[];
 if(!data.codebook || !Array.isArray(data.codebook.versions)) data.codebook=makeInitial().codebook;
 if(!data.pilot){
@@ -760,13 +822,14 @@ function save(){localStorage.setItem(KEY,JSON.stringify(data));}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
 
 function render(){
-  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs(); renderMeetings(); renderPilotPage(); renderCodebook(); renderReferences(); renderPageNav();
+  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs(); renderMeetings(); renderJournals(); renderPilotPage(); renderCodebook(); renderReferences(); renderPageNav();
 }
 
 function renderPageNav(){
   document.querySelectorAll(".page-tab").forEach(b=>b.classList.toggle("active",b.dataset.page===data.selectedPage));
   document.getElementById("overviewPage").classList.toggle("active",data.selectedPage==="overview");
   document.getElementById("meetingsPage").classList.toggle("active",data.selectedPage==="meetings");
+  document.getElementById("journalPage").classList.toggle("active",data.selectedPage==="journal");
   document.getElementById("pilotPage").classList.toggle("active",data.selectedPage==="pilot");
   document.getElementById("codebookPage").classList.toggle("active",data.selectedPage==="codebook");
   document.getElementById("referencePage").classList.toggle("active",data.selectedPage==="reference");
@@ -791,6 +854,70 @@ function isUpcomingMeeting(m){
   const dt=new Date(`${m.date}T${m.time||"23:59"}:00`);
   return !Number.isNaN(dt.getTime()) && dt>=now;
 }
+
+let editingJournalId=null;
+
+function renderJournals(){
+  const list=document.getElementById("journalList");
+  if(!list) return;
+  const journals=[...(data.journals||[])].sort((a,b)=>{
+    const na=Number(String(a.no).replace(/\D/g,""))||0;
+    const nb=Number(String(b.no).replace(/\D/g,""))||0;
+    return nb-na;
+  });
+
+  document.getElementById("journalTotal").textContent=journals.length;
+  document.getElementById("journalDone").textContent=journals.filter(j=>j.status==="완료").length;
+  document.getElementById("journalActive").textContent=journals.filter(j=>j.status==="진행").length;
+
+  if(!journals.length){
+    list.innerHTML='<div class="journal-empty">등록된 연구일지가 없습니다.<br><span class="small">현재 작성된 약 15개의 연구일지를 “+ 연구일지 추가”에서 순서대로 등록할 수 있습니다.</span></div>';
+    return;
+  }
+
+  list.innerHTML=journals.map(j=>`
+    <article class="journal-card">
+      <div class="journal-head">
+        <div>
+          <div class="journal-no">연구일지 No. ${esc(j.no)}</div>
+          <div class="journal-title">${esc(j.title)}</div>
+          <div class="journal-meta">
+            ${j.author?`<span>작성자 ${esc(j.author)}</span>`:""}
+            ${j.date?`<span>· ${prettyDate(j.date)}</span>`:""}
+          </div>
+        </div>
+        <span class="journal-status ${j.status==="완료"?"done":"active"}">${esc(j.status)}</span>
+      </div>
+      ${j.url?`<div class="journal-url"><b>URL</b><br>${esc(j.url)}</div>`:""}
+      <div class="journal-actions">
+        <button class="btn-soft edit-journal" data-id="${esc(j.id)}">수정</button>
+        <button class="btn-danger delete-journal" data-id="${esc(j.id)}">삭제</button>
+      </div>
+    </article>`).join("");
+
+  document.querySelectorAll(".edit-journal").forEach(b=>b.onclick=()=>openJournal(b.dataset.id));
+  document.querySelectorAll(".delete-journal").forEach(b=>b.onclick=()=>{
+    if(confirm("이 연구일지 기록을 삭제할까요?")){
+      data.journals=data.journals.filter(j=>String(j.id)!==String(b.dataset.id));
+      save();renderJournals();
+    }
+  });
+}
+
+function openJournal(id=null){
+  editingJournalId=id;
+  const j=id?data.journals.find(x=>String(x.id)===String(id)):null;
+  document.getElementById("journalModalTitle").textContent=j?"연구일지 수정":"연구일지 추가";
+  document.getElementById("jNo").value=j?.no||"";
+  document.getElementById("jDate").value=j?.date||localDateKey();
+  document.getElementById("jTitle").value=j?.title||"";
+  document.getElementById("jAuthor").value=j?.author||"";
+  document.getElementById("jStatus").value=j?.status||"완료";
+  document.getElementById("jUrl").value=j?.url||"";
+  document.getElementById("journalModal").classList.add("show");
+}
+function closeJournal(){document.getElementById("journalModal").classList.remove("show");}
+
 function renderMeetings(){
   const list=document.getElementById("meetingList");
   if(!list) return;
@@ -1450,6 +1577,30 @@ document.getElementById("cbVersionForm").addEventListener("submit",e=>{
     data.codebook.versions.push(payload);
   }
   save();closeCbVersion();render();
+});
+
+
+document.getElementById("addJournalBtn").onclick=()=>openJournal();
+document.getElementById("closeJournal").onclick=closeJournal;
+document.getElementById("cancelJournal").onclick=closeJournal;
+document.getElementById("journalForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const payload={
+    id:editingJournalId||("jr_"+Date.now()),
+    no:document.getElementById("jNo").value.trim(),
+    title:document.getElementById("jTitle").value.trim(),
+    author:document.getElementById("jAuthor").value.trim(),
+    date:document.getElementById("jDate").value,
+    status:document.getElementById("jStatus").value,
+    url:document.getElementById("jUrl").value.trim()
+  };
+  if(editingJournalId){
+    const idx=data.journals.findIndex(j=>String(j.id)===String(editingJournalId));
+    if(idx>=0)data.journals[idx]=payload;
+  }else{
+    data.journals.push(payload);
+  }
+  save();closeJournal();renderJournals();
 });
 
 document.getElementById("addMeetingBtn").onclick=()=>openMeeting();

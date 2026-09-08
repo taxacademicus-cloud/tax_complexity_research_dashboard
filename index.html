@@ -1,39 +1,189 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Articles</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./style.css" />
-  </head>
-
-  <body>
-    <a class="card" href="./article.html">
-      <img
-        class="card__image"
-        src="https://assets.codepen.io/t-1/launch-email-1-header.jpg?width=800&format=auto"
-        alt="CodePen 2.0 is here!"
-        width="500"
-        height="500"
-      />
-      <div class="card__body">
-        <h1 class="card__title">CodePen 2.0 Is Here!</h1>
-        <p class="card__desc">
-          A full rewrite of the editor you know — files, folders, Blocks, and an
-          Omnibar — built for the way front-end work actually happens now.
-        </p>
-        <footer class="card__meta">
-          <time datetime="2026-06-12">July 21, 2026</time>
-          <span aria-hidden="true">·</span>
-          <span>Chris Coyier</span>
-        </footer>
-      </div>
-    </a>
-  </body>
-</html>
+{
+  "selectedYear": 1,
+  "years": [
+    {
+      "year": 1,
+      "goal": "법체계 계량 인프라 구축 (측정 기반)",
+      "checkpoint": "법령 코퍼스 v1 + 조문 네트워크 v1 + 복잡성 지표 v1",
+      "quarters": [
+        {
+          "q": 1,
+          "plan": "연구대상 범위 확정, 법률·시행령·시행규칙 수집·정제 파이프라인 설계, 조문 식별자 및 개정 연혁 메타데이터 구조화",
+          "output": "기반 구축",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        },
+        {
+          "q": 2,
+          "plan": "준용·인용, 위임, 예외, 정의 참조 추출 규칙 개발 및 표본 품질검증",
+          "output": "네트워크 v1",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        },
+        {
+          "q": 3,
+          "plan": "구조·상호의존·언어 복잡성 지표 산출, 세목별 복잡성 지형 및 허브 조문 후보 도출",
+          "output": "지표 v1",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        },
+        {
+          "q": 4,
+          "plan": "예규·심판·판례에서 인용 조문·쟁점 키워드 추출 파일럿, 불확실성 지표 설계",
+          "output": "쟁점 레이어 v1",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        }
+      ]
+    },
+    {
+      "year": 2,
+      "goal": "개정 파급(ripple) 계량 확립 (모니터링 기반)",
+      "checkpoint": "개정 사건 DB + Amendment Ripple Index v1 + 세목별 사례연구",
+      "quarters": [
+        {
+          "q": 1,
+          "plan": "개정 사건 정의, 신·구법 매칭 테이블 구축, 개정 유형 분류 및 영향권 서브그래프 추출",
+          "output": "개정 사건 DB",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        },
+        {
+          "q": 2,
+          "plan": "정의·요건·효과 문장의 신·구 차이를 활용한 의미적 파급지표 개발",
+          "output": "의미 파급",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        },
+        {
+          "q": 3,
+          "plan": "구조·의미·실무 파급을 통합하여 Amendment Ripple Index v1 확정",
+          "output": "파급지수 v1",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        },
+        {
+          "q": 4,
+          "plan": "세목별 사례연구 확장, 정기 업데이트 주기 및 경보 임계치 초안 설정",
+          "output": "모니터링 초안",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        }
+      ]
+    },
+    {
+      "year": 3,
+      "goal": "정책도구화 및 AI 위험기반 세무행정 연계 (관리 기반)",
+      "checkpoint": "조세복잡성 레이더 + CIA 프로토콜 + AI 연계 운영 가이드",
+      "quarters": [
+        {
+          "q": 1,
+          "plan": "세목·법률·쟁점별 복잡성 추세, 취약 결합부 히트맵, 개정 파급 사건 랭킹을 제공하는 대시보드 구현",
+          "output": "레이더 구현",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        },
+        {
+          "q": 2,
+          "plan": "개정안 복잡성 영향평가(Complexity Impact Assessment) 문항·관리레버 설계 및 시나리오 테스트",
+          "output": "CIA 프로토콜",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        },
+        {
+          "q": 3,
+          "plan": "지표·임계치·프로토콜 문항 교정, 전문가 피드백 및 사용자 관점 사용성 검증",
+          "output": "현장 교정",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        },
+        {
+          "q": 4,
+          "plan": "AI 변경관리 트리거, 모델 재검증·재학습, 시스템 업데이트 및 인간 검토 운영규칙 정리",
+          "output": "전환 가이드",
+          "status": "미착수",
+          "progress": 0,
+          "actual": "",
+          "memo": ""
+        }
+      ]
+    }
+  ],
+  "pilot": {
+    "title": "부가가치세법 4주 파일럿 테스트",
+    "scope": "부가가치세법·시행령·시행규칙의 서로 다른 개정유형을 깊게 검증한 뒤, 계보규칙이 안정되면 6대 세법으로 확장",
+    "weeks": [
+      {
+        "week": 1,
+        "task": "ID·매니페스트·계보 Codebook 확정",
+        "output": "schema-0.1, codebook-1.1",
+        "criteria": "필드·코드·예외규칙 승인",
+        "status": "미착수",
+        "progress": 0,
+        "actual": "",
+        "memo": ""
+      },
+      {
+        "week": 2,
+        "task": "부가가치세법·시행령·시행규칙 연혁 재수집",
+        "output": "RAW 스냅숏·수집 매니페스트",
+        "criteria": "원문·해시·MST 대사 100%",
+        "status": "미착수",
+        "progress": 0,
+        "actual": "",
+        "memo": ""
+      },
+      {
+        "week": 3,
+        "task": "주요 개정사건 30~50건 계보 이중코딩",
+        "output": "Gold Set·불일치 목록",
+        "criteria": "원문 역추적 100%, 강제연결 0건",
+        "status": "미착수",
+        "progress": 0,
+        "actual": "",
+        "memo": ""
+      },
+      {
+        "week": 4,
+        "task": "반자동 매칭시험·릴리스 동결",
+        "output": "TRRE-DATA-0.1.0",
+        "criteria": "재실행·복구·지수 재산출 성공",
+        "status": "미착수",
+        "progress": 0,
+        "actual": "",
+        "memo": ""
+      }
+    ],
+    "cases": [
+      "문언 일부수정과 동일 조문번호 유지 사례",
+      "조문번호 이동과 편·장·절 구조변경 사례",
+      "조문 신설·삭제 사례",
+      "하나의 조문이 복수 조문으로 분할된 사례",
+      "복수 조문이 하나로 병합된 사례",
+      "타법개정 또는 법률·시행령·시행규칙 간 연계가 변한 사례"
+    ]
+  },
+  "risks": []
+}

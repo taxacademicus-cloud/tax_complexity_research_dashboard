@@ -273,6 +273,15 @@ h1{font-size:30px;letter-spacing:-.4px}
 .modal-quarter-mode .pilot-only{display:none}
 @media(max-width:650px){.update-history-item{grid-template-columns:1fr}.update-history-del{justify-self:start}}
 
+
+/* ===== Preserve line breaks in research meeting records ===== */
+.meeting-card .missue,
+.meeting-card .tblock,
+.next-meeting .missue {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 </style>
 </head>
 <body>

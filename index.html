@@ -93,6 +93,46 @@ textarea{min-height:85px;resize:vertical}
 .small{font-size:12px;color:var(--muted)}
 @media(max-width:1050px){.metrics{grid-template-columns:repeat(3,1fr)}.layout{grid-template-columns:1fr}}
 @media(max-width:700px){.wrap{padding:14px}.hero{flex-direction:column}.metrics{grid-template-columns:1fr 1fr}.quarter-grid,.pilot-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+
+/* Professional research dashboard refinements */
+body{background:#eef2f6}
+.wrap{max-width:1540px;padding:28px}
+.hero{background:linear-gradient(135deg,#fff,#f7faff);border:1px solid #dfe6ee;border-radius:20px;padding:24px 26px;box-shadow:0 8px 28px rgba(31,54,88,.05)}
+h1{font-size:30px;letter-spacing:-.4px}
+.notice{border-left:4px solid var(--accent);background:#f8fbff}
+.metric,.panel{box-shadow:0 5px 18px rgba(31,54,88,.04)}
+.tabs{border-bottom:1px solid var(--line);padding-bottom:12px}
+.tab{border:1px solid #e1e6ed}
+.qcard{background:#fff;box-shadow:0 3px 10px rgba(31,54,88,.035)}
+.pilot-section{margin-top:24px}
+.pilot-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0 16px}
+.pilot-kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
+.pilot-kpi .klabel{font-size:11px;color:var(--muted)}
+.pilot-kpi .kvalue{font-size:20px;font-weight:800;margin-top:5px}
+.timeline{position:relative;margin-top:10px;padding-left:26px}
+.timeline:before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:#d8e1ec}
+.trow{position:relative;margin-bottom:14px}
+.trow:before{content:"";position:absolute;left:-22px;top:17px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--accent)}
+.tcard{border:1px solid #dfe6ee;border-radius:14px;background:#fff;padding:14px 15px;box-shadow:0 3px 10px rgba(31,54,88,.035)}
+.thead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.tweek{font-size:15px;font-weight:800}
+.tmeta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{display:inline-flex;padding:4px 8px;border-radius:999px;background:#f0f4f8;color:#52606d;font-size:11px;font-weight:700}
+.tgrid{display:grid;grid-template-columns:1.4fr .9fr;gap:14px;margin-top:10px}
+.tblock{font-size:12px;line-height:1.6}
+.tblock b{display:block;color:#344054;margin-bottom:3px}
+.criteria-list{display:grid;gap:7px;margin-top:10px}
+.criterion{display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e6ebf0;border-radius:9px;padding:8px 10px;font-size:12px}
+.criterion input{width:16px;height:16px;accent-color:var(--accent)}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.statbox{background:#f8fafc;border:1px solid #e5e7eb;border-radius:9px;padding:9px}
+.statbox .slabel{font-size:10px;color:var(--muted)}
+.statbox .sval{font-size:15px;font-weight:800;margin-top:3px}
+.section-caption{font-size:12px;color:var(--muted);margin-top:-6px;margin-bottom:12px}
+.health-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.health-good{background:#16a34a}.health-warn{background:#d97706}.health-off{background:#94a3b8}
+@media(max-width:900px){.pilot-summary{grid-template-columns:repeat(2,1fr)}.tgrid{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(2,1fr)}}
+
 </style>
 </head>
 <body>
@@ -192,6 +232,11 @@ textarea{min-height:85px;resize:vertical}
         <div class="field"><label>진행률 (%)</label><input id="qProgress" type="number" min="0" max="100"></div>
         <div class="field full"><label>실제 수행내용</label><textarea id="qActual"></textarea></div>
         <div class="field full"><label>메모 / 다음 할 일</label><textarea id="qMemo"></textarea></div>
+        <div class="field"><label>담당자</label><input id="qOwner"></div>
+        <div class="field"><label>기간</label><input id="qPeriod" placeholder="예: 2026.09.08~09.14"></div>
+        <div class="field"><label>처리 건수</label><input id="qCaseDone" type="number" min="0"></div>
+        <div class="field"><label>오류/불일치 건수</label><input id="qErrorCount" type="number" min="0"></div>
+        <div class="field"><label>검토대기 건수</label><input id="qPendingCount" type="number" min="0"></div>
       </div>
       <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelQuarter">취소</button><button type="submit" class="btn-primary">저장</button></div>
     </form>
@@ -245,10 +290,10 @@ function makeInitial(){
       title:"부가가치세법 4주 파일럿 테스트",
       scope:"부가가치세법·시행령·시행규칙의 서로 다른 개정유형을 깊게 검증한 뒤, 계보규칙이 안정되면 6대 세법으로 확장",
       weeks:[
-        {week:1, task:"ID·매니페스트·계보 Codebook 확정", output:"schema-0.1, codebook-1.1", criteria:"필드·코드·예외규칙 승인", status:"미착수", progress:0, actual:"", memo:""},
-        {week:2, task:"부가가치세법·시행령·시행규칙 연혁 재수집", output:"RAW 스냅숏·수집 매니페스트", criteria:"원문·해시·MST 대사 100%", status:"미착수", progress:0, actual:"", memo:""},
-        {week:3, task:"주요 개정사건 30~50건 계보 이중코딩", output:"Gold Set·불일치 목록", criteria:"원문 역추적 100%, 강제연결 0건", status:"미착수", progress:0, actual:"", memo:""},
-        {week:4, task:"반자동 매칭시험·릴리스 동결", output:"TRRE-DATA-0.1.0", criteria:"재실행·복구·지수 재산출 성공", status:"미착수", progress:0, actual:"", memo:""}
+        {week:1, task:"ID·매니페스트·계보 Codebook 확정", output:"schema-0.1, codebook-1.1", criteria:"필드·코드·예외규칙 승인", criteriaItems:["필드 사전 승인","계보 코드 승인","예외규칙 승인"], criteriaChecks:[false,false,false], owner:"", period:"", caseTarget:"-", caseDone:0, errorCount:0, pendingCount:0, status:"미착수", progress:0, actual:"", memo:""},
+        {week:2, task:"부가가치세법·시행령·시행규칙 연혁 재수집", output:"RAW 스냅숏·수집 매니페스트", criteria:"원문·해시·MST 대사 100%", criteriaItems:["원문 수집 완료","SHA-256 검증 100%","MST 대사 100%"], criteriaChecks:[false,false,false], owner:"", period:"", caseTarget:"전체 연혁", caseDone:0, errorCount:0, pendingCount:0, status:"미착수", progress:0, actual:"", memo:""},
+        {week:3, task:"주요 개정사건 30~50건 계보 이중코딩", output:"Gold Set·불일치 목록", criteria:"원문 역추적 100%, 강제연결 0건", criteriaItems:["30~50건 이중코딩","원문 역추적 100%","강제연결 0건","불일치 사례 검토"], criteriaChecks:[false,false,false,false], owner:"", period:"", caseTarget:"30~50건", caseDone:0, errorCount:0, pendingCount:0, status:"미착수", progress:0, actual:"", memo:""},
+        {week:4, task:"반자동 매칭시험·릴리스 동결", output:"TRRE-DATA-0.1.0", criteria:"재실행·복구·지수 재산출 성공", criteriaItems:["반자동 매칭 재실행 성공","복구시험 성공","지수 재산출 성공","TRRE-DATA-0.1.0 릴리스 동결"], criteriaChecks:[false,false,false,false], owner:"", period:"", caseTarget:"통합 검증", caseDone:0, errorCount:0, pendingCount:0, status:"미착수", progress:0, actual:"", memo:""}
       ],
       cases:[
         "문언 일부수정과 동일 조문번호 유지 사례",
@@ -257,7 +302,8 @@ function makeInitial(){
         "하나의 조문이 복수 조문으로 분할된 사례",
         "복수 조문이 하나로 병합된 사례",
         "타법개정 또는 법률·시행령·시행규칙 간 연계가 변한 사례"
-      ]
+      ],
+      gates:{traceability:false,integrity:false,identifier:false,lineage:false,reproducibility:false}
     },
     risks:[]
   };
@@ -266,8 +312,17 @@ function makeInitial(){
 let data=load();
 if(!data.pilot){
   data.pilot=makeInitial().pilot;
-  localStorage.setItem(KEY,JSON.stringify(data));
+}else{
+  const fresh=makeInitial().pilot;
+  data.pilot.gates=data.pilot.gates||fresh.gates;
+  data.pilot.weeks=data.pilot.weeks.map((w,i)=>({
+    ...fresh.weeks[i],
+    ...w,
+    criteriaItems:w.criteriaItems||fresh.weeks[i].criteriaItems,
+    criteriaChecks:w.criteriaChecks||fresh.weeks[i].criteriaChecks
+  }));
 }
+localStorage.setItem(KEY,JSON.stringify(data));
 let editing=null;
 
 function load(){
@@ -312,11 +367,27 @@ function renderYear(){
    ${y.year===1 ? renderPilotHtml() : ""}`;
   document.querySelectorAll(".edit-q").forEach(b=>b.addEventListener("click",()=>openQuarter(Number(b.dataset.year),Number(b.dataset.q))));
   document.querySelectorAll(".edit-pilot").forEach(b=>b.addEventListener("click",()=>openPilot(Number(b.dataset.week))));
+  document.querySelectorAll(".criterion-check").forEach(c=>c.addEventListener("change",()=>{
+    const w=data.pilot.weeks.find(x=>x.week===Number(c.dataset.week));
+    if(!w.criteriaChecks) w.criteriaChecks=(w.criteriaItems||[w.criteria]).map(()=>false);
+    w.criteriaChecks[Number(c.dataset.idx)]=c.checked;
+    save(); render();
+  }));
+  document.querySelectorAll(".gate-btn").forEach(b=>b.addEventListener("click",()=>{
+    if(!data.pilot.gates) data.pilot.gates={};
+    data.pilot.gates[b.dataset.gate]=!data.pilot.gates[b.dataset.gate];
+    save(); render();
+  }));
 }
 
 function renderPilotHtml(){
   const p=data.pilot;
   const avg=Math.round(p.weeks.reduce((s,w)=>s+Number(w.progress||0),0)/p.weeks.length);
+  const completed=p.weeks.filter(w=>w.status==="완료").length;
+  const active=p.weeks.filter(w=>w.status==="진행중").length;
+  const criteriaTotal=p.weeks.reduce((s,w)=>s+(w.criteriaChecks?.length||1),0);
+  const criteriaDone=p.weeks.reduce((s,w)=>s+(w.criteriaChecks?.filter(Boolean).length||0),0);
+
   return `
     <div class="pilot-section">
       <div class="pilot-head">
@@ -324,28 +395,93 @@ function renderPilotHtml(){
           <div class="pilot-title">파일럿 테스트 · ${esc(p.title)}</div>
           <div class="pilot-sub">${esc(p.scope)}</div>
         </div>
-        <div class="small"><b>파일럿 진행률 ${avg}%</b></div>
+        <div class="small"><span class="health-dot ${avg>=80?'health-good':avg>=40?'health-warn':'health-off'}"></span><b>파일럿 진행률 ${avg}%</b></div>
       </div>
-      <div class="pilot-grid">
+
+      <div class="pilot-summary">
+        <div class="pilot-kpi"><div class="klabel">파일럿 진행률</div><div class="kvalue">${avg}%</div></div>
+        <div class="pilot-kpi"><div class="klabel">완료 주차</div><div class="kvalue">${completed}/4</div></div>
+        <div class="pilot-kpi"><div class="klabel">진행 중</div><div class="kvalue">${active}</div></div>
+        <div class="pilot-kpi"><div class="klabel">통과기준 달성</div><div class="kvalue">${criteriaDone}/${criteriaTotal}</div></div>
+      </div>
+
+      <div class="timeline">
         ${p.weeks.map(w=>`
-          <article class="pilot-card">
-            <div class="qtop"><div class="pilot-week">${w.week}주차</div><span class="badge ${w.status}">${w.status}</span></div>
-            <div class="pilot-task"><b>핵심과업:</b> ${esc(w.task)}</div>
-            <div class="output"><b>산출물:</b> ${esc(w.output)}</div>
-            <div class="criteria"><b>통과기준:</b> ${esc(w.criteria)}</div>
-            <div class="progress"><span style="width:${Math.max(0,Math.min(100,Number(w.progress)||0))}%"></span></div>
-            <div class="small" style="margin-top:6px">진행률 ${Number(w.progress)||0}%</div>
-            ${w.actual?`<div class="qcontent"><b>실제 수행:</b> ${esc(w.actual)}</div>`:""}
-            ${w.memo?`<div class="output"><b>메모:</b> ${esc(w.memo)}</div>`:""}
-            <div class="qactions"><button class="btn-soft edit-pilot" data-week="${w.week}">수정</button></div>
-          </article>`).join("")}
+          <div class="trow">
+            <div class="tcard">
+              <div class="thead">
+                <div>
+                  <div class="tweek">${w.week}주차 · ${esc(w.task)}</div>
+                  <div class="tmeta">
+                    <span class="badge ${w.status}">${w.status}</span>
+                    <span class="chip">산출물 ${esc(w.output)}</span>
+                    <span class="chip">진행률 ${Number(w.progress)||0}%</span>
+                    ${w.owner?`<span class="chip">담당 ${esc(w.owner)}</span>`:""}
+                    ${w.period?`<span class="chip">${esc(w.period)}</span>`:""}
+                  </div>
+                </div>
+                <button class="btn-soft edit-pilot" data-week="${w.week}">수정</button>
+              </div>
+
+              <div class="progress"><span style="width:${Math.max(0,Math.min(100,Number(w.progress)||0))}%"></span></div>
+
+              <div class="tgrid">
+                <div class="tblock">
+                  <b>실제 수행 내용</b>
+                  ${w.actual ? esc(w.actual) : "아직 입력된 수행내용이 없습니다."}
+                  ${w.memo?`<div style="margin-top:8px"><b>다음 할 일 / 메모</b>${esc(w.memo)}</div>`:""}
+                </div>
+                <div class="tblock">
+                  <b>통과기준</b>
+                  <div class="criteria-list">
+                    ${(w.criteriaItems||[w.criteria]).map((c,idx)=>`
+                      <label class="criterion">
+                        <input type="checkbox" class="criterion-check" data-week="${w.week}" data-idx="${idx}" ${w.criteriaChecks?.[idx]?"checked":""}>
+                        <span>${esc(c)}</span>
+                      </label>`).join("")}
+                  </div>
+                </div>
+              </div>
+
+              <div class="stat-row">
+                <div class="statbox"><div class="slabel">대상 사건</div><div class="sval">${w.caseTarget||"-"}</div></div>
+                <div class="statbox"><div class="slabel">처리 건수</div><div class="sval">${w.caseDone||0}</div></div>
+                <div class="statbox"><div class="slabel">오류/불일치</div><div class="sval">${w.errorCount||0}</div></div>
+                <div class="statbox"><div class="slabel">검토대기</div><div class="sval">${w.pendingCount||0}</div></div>
+              </div>
+            </div>
+          </div>`).join("")}
       </div>
+
       <div class="case-box">
         <b>파일럿 사건 구성</b>
         <ol>${p.cases.map(c=>`<li>${esc(c)}</li>`).join("")}</ol>
       </div>
+
+      <div style="margin-top:16px">
+        <div class="year-title" style="font-size:16px">파일럿 완료 게이트</div>
+        <div class="section-caption">아래 핵심 검증을 통과하면 6대 세법 확장 단계로 넘어가는 구조입니다.</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>검증영역</th><th>완료 기준</th><th>상태</th></tr></thead>
+            <tbody>
+              <tr><td><b>원문 추적</b></td><td>모든 정제 레코드가 source_snapshot_id로 연결</td><td>${gateBadge("traceability")}</td></tr>
+              <tr><td><b>무결성</b></td><td>원문과 매니페스트 SHA-256 일치율 100%</td><td>${gateBadge("integrity")}</td></tr>
+              <tr><td><b>식별자</b></td><td>모든 조문 버전이 위치 ID·영구 ID·버전 ID 보유</td><td>${gateBadge("identifier")}</td></tr>
+              <tr><td><b>계보</b></td><td>분할·병합 포함 계보관계 표현, 순환관계 없음</td><td>${gateBadge("lineage")}</td></tr>
+              <tr><td><b>재현성</b></td><td>동일 릴리스 매니페스트로 지수·네트워크 재산출 가능</td><td>${gateBadge("reproducibility")}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>`;
 }
+
+function gateBadge(key){
+  const ok=data.pilot.gates?.[key];
+  return `<button class="${ok?'btn-primary':'btn-ghost'} gate-btn" data-gate="${key}" style="padding:6px 9px;font-size:11px">${ok?'완료':'미완료'}</button>`;
+}
+
 function renderRisks(){
   const el=document.getElementById("riskList");
   if(!data.risks.length){el.innerHTML='<div class="empty">등록된 이슈/리스크가 없습니다.</div>';return;}
@@ -367,6 +503,11 @@ function openQuarter(year,qnum){
   document.getElementById("qProgress").value=q.progress;
   document.getElementById("qActual").value=q.actual||"";
   document.getElementById("qMemo").value=q.memo||"";
+  document.getElementById("qOwner").value="";
+  document.getElementById("qPeriod").value="";
+  document.getElementById("qCaseDone").value=0;
+  document.getElementById("qErrorCount").value=0;
+  document.getElementById("qPendingCount").value=0;
   document.getElementById("quarterModal").classList.add("show");
 }
 function openPilot(week){
@@ -376,6 +517,11 @@ function openPilot(week){
   document.getElementById("qProgress").value=q.progress;
   document.getElementById("qActual").value=q.actual||"";
   document.getElementById("qMemo").value=q.memo||"";
+  document.getElementById("qOwner").value=q.owner||"";
+  document.getElementById("qPeriod").value=q.period||"";
+  document.getElementById("qCaseDone").value=Number(q.caseDone)||0;
+  document.getElementById("qErrorCount").value=Number(q.errorCount)||0;
+  document.getElementById("qPendingCount").value=Number(q.pendingCount)||0;
   document.getElementById("quarterModal").classList.add("show");
 }
 function closeQuarter(){document.getElementById("quarterModal").classList.remove("show");}
@@ -391,6 +537,13 @@ document.getElementById("quarterForm").addEventListener("submit",e=>{
   q.progress=Math.max(0,Math.min(100,Number(document.getElementById("qProgress").value)||0));
   q.actual=document.getElementById("qActual").value.trim();
   q.memo=document.getElementById("qMemo").value.trim();
+  if(editing.type==="pilot"){
+    q.owner=document.getElementById("qOwner").value.trim();
+    q.period=document.getElementById("qPeriod").value.trim();
+    q.caseDone=Math.max(0,Number(document.getElementById("qCaseDone").value)||0);
+    q.errorCount=Math.max(0,Number(document.getElementById("qErrorCount").value)||0);
+    q.pendingCount=Math.max(0,Number(document.getElementById("qPendingCount").value)||0);
+  }
   save();closeQuarter();render();
 });
 document.getElementById("closeQuarter").onclick=closeQuarter;

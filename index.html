@@ -133,6 +133,15 @@ h1{font-size:30px;letter-spacing:-.4px}
 .health-good{background:#16a34a}.health-warn{background:#d97706}.health-off{background:#94a3b8}
 @media(max-width:900px){.pilot-summary{grid-template-columns:repeat(2,1fr)}.tgrid{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(2,1fr)}}
 
+
+/* ===== Main page split: overview / pilot ===== */
+.page-nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.page-tab{background:#f0f2f5;color:#4b5563;border:1px solid #e1e6ed}
+.page-tab.active{background:var(--accent);color:#fff}
+.main-page{display:none}
+.main-page.active{display:block}
+#pilotPage .pilot-section{margin-top:0;padding-top:0;border-top:0}
+
 </style>
 </head>
 <body>
@@ -143,6 +152,8 @@ h1{font-size:30px;letter-spacing:-.4px}
       <div class="subtitle">
         법령 네트워크와 개정 파급(ripple) 계량을 통한 AI 기반 위험기반 세무행정 전환 지원<br>
         연구기간: 2026.06.01 ~ 2029.05.31
+<br>
+        연구자: PI_ M. Kang | SR_ H. Jo
       </div>
     </div>
     <div class="top-actions">
@@ -152,6 +163,12 @@ h1{font-size:30px;letter-spacing:-.4px}
     </div>
   </div>
 
+  <div class="page-nav">
+    <button class="page-tab active" data-page="overview">전체 연구현황</button>
+    <button class="page-tab" data-page="pilot">파일럿 테스트</button>
+  </div>
+
+  <div id="overviewPage" class="main-page active">
   <div class="notice">각 분기의 <b>수정</b> 버튼을 눌러 진행률, 상태, 실제 수행내용, 메모를 직접 바꿀 수 있습니다. 입력 내용은 브라우저에 자동 저장됩니다.</div>
 
   <section class="metrics">
@@ -219,6 +236,13 @@ h1{font-size:30px;letter-spacing:-.4px}
       </section>
     </aside>
   </div>
+  </div>
+
+  <div id="pilotPage" class="main-page">
+    <section class="panel">
+      <div id="pilotPageView"></div>
+    </section>
+  </div>
 </div>
 
 <div class="modal-bg" id="quarterModal">
@@ -285,6 +309,7 @@ const baseYears = [
 function makeInitial(){
   return {
     selectedYear:1,
+    selectedPage:"overview",
     years:baseYears.map(y=>({...y, quarters:y.quarters.map(q=>({...q,status:"미착수",progress:0,actual:"",memo:""}))})),
     pilot:{
       title:"부가가치세법 4주 파일럿 테스트",
@@ -310,6 +335,7 @@ function makeInitial(){
 }
 
 let data=load();
+if(!data.selectedPage) data.selectedPage="overview";
 if(!data.pilot){
   data.pilot=makeInitial().pilot;
 }else{
@@ -333,7 +359,31 @@ function save(){localStorage.setItem(KEY,JSON.stringify(data));}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
 
 function render(){
-  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs();
+  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs(); renderPilotPage(); renderPageNav();
+}
+
+function renderPageNav(){
+  document.querySelectorAll(".page-tab").forEach(b=>b.classList.toggle("active",b.dataset.page===data.selectedPage));
+  document.getElementById("overviewPage").classList.toggle("active",data.selectedPage==="overview");
+  document.getElementById("pilotPage").classList.toggle("active",data.selectedPage==="pilot");
+}
+
+function renderPilotPage(){
+  const el=document.getElementById("pilotPageView");
+  if(!el) return;
+  el.innerHTML=renderPilotHtml();
+  document.querySelectorAll(".edit-pilot").forEach(b=>b.addEventListener("click",()=>openPilot(Number(b.dataset.week))));
+  document.querySelectorAll(".criterion-check").forEach(c=>c.addEventListener("change",()=>{
+    const w=data.pilot.weeks.find(x=>x.week===Number(c.dataset.week));
+    if(!w.criteriaChecks) w.criteriaChecks=(w.criteriaItems||[w.criteria]).map(()=>false);
+    w.criteriaChecks[Number(c.dataset.idx)]=c.checked;
+    save(); render();
+  }));
+  document.querySelectorAll(".gate-btn").forEach(b=>b.addEventListener("click",()=>{
+    if(!data.pilot.gates) data.pilot.gates={};
+    data.pilot.gates[b.dataset.gate]=!data.pilot.gates[b.dataset.gate];
+    save(); render();
+  }));
 }
 function renderMetrics(){
   const qs=data.years.flatMap(y=>y.quarters);
@@ -363,21 +413,8 @@ function renderYear(){
       ${q.memo?`<div class="output"><b>메모:</b> ${esc(q.memo)}</div>`:""}
       <div class="qactions"><button class="btn-soft edit-q" data-year="${y.year}" data-q="${q.q}">수정</button></div>
     </article>`).join("")}
-   </div>
-   ${y.year===1 ? renderPilotHtml() : ""}`;
+   </div>`;
   document.querySelectorAll(".edit-q").forEach(b=>b.addEventListener("click",()=>openQuarter(Number(b.dataset.year),Number(b.dataset.q))));
-  document.querySelectorAll(".edit-pilot").forEach(b=>b.addEventListener("click",()=>openPilot(Number(b.dataset.week))));
-  document.querySelectorAll(".criterion-check").forEach(c=>c.addEventListener("change",()=>{
-    const w=data.pilot.weeks.find(x=>x.week===Number(c.dataset.week));
-    if(!w.criteriaChecks) w.criteriaChecks=(w.criteriaItems||[w.criteria]).map(()=>false);
-    w.criteriaChecks[Number(c.dataset.idx)]=c.checked;
-    save(); render();
-  }));
-  document.querySelectorAll(".gate-btn").forEach(b=>b.addEventListener("click",()=>{
-    if(!data.pilot.gates) data.pilot.gates={};
-    data.pilot.gates[b.dataset.gate]=!data.pilot.gates[b.dataset.gate];
-    save(); render();
-  }));
 }
 
 function renderPilotHtml(){
@@ -550,6 +587,13 @@ document.getElementById("closeQuarter").onclick=closeQuarter;
 document.getElementById("cancelQuarter").onclick=closeQuarter;
 
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{data.selectedYear=Number(b.dataset.year);save();render();}));
+
+document.querySelectorAll(".page-tab").forEach(b=>b.addEventListener("click",()=>{
+  data.selectedPage=b.dataset.page;
+  save();
+  renderPageNav();
+  window.scrollTo({top:0,behavior:"smooth"});
+}));
 
 function openRisk(){document.getElementById("riskForm").reset();document.getElementById("riskModal").classList.add("show");}
 function closeRisk(){document.getElementById("riskModal").classList.remove("show");}

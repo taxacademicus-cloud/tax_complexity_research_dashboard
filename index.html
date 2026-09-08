@@ -142,6 +142,84 @@ h1{font-size:30px;letter-spacing:-.4px}
 .main-page.active{display:block}
 #pilotPage .pilot-section{margin-top:0;padding-top:0;border-top:0}
 
+
+/* ===== Research meeting page ===== */
+.meeting-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.meeting-kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 5px 18px rgba(31,54,88,.04)}
+.meeting-kpi .klabel{font-size:12px;color:var(--muted)}
+.meeting-kpi .kvalue{font-size:22px;font-weight:800;margin-top:6px;line-height:1.35}
+.next-meeting{background:linear-gradient(135deg,#f7faff,#fff);border:1px solid #d9e4f2;border-radius:16px;padding:18px;margin-bottom:16px}
+.next-meeting-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.next-date{font-size:24px;font-weight:800;color:var(--accent);margin-top:5px}
+.meeting-list{display:grid;gap:12px}
+.meeting-card{border:1px solid var(--line);border-radius:14px;padding:15px;background:#fff;box-shadow:0 3px 10px rgba(31,54,88,.035)}
+.meeting-card.past{background:#fafafa}
+.meeting-card .mhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.meeting-card .mdate{font-size:16px;font-weight:800}
+.meeting-card .mmeta{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.meeting-card .missue{margin-top:11px;padding:10px 11px;background:#f8fafc;border:1px solid #e6ebf0;border-radius:9px;font-size:13px;line-height:1.6}
+.meeting-card .mactions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+.meeting-card .mactions button{padding:7px 9px;font-size:12px}
+.meeting-empty{padding:34px 18px;text-align:center;color:var(--muted);border:1px dashed #cfd8e3;border-radius:14px;background:#fbfcfe}
+@media(max-width:900px){.meeting-summary{grid-template-columns:repeat(2,1fr)}}
+
+
+/* ===== Pilot Pre-test record ===== */
+.pretest-section{margin-bottom:18px}
+.pretest-hero{background:linear-gradient(135deg,#f5f9ff,#ffffff);border:1px solid #cfddec;border-radius:16px;padding:18px;box-shadow:0 5px 18px rgba(31,54,88,.04)}
+.pretest-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.pretest-title{font-size:19px;font-weight:800}
+.pretest-sub{font-size:12px;color:var(--muted);line-height:1.6;margin-top:5px}
+.pretest-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#e7f5ec;color:#166534;font-size:11px;font-weight:800;white-space:nowrap}
+.pretest-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.pretest-kpi{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.pretest-kpi .pk-label{font-size:10px;color:var(--muted)}
+.pretest-kpi .pk-value{font-size:19px;font-weight:800;margin-top:5px}
+.pretest-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:14px}
+.pretest-box{border:1px solid var(--line);border-radius:13px;background:#fff;padding:14px}
+.pretest-box h3{font-size:14px;margin:0 0 10px}
+.pretest-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:stretch}
+.pretest-step{position:relative;background:#f8fafc;border:1px solid #e5eaf0;border-radius:10px;padding:10px;font-size:11px;line-height:1.5}
+.pretest-step b{display:block;font-size:12px;margin-bottom:3px;color:#344054}
+.pretest-step:not(:last-child):after{content:"→";position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-weight:800;color:#8aa4c7;z-index:2}
+.pretest-note{font-size:12px;line-height:1.7;color:#475467}
+.pretest-note div{padding:7px 0;border-bottom:1px solid #edf0f3}
+.pretest-note div:last-child{border-bottom:0}
+.pretest-table table{min-width:650px}
+.pretest-status{font-weight:800;color:#166534}
+.pretest-divider{display:flex;align-items:center;gap:10px;margin:18px 0 14px}
+.pretest-divider:before,.pretest-divider:after{content:"";height:1px;background:var(--line);flex:1}
+.pretest-divider span{font-size:11px;color:var(--muted);font-weight:800;letter-spacing:.3px}
+@media(max-width:900px){.pretest-kpis{grid-template-columns:repeat(2,1fr)}.pretest-grid{grid-template-columns:1fr}.pretest-flow{grid-template-columns:1fr 1fr}.pretest-step:not(:last-child):after{display:none}}
+@media(max-width:600px){.pretest-head{flex-direction:column}.pretest-kpis,.pretest-flow{grid-template-columns:1fr}}
+
+
+/* ===== Codebook page ===== */
+.cb-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.cb-kpi{background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px;box-shadow:0 5px 18px rgba(31,54,88,.04)}
+.cb-kpi .clabel{font-size:11px;color:var(--muted)}
+.cb-kpi .cvalue{font-size:21px;font-weight:800;margin-top:6px}
+.cb-current{background:linear-gradient(135deg,#f6faff,#fff);border:1px solid #d6e2f0;border-radius:16px;padding:18px;margin-bottom:16px}
+.cb-current-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.cb-version{font-size:26px;font-weight:800;color:var(--accent);margin-top:4px}
+.cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cb-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px}
+.cb-card h3{margin:0 0 9px;font-size:15px}
+.cb-card p{margin:0;color:#475467;font-size:12px;line-height:1.7}
+.cb-relations{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.cb-rel{border:1px solid #e3e9f0;background:#fafcfe;border-radius:11px;padding:11px}
+.cb-rel b{font-size:12px;color:#244f87}
+.cb-rel div{font-size:11px;color:#667085;line-height:1.55;margin-top:4px}
+.cb-version-list{display:grid;gap:9px}
+.cb-version-row{display:grid;grid-template-columns:120px 110px 100px 1fr auto;gap:9px;align-items:center;border:1px solid #e5e7eb;border-radius:11px;padding:10px;background:#fff}
+.cb-status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800}
+.cb-status.current{background:#e7f5ec;color:#166534}.cb-status.draft{background:#fff4d6;color:#8a5a00}.cb-status.archived{background:#edf0f3;color:#586170}
+.cb-rule-table table{min-width:780px}
+.cb-priority{padding:11px 12px;border-left:4px solid var(--accent);background:#f7faff;border-radius:9px;font-size:12px;line-height:1.7}
+.cb-open-item{padding:10px 11px;border:1px solid #f0dfb7;background:#fffaf0;border-radius:9px;font-size:12px;line-height:1.6;margin-bottom:8px}
+@media(max-width:1000px){.cb-summary{grid-template-columns:repeat(2,1fr)}.cb-grid{grid-template-columns:1fr}.cb-version-row{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.cb-summary{grid-template-columns:1fr 1fr}.cb-relations{grid-template-columns:1fr}.cb-version-row{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -165,7 +243,9 @@ h1{font-size:30px;letter-spacing:-.4px}
 
   <div class="page-nav">
     <button class="page-tab active" data-page="overview">전체 연구현황</button>
+    <button class="page-tab" data-page="meetings">연구미팅</button>
     <button class="page-tab" data-page="pilot">파일럿 테스트</button>
+    <button class="page-tab" data-page="codebook">코드북</button>
   </div>
 
   <div id="overviewPage" class="main-page active">
@@ -238,10 +318,130 @@ h1{font-size:30px;letter-spacing:-.4px}
   </div>
   </div>
 
+  <div id="meetingsPage" class="main-page">
+    <div class="notice">연구미팅 예정일자를 확인하고, 미팅별 참여자·수단·장소·시간·이슈 사항을 기록할 수 있습니다. 가장 가까운 예정 미팅은 자동으로 상단에 표시됩니다.</div>
+
+    <div class="meeting-summary">
+      <div class="meeting-kpi"><div class="klabel">다음 연구미팅</div><div class="kvalue" id="nextMeetingDate">미정</div></div>
+      <div class="meeting-kpi"><div class="klabel">다음 미팅 시간</div><div class="kvalue" id="nextMeetingTime">-</div></div>
+      <div class="meeting-kpi"><div class="klabel">예정 미팅</div><div class="kvalue" id="upcomingMeetingCount">0</div></div>
+      <div class="meeting-kpi"><div class="klabel">전체 미팅 기록</div><div class="kvalue" id="totalMeetingCount">0</div></div>
+    </div>
+
+    <div class="next-meeting" id="nextMeetingCard"></div>
+
+    <section class="panel">
+      <div class="year-head">
+        <div>
+          <div class="year-title">연구미팅 일정 및 기록</div>
+          <div class="year-goal">미팅일자별 참여자, 진행수단, 장소, 시간, 주요 이슈를 관리합니다.</div>
+        </div>
+        <button class="btn-primary" id="addMeetingBtn">+ 연구미팅 추가</button>
+      </div>
+      <div class="meeting-list" id="meetingList"></div>
+    </section>
+  </div>
+
   <div id="pilotPage" class="main-page">
     <section class="panel">
       <div id="pilotPageView"></div>
     </section>
+  </div>
+
+  <div id="codebookPage" class="main-page">
+    <div class="notice">코드북의 현재 버전과 변경이력을 확인하고, 조문 계보 판정·ID·Snapshot·Schema·Validation 규칙을 한 화면에서 참조할 수 있습니다.</div>
+
+    <div class="cb-summary">
+      <div class="cb-kpi"><div class="clabel">현재 Codebook 버전</div><div class="cvalue" id="cbCurrentVersion">-</div></div>
+      <div class="cb-kpi"><div class="clabel">최종 갱신일</div><div class="cvalue" id="cbUpdatedDate">-</div></div>
+      <div class="cb-kpi"><div class="clabel">Lineage 유형</div><div class="cvalue">9개</div></div>
+      <div class="cb-kpi"><div class="clabel">DB Schema</div><div class="cvalue">schema-0.1</div></div>
+    </div>
+
+    <div class="cb-current">
+      <div class="cb-current-head">
+        <div>
+          <div class="small"><b>Current Codebook</b></div>
+          <div class="cb-version" id="cbCurrentHero">-</div>
+          <div class="small" id="cbCurrentNote" style="margin-top:7px"></div>
+        </div>
+        <button class="btn-primary" id="addCodebookVersionBtn">+ 버전 등록</button>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <main>
+        <section class="panel">
+          <h2>Codebook Version History</h2>
+          <div class="section-caption">버전·적용일·상태·변경내용을 기록합니다. 현재 버전은 직접 지정할 수 있습니다.</div>
+          <div class="cb-version-list" id="cbVersionList"></div>
+        </section>
+
+        <section class="panel">
+          <h2>조문 Lineage Codebook</h2>
+          <div class="section-caption">개정 전후 조문의 계보관계를 9개 relation_type으로 판정합니다.</div>
+          <div class="cb-priority"><b>상위 판정원칙</b><br>기술적·표현상의 차이 확인 → 동일 규제단위의 연속성 확인 → 내용/위치 변화 확인 → 탄생·소멸·분할·통합·법률 간 이전 확인 → 증거가 부족하면 UNRESOLVED</div>
+          <div class="cb-relations" id="cbRelations" style="margin-top:12px"></div>
+        </section>
+
+        <section class="panel">
+          <h2>유형별 ID / Version 규칙</h2>
+          <div class="table-wrap cb-rule-table">
+            <table>
+              <thead><tr><th>관계</th><th>실제 변화</th><th>provision_id</th><th>provision_version_id</th><th>source_locator_id</th></tr></thead>
+              <tbody id="cbRuleTable"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>불변 원문 Snapshot / Observation</h2>
+          <div class="cb-grid">
+            <div class="cb-card"><h3>source_snapshot</h3><p>실제로 확보한 불변 원본 객체를 관리합니다. 동일 원문은 재사용하고 response_sha256으로 무결성을 검증하며 원본은 덮어쓰지 않습니다.</p></div>
+            <div class="cb-card"><h3>collection_observation</h3><p>API 요청·수집이라는 사건을 관리합니다. 동일 Snapshot을 반복 관찰할 수 있고, 실패한 수집도 삭제하지 않고 기록하며 실패 시 snapshot_id는 NULL이 될 수 있습니다.</p></div>
+          </div>
+        </section>
+      </main>
+
+      <aside>
+        <section class="panel">
+          <h2>식별자 체계</h2>
+          <div class="workstreams">
+            <div class="ws"><b>law_id</b><span>법률 자체의 정체성을 식별. 국가법령정보 API의 법령 식별값 사용.</span></div>
+            <div class="ws"><b>source_locator_id</b><span>law_id + MST + 조문 구조정보를 이용해 특정 법령 버전의 조문 위치를 식별.</span></div>
+            <div class="ws"><b>provision_id</b><span>개정을 넘어 추적하는 논리적 규제단위의 영구 정체성.</span></div>
+            <div class="ws"><b>provision_version_id</b><span>특정 시점의 조문 문언·위치·효력 상태를 식별.</span></div>
+            <div class="ws"><b>snapshot_id</b><span>판정의 근거가 된 불변 API 원문 객체를 식별.</span></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>최소 DB Schema · schema-0.1</h2>
+          <div class="small" style="line-height:1.75">
+            source_snapshot · collection_observation · law_version · provision_identity · provision_version · amendment_event · provision_lineage · annotation · pipeline_run · release_manifest
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Validation 핵심원칙</h2>
+          <div class="small" style="line-height:1.75">
+            · relation_type은 허용된 9개 값만 사용<br>
+            · confidence는 0~1 범위로 통제<br>
+            · 불확실한 계보는 강제 연결하지 않고 UNRESOLVED로 보존<br>
+            · 판정 근거(evidence), 방법, confidence, review status 기록<br>
+            · 원천 → 조문 → 판단 → 지표의 추적가능성 유지
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>설계 결정 확인 필요</h2>
+          <div class="cb-open-item">의미는 거의 같지만 문언이 변경된 경우 SAME/MODIFY 경계</div>
+          <div class="cb-open-item">법 전체 MST 변경만으로 provision_version_id를 새로 만들지 여부</div>
+          <div class="cb-open-item">MODIFY의 FORMAL / SUBSTANTIVE 하위 구분 여부</div>
+          <div class="cb-open-item">위치 이동과 문언 변경이 동시에 발생한 복합사례 처리</div>
+        </section>
+      </aside>
+    </div>
   </div>
 </div>
 
@@ -263,6 +463,42 @@ h1{font-size:30px;letter-spacing:-.4px}
         <div class="field"><label>검토대기 건수</label><input id="qPendingCount" type="number" min="0"></div>
       </div>
       <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelQuarter">취소</button><button type="submit" class="btn-primary">저장</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-bg" id="codebookVersionModal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="cbVersionModalTitle">Codebook 버전 등록</h3><button class="btn-ghost" id="closeCbVersion">닫기</button></div>
+    <form id="cbVersionForm">
+      <div class="form-grid">
+        <div class="field"><label>버전</label><input id="cbVersionName" placeholder="예: v0.1 / codebook-1.1" required></div>
+        <div class="field"><label>적용일</label><input id="cbVersionDate" type="date" required></div>
+        <div class="field"><label>상태</label><select id="cbVersionStatus"><option value="current">현재</option><option value="draft">초안</option><option value="archived">이전</option></select></div>
+        <div class="field"><label>승인/확정자</label><input id="cbVersionOwner" placeholder="예: PI"></div>
+        <div class="field full"><label>변경내용</label><textarea id="cbVersionChanges" placeholder="이 버전에서 변경·확정된 내용을 기록하세요."></textarea></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelCbVersion">취소</button><button type="submit" class="btn-primary">저장</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-bg" id="meetingModal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="meetingModalTitle">연구미팅 추가</h3><button class="btn-ghost" id="closeMeeting">닫기</button></div>
+    <form id="meetingForm">
+      <div class="form-grid">
+        <div class="field"><label>미팅 일자</label><input id="mDate" type="date" required></div>
+        <div class="field"><label>시간</label><input id="mTime" type="time" required></div>
+        <div class="field full"><label>참여자</label><input id="mParticipants" placeholder="예: PI_ M. Kang, SR_ H. Jo"></div>
+        <div class="field"><label>수단</label>
+          <select id="mMode"><option>온라인</option><option>오프라인</option><option>하이브리드</option></select>
+        </div>
+        <div class="field"><label>장소 / 접속수단</label><input id="mPlace" placeholder="예: 연구실 / Zoom / Teams"></div>
+        <div class="field full"><label>이슈 사항 / 논의 안건</label><textarea id="mIssues" placeholder="주요 논의 안건, 확인할 사항, 결정이 필요한 이슈 등을 입력하세요."></textarea></div>
+        <div class="field full"><label>미팅 메모 / 결정사항</label><textarea id="mNotes" placeholder="미팅 후 결정사항이나 후속 조치를 기록할 수 있습니다."></textarea></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelMeeting">취소</button><button type="submit" class="btn-primary">저장</button></div>
     </form>
   </div>
 </div>
@@ -330,12 +566,20 @@ function makeInitial(){
       ],
       gates:{traceability:false,integrity:false,identifier:false,lineage:false,reproducibility:false}
     },
+    meetings:[],
+    codebook:{
+      versions:[
+        {id:"cb_initial_20260902",version:"CB-2026.09.02",date:"2026-09-02",status:"current",owner:"",changes:"조문 Lineage Codebook 최초 확정 기록. SAME, MODIFY, RENUMBER, NEW, REPEAL, SPLIT, MERGE, TRANSFER, UNRESOLVED 판정기준을 정리."}
+      ]
+    },
     risks:[]
   };
 }
 
 let data=load();
 if(!data.selectedPage) data.selectedPage="overview";
+if(!Array.isArray(data.meetings)) data.meetings=[];
+if(!data.codebook || !Array.isArray(data.codebook.versions)) data.codebook=makeInitial().codebook;
 if(!data.pilot){
   data.pilot=makeInitial().pilot;
 }else{
@@ -359,19 +603,289 @@ function save(){localStorage.setItem(KEY,JSON.stringify(data));}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
 
 function render(){
-  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs(); renderPilotPage(); renderPageNav();
+  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs(); renderMeetings(); renderPilotPage(); renderCodebook(); renderPageNav();
 }
 
 function renderPageNav(){
   document.querySelectorAll(".page-tab").forEach(b=>b.classList.toggle("active",b.dataset.page===data.selectedPage));
   document.getElementById("overviewPage").classList.toggle("active",data.selectedPage==="overview");
+  document.getElementById("meetingsPage").classList.toggle("active",data.selectedPage==="meetings");
   document.getElementById("pilotPage").classList.toggle("active",data.selectedPage==="pilot");
+  document.getElementById("codebookPage").classList.toggle("active",data.selectedPage==="codebook");
 }
+
+
+function localDateKey(){
+  const d=new Date();
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,"0"), day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
+function meetingStamp(m){
+  return `${m.date||"9999-12-31"}T${m.time||"23:59"}`;
+}
+function prettyDate(v){
+  if(!v) return "미정";
+  const [y,m,d]=v.split("-");
+  return `${y}.${m}.${d}`;
+}
+function isUpcomingMeeting(m){
+  const now=new Date();
+  const dt=new Date(`${m.date}T${m.time||"23:59"}:00`);
+  return !Number.isNaN(dt.getTime()) && dt>=now;
+}
+function renderMeetings(){
+  const list=document.getElementById("meetingList");
+  if(!list) return;
+
+  const meetings=[...(data.meetings||[])].sort((a,b)=>meetingStamp(a).localeCompare(meetingStamp(b)));
+  const upcoming=meetings.filter(isUpcomingMeeting);
+  const next=upcoming[0];
+
+  document.getElementById("nextMeetingDate").textContent=next?prettyDate(next.date):"미정";
+  document.getElementById("nextMeetingTime").textContent=next?(next.time||"-"):"-";
+  document.getElementById("upcomingMeetingCount").textContent=upcoming.length;
+  document.getElementById("totalMeetingCount").textContent=meetings.length;
+
+  const card=document.getElementById("nextMeetingCard");
+  if(next){
+    card.innerHTML=`
+      <div class="next-meeting-head">
+        <div>
+          <div class="small"><b>다음 예정 연구미팅</b></div>
+          <div class="next-date">${prettyDate(next.date)} · ${esc(next.time||"-")}</div>
+          <div class="tmeta">
+            <span class="chip">${esc(next.mode||"")}</span>
+            ${next.place?`<span class="chip">${esc(next.place)}</span>`:""}
+            ${next.participants?`<span class="chip">참여자 ${esc(next.participants)}</span>`:""}
+          </div>
+        </div>
+        <button class="btn-soft edit-meeting" data-meeting-id="${esc(next.id)}">수정</button>
+      </div>
+      ${next.issues?`<div class="missue"><b>이슈 사항</b><br>${esc(next.issues)}</div>`:""}
+    `;
+  }else{
+    card.innerHTML=`<div class="small"><b>예정된 연구미팅이 없습니다.</b><br>아래의 ‘+ 연구미팅 추가’ 버튼으로 다음 미팅 일정을 등록하세요.</div>`;
+  }
+
+  if(!meetings.length){
+    list.innerHTML=`<div class="meeting-empty">등록된 연구미팅이 없습니다.<br>미팅 예정일자를 등록하면 이곳에서 일자별 기록을 관리할 수 있습니다.</div>`;
+  }else{
+    list.innerHTML=meetings.map(m=>{
+      const past=!isUpcomingMeeting(m);
+      return `<article class="meeting-card ${past?"past":""}">
+        <div class="mhead">
+          <div>
+            <div class="mdate">${prettyDate(m.date)} · ${esc(m.time||"-")}</div>
+            <div class="mmeta">
+              <span class="badge ${past?"완료":"진행중"}">${past?"지난 미팅":"예정"}</span>
+              <span class="chip">${esc(m.mode||"-")}</span>
+              ${m.place?`<span class="chip">${esc(m.place)}</span>`:""}
+            </div>
+          </div>
+        </div>
+        <div class="tblock" style="margin-top:11px"><b>참여자</b>${m.participants?esc(m.participants):"-"}</div>
+        <div class="missue"><b>이슈 사항 / 논의 안건</b><br>${m.issues?esc(m.issues):"등록된 이슈 사항이 없습니다."}</div>
+        ${m.notes?`<div class="tblock" style="margin-top:10px"><b>미팅 메모 / 결정사항</b>${esc(m.notes)}</div>`:""}
+        <div class="mactions">
+          <button class="btn-soft edit-meeting" data-meeting-id="${esc(m.id)}">수정</button>
+          <button class="btn-danger delete-meeting" data-meeting-id="${esc(m.id)}">삭제</button>
+        </div>
+      </article>`;
+    }).join("");
+  }
+
+  document.querySelectorAll(".edit-meeting").forEach(b=>b.addEventListener("click",()=>openMeeting(b.dataset.meetingId)));
+  document.querySelectorAll(".delete-meeting").forEach(b=>b.addEventListener("click",()=>{
+    if(confirm("이 연구미팅 기록을 삭제할까요?")){
+      data.meetings=data.meetings.filter(m=>String(m.id)!==String(b.dataset.meetingId));
+      save(); render();
+    }
+  }));
+}
+
+let editingMeetingId=null;
+function openMeeting(id=null){
+  editingMeetingId=id;
+  const m=id?data.meetings.find(x=>String(x.id)===String(id)):null;
+  document.getElementById("meetingModalTitle").textContent=m?"연구미팅 수정":"연구미팅 추가";
+  document.getElementById("mDate").value=m?.date||"";
+  document.getElementById("mTime").value=m?.time||"";
+  document.getElementById("mParticipants").value=m?.participants||"";
+  document.getElementById("mMode").value=m?.mode||"온라인";
+  document.getElementById("mPlace").value=m?.place||"";
+  document.getElementById("mIssues").value=m?.issues||"";
+  document.getElementById("mNotes").value=m?.notes||"";
+  document.getElementById("meetingModal").classList.add("show");
+}
+function closeMeeting(){document.getElementById("meetingModal").classList.remove("show");}
+
+
+function renderPreTestHtml(){
+  const laws=[
+    ["소득세법","81","중심법령 표본 수집"],
+    ["법인세법","88","중심법령 표본 수집"],
+    ["부가가치세법","91","중심법령 표본 수집"],
+    ["국세기본법","75","중심법령 표본 수집"],
+    ["상속세 및 증여세법","107","중심법령 표본 수집"],
+    ["조세특례제한법","190","중심법령 표본 수집"]
+  ];
+  return `
+    <div class="pretest-section">
+      <div class="pretest-hero">
+        <div class="pretest-head">
+          <div>
+            <div class="pretest-title">Pre-test · 파일럿 전 사전 데이터 구축 실험</div>
+            <div class="pretest-sub">
+              본격적인 부가가치세법 4주 파일럿에 앞서, 주요 세법의 중심법령을 대상으로 약 10개 조문 수준의 표본 수집·분류를 수행하고
+              API 연동 및 Workspace 데이터 흐름을 사전 검증한 기록입니다.
+            </div>
+          </div>
+          <div class="pretest-badge">✓ 사전실험 수행 완료</div>
+        </div>
+
+        <div class="pretest-kpis">
+          <div class="pretest-kpi"><div class="pk-label">사전 수집 범위</div><div class="pk-value">6개 중심법령</div></div>
+          <div class="pretest-kpi"><div class="pk-label">표본 기준</div><div class="pk-value">법령별 ~10조</div></div>
+          <div class="pretest-kpi"><div class="pk-label">Workspace 연동</div><div class="pk-value">Google Sheets</div></div>
+          <div class="pretest-kpi"><div class="pk-label">API 검증</div><div class="pk-value pretest-status">연동 성공</div></div>
+        </div>
+
+        <div class="pretest-grid">
+          <div class="pretest-box">
+            <h3>사전 구축 Workflow</h3>
+            <div class="pretest-flow">
+              <div class="pretest-step"><b>① 법령 수집</b>국가법령정보센터에서 중심법령 표본 확보</div>
+              <div class="pretest-step"><b>② 조문 분석</b>AI를 활용해 조문 및 Edge 유형 분류</div>
+              <div class="pretest-step"><b>③ Sheets 저장</b>Nodes · Legal · Concept · Issue 등 구조화</div>
+              <div class="pretest-step"><b>④ API 연동</b>변경이력 수집 및 자동 갱신 흐름 시현</div>
+            </div>
+          </div>
+          <div class="pretest-box">
+            <h3>사전실험에서 확인한 사항</h3>
+            <div class="pretest-note">
+              <div><b>데이터 구조:</b> Edges Sheets / Edges Sheets_DB / Edges Sheets_History 구조를 사전 구축</div>
+              <div><b>API:</b> 국가법령정보 공동활용 Open API 기반 제·개정 연혁 수집 흐름을 구현</div>
+              <div><b>AI API:</b> OpenAI Developers API 연동 시현을 통해 호출·토큰·비용을 사전 확인</div>
+              <div><b>후속 과제:</b> 중복 호출 최소화, 구축 기준 보완, 대량 저장·관리 구조로 확장 필요</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pretest-box pretest-table" style="margin-top:14px">
+          <h3>중심법령 표본 수집 기록</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>중심법령</th><th>당시 수집 조문 수</th><th>Pre-test 의미</th></tr></thead>
+              <tbody>
+                ${laws.map(x=>`<tr><td><b>${x[0]}</b></td><td>${x[1]}건</td><td>${x[2]}</td></tr>`).join("")}
+              </tbody>
+            </table>
+          </div>
+          <div class="small" style="margin-top:9px">
+            ※ 연구미팅 자료의 2026.08 기준 현황값을 기록한 것으로, 전체 목표 조문 수 대비 초기 표본 수집 단계의 수치입니다.
+          </div>
+        </div>
+
+        <div class="pretest-grid">
+          <div class="pretest-box">
+            <h3>분류 결과 스냅숏</h3>
+            <div class="stat-row">
+              <div class="statbox"><div class="slabel">Nodes</div><div class="sval">632</div></div>
+              <div class="statbox"><div class="slabel">Legal Edges</div><div class="sval">686</div></div>
+              <div class="statbox"><div class="slabel">Concept Edges</div><div class="sval">993</div></div>
+              <div class="statbox"><div class="slabel">Issue Edges</div><div class="sval">0</div></div>
+            </div>
+          </div>
+          <div class="pretest-box">
+            <h3>API 시현 기록</h3>
+            <div class="pretest-note">
+              <div><b>OpenAI Developers:</b> 7월 30건 요청 · 59,363 tokens · $0.06 청구 기록</div>
+              <div><b>판단:</b> 전체 조문 적용 전 표본 시현을 통해 토큰 사용량·비용을 측정하는 방식이 필요</div>
+              <div><b>파일럿 연결:</b> Pre-test 결과를 기반으로 부가가치세법 계보·식별자·재현성 중심의 4주 파일럿으로 고도화</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pretest-divider"><span>PRE-TEST 완료 · 본 파일럿 시작</span></div>
+    </div>
+  `;
+}
+
+
+function renderCodebook(){
+  const relations=[
+    ["SAME","실질적 변화 없음","동일 위치·정규화 문언 동일. MST 변경만으로 새 provision_version을 만들지 않음."],
+    ["MODIFY","내용 변경","동일 규제단위는 유지되나 문언 또는 규범적 내용이 실제 변경됨."],
+    ["RENUMBER","위치 변경","동일 규제단위가 다른 조·항·호 등 구조적 위치로 이동."],
+    ["NEW","새 규제단위 출현","기존 규제단위와 계보적 연속성이 없는 새로운 규제단위."],
+    ["REPEAL","규제단위 소멸","기존 규제단위가 종료되고 이를 승계하는 후속 규제단위가 없음."],
+    ["SPLIT","1 → N 분화","하나의 규제단위가 둘 이상의 독립 규제단위로 분화."],
+    ["MERGE","N → 1 통합","둘 이상의 규제단위가 하나의 새로운 규제단위로 통합."],
+    ["TRANSFER","법률 간 이전","동일·연속 규제단위가 다른 법률로 이전."],
+    ["UNRESOLVED","판정 보류","현재 증거만으로 다른 유형을 신뢰성 있게 확정할 수 없음."]
+  ];
+  const rules=[
+    ["SAME","변화 없음","유지","유지","새 MST 기준 신규"],
+    ["MODIFY","내용 변경","유지","신규 생성","새 MST 기준 신규"],
+    ["RENUMBER","위치 변경","유지","신규 생성","신규 생성"],
+    ["NEW","새 규제단위","신규 발급","신규 V001","신규 생성"],
+    ["REPEAL","규제단위 소멸","종료·보존","신규 생성 안 함","신규 없음"],
+    ["SPLIT","1→N","기존 종료·후속 신규","후속 각각 V001","후속 각각 신규"],
+    ["MERGE","N→1","기존 종료·후속 신규","후속 V001","통합 후 신규"],
+    ["TRANSFER","법률 간 이전","기존 종료·이전 후 신규","이전 후 V001","이전 후 법률 기준 신규"],
+    ["UNRESOLVED","확정 불가","판정 보류","계보 연결 보류","실제 위치별 생성·보존"]
+  ];
+  document.getElementById("cbRelations").innerHTML=relations.map(r=>`<div class="cb-rel"><b>${r[0]}</b><div><strong>${r[1]}</strong><br>${r[2]}</div></div>`).join("");
+  document.getElementById("cbRuleTable").innerHTML=rules.map(r=>`<tr>${r.map((c,i)=>`<td>${i===0?`<b>${c}</b>`:c}</td>`).join("")}</tr>`).join("");
+
+  const vs=[...(data.codebook?.versions||[])].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  const current=vs.find(v=>v.status==="current")||vs[0];
+  document.getElementById("cbCurrentVersion").textContent=current?.version||"미지정";
+  document.getElementById("cbUpdatedDate").textContent=current?.date?prettyDate(current.date):"-";
+  document.getElementById("cbCurrentHero").textContent=current?.version||"미지정";
+  document.getElementById("cbCurrentNote").textContent=current?`${prettyDate(current.date)} · ${current.changes||"변경내용 미입력"}`:"등록된 버전이 없습니다.";
+
+  const statusName={current:"현재",draft:"초안",archived:"이전"};
+  const list=document.getElementById("cbVersionList");
+  if(!vs.length){
+    list.innerHTML='<div class="empty">등록된 Codebook 버전이 없습니다.</div>';
+  }else{
+    list.innerHTML=vs.map(v=>`<div class="cb-version-row">
+      <div><b>${esc(v.version)}</b></div>
+      <div class="small">${prettyDate(v.date)}</div>
+      <div><span class="cb-status ${v.status}">${statusName[v.status]||v.status}</span></div>
+      <div class="small">${esc(v.changes||"")}${v.owner?`<br><b>확정:</b> ${esc(v.owner)}`:""}</div>
+      <div><button class="btn-soft edit-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">수정</button> <button class="btn-danger delete-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">삭제</button></div>
+    </div>`).join("");
+  }
+  document.querySelectorAll(".edit-cb-version").forEach(b=>b.addEventListener("click",()=>openCbVersion(b.dataset.id)));
+  document.querySelectorAll(".delete-cb-version").forEach(b=>b.addEventListener("click",()=>{
+    if(confirm("이 Codebook 버전 기록을 삭제할까요?")){
+      data.codebook.versions=data.codebook.versions.filter(v=>String(v.id)!==String(b.dataset.id));
+      save(); render();
+    }
+  }));
+}
+
+let editingCbVersionId=null;
+function openCbVersion(id=null){
+  editingCbVersionId=id;
+  const v=id?data.codebook.versions.find(x=>String(x.id)===String(id)):null;
+  document.getElementById("cbVersionModalTitle").textContent=v?"Codebook 버전 수정":"Codebook 버전 등록";
+  document.getElementById("cbVersionName").value=v?.version||"";
+  document.getElementById("cbVersionDate").value=v?.date||"";
+  document.getElementById("cbVersionStatus").value=v?.status||"draft";
+  document.getElementById("cbVersionOwner").value=v?.owner||"";
+  document.getElementById("cbVersionChanges").value=v?.changes||"";
+  document.getElementById("codebookVersionModal").classList.add("show");
+}
+function closeCbVersion(){document.getElementById("codebookVersionModal").classList.remove("show");}
 
 function renderPilotPage(){
   const el=document.getElementById("pilotPageView");
   if(!el) return;
-  el.innerHTML=renderPilotHtml();
+  el.innerHTML=renderPreTestHtml()+renderPilotHtml();
   document.querySelectorAll(".edit-pilot").forEach(b=>b.addEventListener("click",()=>openPilot(Number(b.dataset.week))));
   document.querySelectorAll(".criterion-check").forEach(c=>c.addEventListener("change",()=>{
     const w=data.pilot.weeks.find(x=>x.week===Number(c.dataset.week));
@@ -594,6 +1108,58 @@ document.querySelectorAll(".page-tab").forEach(b=>b.addEventListener("click",()=
   renderPageNav();
   window.scrollTo({top:0,behavior:"smooth"});
 }));
+
+
+
+document.getElementById("addCodebookVersionBtn").onclick=()=>openCbVersion();
+document.getElementById("closeCbVersion").onclick=closeCbVersion;
+document.getElementById("cancelCbVersion").onclick=closeCbVersion;
+document.getElementById("cbVersionForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const status=document.getElementById("cbVersionStatus").value;
+  const payload={
+    id:editingCbVersionId||("cb_"+Date.now()),
+    version:document.getElementById("cbVersionName").value.trim(),
+    date:document.getElementById("cbVersionDate").value,
+    status,
+    owner:document.getElementById("cbVersionOwner").value.trim(),
+    changes:document.getElementById("cbVersionChanges").value.trim()
+  };
+  if(status==="current"){
+    data.codebook.versions.forEach(v=>{if(String(v.id)!==String(editingCbVersionId))v.status="archived";});
+  }
+  if(editingCbVersionId){
+    const idx=data.codebook.versions.findIndex(v=>String(v.id)===String(editingCbVersionId));
+    if(idx>=0)data.codebook.versions[idx]=payload;
+  }else{
+    data.codebook.versions.push(payload);
+  }
+  save();closeCbVersion();render();
+});
+
+document.getElementById("addMeetingBtn").onclick=()=>openMeeting();
+document.getElementById("closeMeeting").onclick=closeMeeting;
+document.getElementById("cancelMeeting").onclick=closeMeeting;
+document.getElementById("meetingForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const payload={
+    id: editingMeetingId || ("m_"+Date.now()),
+    date: document.getElementById("mDate").value,
+    time: document.getElementById("mTime").value,
+    participants: document.getElementById("mParticipants").value.trim(),
+    mode: document.getElementById("mMode").value,
+    place: document.getElementById("mPlace").value.trim(),
+    issues: document.getElementById("mIssues").value.trim(),
+    notes: document.getElementById("mNotes").value.trim()
+  };
+  if(editingMeetingId){
+    const idx=data.meetings.findIndex(x=>String(x.id)===String(editingMeetingId));
+    if(idx>=0) data.meetings[idx]=payload;
+  }else{
+    data.meetings.push(payload);
+  }
+  save(); closeMeeting(); render();
+});
 
 function openRisk(){document.getElementById("riskForm").reset();document.getElementById("riskModal").classList.add("show");}
 function closeRisk(){document.getElementById("riskModal").classList.remove("show");}

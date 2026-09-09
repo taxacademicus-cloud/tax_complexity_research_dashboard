@@ -1950,7 +1950,7 @@ if(!configured){
           });
           auditHistory=history;
           remoteExists=true;
-          lastRemotePayload=payload;
+          lastRemotePayload=JSON.parse(JSON.stringify(payload));
         } else {
           const patch={
             updatedAt:serverTimestamp(),
@@ -1976,10 +1976,10 @@ if(!configured){
 
           if(changed>0 || changeEntry){
             await updateDoc(stateRef,patch);
-            lastRemotePayload=payload;
+            lastRemotePayload=JSON.parse(JSON.stringify(payload));
           }
         }
-        status("online","실시간 동기화",currentUid);
+        status("online","저장 완료 · 실시간 동기화",currentUid);
       }catch(err){
         console.error("Firebase write error:",err);
         status("error","저장 오류 · "+(err.code||err.message||"unknown"),currentUid);
@@ -2015,8 +2015,9 @@ if(!configured){
           }));
           const remote=firstData.payload;
           if(remote && typeof remote==="object"){
-            lastRemotePayload=remote;
-            window.dispatchEvent(new CustomEvent("firebase-remote-state",{detail:remote}));
+            const remoteCopy=JSON.parse(JSON.stringify(remote));
+            lastRemotePayload=JSON.parse(JSON.stringify(remoteCopy));
+            window.dispatchEvent(new CustomEvent("firebase-remote-state",{detail:remoteCopy}));
           }
         }
 
@@ -2037,8 +2038,9 @@ if(!configured){
           }));
           const remote=snapData.payload;
           if(remote && typeof remote==="object"){
-            lastRemotePayload=remote;
-            window.dispatchEvent(new CustomEvent("firebase-remote-state",{detail:remote}));
+            const remoteCopy=JSON.parse(JSON.stringify(remote));
+            lastRemotePayload=JSON.parse(JSON.stringify(remoteCopy));
+            window.dispatchEvent(new CustomEvent("firebase-remote-state",{detail:remoteCopy}));
           }
           status("online",snap.metadata.fromCache?"동기화됨 · 캐시":"실시간 동기화",currentUid);
         },err=>{

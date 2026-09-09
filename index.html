@@ -317,13 +317,13 @@ h1{font-size:30px;letter-spacing:-.4px}
 .sync-worker{font-size:9px;color:#7b8794;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 
-/* ===== Collaboration metadata & change history ===== */
+/* ===== Stable collaboration metadata ===== */
 .collab-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:6px;justify-content:flex-end}
 .worker-chip,.last-edit-chip{font-size:9px;color:#607080;background:#fff;border:1px solid #dbe3ec;border-radius:999px;padding:5px 8px}
 .worker-chip button{border:0;background:transparent;color:#2f5c9d;font-weight:800;cursor:pointer;padding:0;margin-left:4px;font-size:9px}
 .history-list{display:grid;gap:8px;max-height:420px;overflow:auto}
 .history-item{border:1px solid var(--line);border-radius:11px;padding:10px;background:#fbfcfe}
-.history-item .h-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.history-item .h-top{display:flex;justify-content:space-between;gap:10px}
 .history-item .h-actor{font-size:11px;font-weight:800;color:#244f8f}
 .history-item .h-time{font-size:10px;color:var(--muted);white-space:nowrap}
 .history-item .h-section{font-size:12px;font-weight:800;margin-top:5px}
@@ -714,9 +714,9 @@ h1{font-size:30px;letter-spacing:-.4px}
   <div class="modal">
     <div class="modal-head"><h3>작업자 이름 설정</h3><button class="btn-ghost" id="closeWorkerModal">닫기</button></div>
     <div class="field">
-      <label>이 대시보드에서 표시할 이름</label>
+      <label>표시할 작업자 이름</label>
       <input id="workerNameInput" placeholder="예: M. Kang / H. Jo">
-      <div class="small" style="margin-top:7px">이름은 이 브라우저에 저장되며 이후 변경이력의 작성자명으로 사용됩니다.</div>
+      <div class="small" style="margin-top:7px">이름은 이 브라우저에만 저장되고, 이후 Firebase 변경이력에 작성자명으로 기록됩니다.</div>
     </div>
     <div class="modal-actions"><button class="btn-primary" id="saveWorkerName">저장</button></div>
   </div>
@@ -725,7 +725,7 @@ h1{font-size:30px;letter-spacing:-.4px}
 <div class="modal-bg" id="historyModal">
   <div class="modal">
     <div class="modal-head"><h3>공동작업 변경이력</h3><button class="btn-ghost" id="closeHistoryModal">닫기</button></div>
-    <div class="small" style="margin-bottom:10px">최근 100건까지 공유 저장됩니다.</div>
+    <div class="small" style="margin-bottom:10px">공유 데이터와 분리된 메타데이터로 최근 100건까지 기록합니다.</div>
     <div class="history-list" id="historyList"></div>
   </div>
 </div>
@@ -832,7 +832,6 @@ function makeInitial(){
     },
     meetings:[],
     journals:[],
-    changeHistory:[],
     references:[],
     codebook:{
       versions:[
@@ -855,7 +854,6 @@ data.years.forEach(y=>y.quarters.forEach(q=>{
 }));
 if(!Array.isArray(data.meetings)) data.meetings=[];
 if(!Array.isArray(data.journals)) data.journals=[];
-if(!Array.isArray(data.changeHistory)) data.changeHistory=[];
 if(!Array.isArray(data.references)) data.references=[];
 if(!data.codebook || !Array.isArray(data.codebook.versions)) data.codebook=makeInitial().codebook;
 if(!data.pilot){
@@ -901,7 +899,6 @@ window.addEventListener("firebase-remote-state",e=>{
   // Backward-compatible safety for shared records created by older versions.
   if(!Array.isArray(data.meetings)) data.meetings=[];
   if(!Array.isArray(data.journals)) data.journals=[];
-  if(!Array.isArray(data.changeHistory)) data.changeHistory=[];
   if(!Array.isArray(data.references)) data.references=[];
   data.years?.forEach(y=>y.quarters?.forEach(q=>{if(!Array.isArray(q.updates)) q.updates=[];}));
 
@@ -925,22 +922,13 @@ function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&l
 
 
 const WORKER_NAME_KEY="tax_complexity_worker_name";
+let firebaseAuditHistory=[];
+let firebaseLastEdit=null;
+
 function getWorkerName(){return localStorage.getItem(WORKER_NAME_KEY)||"";}
 function setWorkerName(name){
   localStorage.setItem(WORKER_NAME_KEY,name.trim());
   renderCollabMeta();
-}
-function renderCollabMeta(){
-  const n=getWorkerName();
-  const el=document.getElementById("workerNameLabel");
-  if(el) el.textContent=n||"미설정";
-  const last=(data.changeHistory||[])[0];
-  const le=document.getElementById("lastEditLabel");
-  if(le){
-    le.textContent=last
-      ? `최근 수정 ${last.actorName||"작업자"} · ${formatHistoryTime(last.at)}`
-      : "최근 수정 정보 없음";
-  }
 }
 function formatHistoryTime(v){
   if(!v) return "";
@@ -956,20 +944,28 @@ function sectionLabel(k){
     pilot:"파일럿 테스트",
     codebook:"코드북",
     references:"레퍼런스",
-    risks:"이슈·리스크",
-    changeHistory:"변경이력"
+    risks:"이슈·리스크"
   };
   return map[k]||k;
+}
+function renderCollabMeta(){
+  const name=document.getElementById("workerNameLabel");
+  if(name) name.textContent=getWorkerName()||"미설정";
+  const last=document.getElementById("lastEditLabel");
+  if(last){
+    last.textContent=firebaseLastEdit
+      ? `최근 수정 ${firebaseLastEdit.actorName||"작업자"} · ${formatHistoryTime(firebaseLastEdit.at)}`
+      : "최근 수정 정보 없음";
+  }
 }
 function renderHistory(){
   const box=document.getElementById("historyList");
   if(!box) return;
-  const rows=data.changeHistory||[];
-  if(!rows.length){
+  if(!firebaseAuditHistory.length){
     box.innerHTML='<div class="journal-empty">아직 기록된 변경이력이 없습니다.</div>';
     return;
   }
-  box.innerHTML=rows.map(h=>`
+  box.innerHTML=firebaseAuditHistory.map(h=>`
     <div class="history-item">
       <div class="h-top">
         <div class="h-actor">${esc(h.actorName||"작업자")}</div>
@@ -979,6 +975,13 @@ function renderHistory(){
       <div class="h-desc">${esc(h.description||"공유 데이터가 수정되었습니다.")}</div>
     </div>`).join("");
 }
+window.addEventListener("firebase-audit-state",e=>{
+  const d=e.detail||{};
+  firebaseAuditHistory=Array.isArray(d.history)?d.history:[];
+  firebaseLastEdit=d.lastEdit||firebaseAuditHistory[0]||null;
+  renderCollabMeta();
+  if(document.getElementById("historyModal")?.classList.contains("show")) renderHistory();
+});
 
 function render(){
   renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs(); renderMeetings(); renderJournals(); renderPilotPage(); renderCodebook(); renderReferences(); renderPageNav(); renderCollabMeta();
@@ -1904,45 +1907,74 @@ if(!configured){
     let remoteExists=false;
     let currentUid="";
     let lastRemotePayload=null;
+    let auditHistory=[];
     let writeTimer=null;
     let queuedPayload=null;
+    let queuedChangedSections=[];
 
     function same(a,b){
       try{return JSON.stringify(a)===JSON.stringify(b);}catch(e){return false;}
     }
 
-    async function writePayload(payload){
+    async function writePayload(payload,changedSections=[]){
       if(!ready || !payload) return;
       try{
+        const actorName=localStorage.getItem("tax_complexity_worker_name")||"이름 미설정";
+        const nowIso=new Date().toISOString();
+        const changeEntry=changedSections.length ? {
+          id:"chg_"+Date.now()+"_"+Math.random().toString(36).slice(2,7),
+          at:nowIso,
+          actorName,
+          actorUid:currentUid||"",
+          sections:changedSections,
+          description:changedSections.map(k=>({
+            years:"연차·분기 진행",
+            meetings:"연구미팅",
+            journals:"연구일지",
+            pilot:"파일럿 테스트",
+            codebook:"코드북",
+            references:"레퍼런스",
+            risks:"이슈·리스크"
+          }[k]||k)).join(", ")+" 수정"
+        } : null;
+
         if(!remoteExists){
+          const history=changeEntry?[changeEntry]:[];
           await setDoc(stateRef,{
             payload,
+            changeHistory:history,
+            lastEdit:changeEntry,
             updatedAt:serverTimestamp(),
             updatedBy:currentUid,
-            updatedByName:localStorage.getItem("tax_complexity_worker_name")||"이름 미설정"
+            updatedByName:actorName
           });
+          auditHistory=history;
           remoteExists=true;
           lastRemotePayload=payload;
         } else {
-          /*
-            Top-level 단위로 변경된 항목만 업데이트합니다.
-            selectedPage/selectedYear는 payload에서 이미 제외되어 개인 화면 상태는 공유하지 않습니다.
-          */
           const patch={
             updatedAt:serverTimestamp(),
             updatedBy:currentUid,
-            updatedByName:localStorage.getItem("tax_complexity_worker_name")||"이름 미설정"
+            updatedByName:actorName
           };
           const before=lastRemotePayload||{};
           const keys=new Set([...Object.keys(before),...Object.keys(payload)]);
           let changed=0;
+
           keys.forEach(k=>{
             if(!same(before[k],payload[k])){
               patch["payload."+k]=payload[k]===undefined?null:payload[k];
               changed++;
             }
           });
-          if(changed>0){
+
+          if(changeEntry){
+            auditHistory=[changeEntry,...auditHistory].slice(0,100);
+            patch.changeHistory=auditHistory;
+            patch.lastEdit=changeEntry;
+          }
+
+          if(changed>0 || changeEntry){
             await updateDoc(stateRef,patch);
             lastRemotePayload=payload;
           }
@@ -1957,35 +1989,13 @@ if(!configured){
     window.addEventListener("dashboard-local-change",e=>{
       const incoming=JSON.parse(JSON.stringify(e.detail||{}));
       const before=lastRemotePayload||{};
-      const ignore=new Set(["changeHistory"]);
       const keys=new Set([...Object.keys(before),...Object.keys(incoming)]);
-      const changed=[...keys].filter(k=>!ignore.has(k) && !same(before[k],incoming[k]));
-
-      if(changed.length){
-        const actorName=localStorage.getItem("tax_complexity_worker_name")||"이름 미설정";
-        const history=Array.isArray(incoming.changeHistory)?incoming.changeHistory:[];
-        history.unshift({
-          id:"chg_"+Date.now()+"_"+Math.random().toString(36).slice(2,7),
-          at:new Date().toISOString(),
-          actorName,
-          actorUid:currentUid||"",
-          sections:changed,
-          description:changed.map(sectionLabel=>({
-            years:"연차·분기 진행",
-            meetings:"연구미팅",
-            journals:"연구일지",
-            pilot:"파일럿 테스트",
-            codebook:"코드북",
-            references:"레퍼런스",
-            risks:"이슈·리스크"
-          }[sectionLabel]||sectionLabel)).join(", ")+" 수정"
-        });
-        incoming.changeHistory=history.slice(0,100);
-      }
+      const changedSections=[...keys].filter(k=>!same(before[k],incoming[k]));
 
       queuedPayload=incoming;
+      queuedChangedSections=changedSections;
       clearTimeout(writeTimer);
-      writeTimer=setTimeout(()=>writePayload(queuedPayload),350);
+      writeTimer=setTimeout(()=>writePayload(queuedPayload,queuedChangedSections),350);
     });
 
     onAuthStateChanged(auth,async user=>{
@@ -1998,30 +2008,44 @@ if(!configured){
         remoteExists=first.exists();
 
         if(remoteExists){
-          const remote=first.data()?.payload;
+          const firstData=first.data()||{};
+          auditHistory=Array.isArray(firstData.changeHistory)?firstData.changeHistory:[];
+          window.dispatchEvent(new CustomEvent("firebase-audit-state",{
+            detail:{history:auditHistory,lastEdit:firstData.lastEdit||auditHistory[0]||null}
+          }));
+          const remote=firstData.payload;
           if(remote && typeof remote==="object"){
             lastRemotePayload=remote;
             window.dispatchEvent(new CustomEvent("firebase-remote-state",{detail:remote}));
           }
-        }else{
-          /* 최초 1회: 이 브라우저에 이미 저장된 데이터를 Firebase 초기 공유 데이터로 업로드 */
+        }
+
+        ready=true;
+
+        if(!remoteExists){
+          /* 최초 1회: ready 이후 로컬 데이터를 Firebase 초기 공유 데이터로 업로드 */
           window.dispatchEvent(new CustomEvent("firebase-request-local-state"));
         }
 
         onSnapshot(stateRef,snap=>{
           if(!snap.exists()) return;
           remoteExists=true;
-          const remote=snap.data()?.payload;
-          if(!remote || typeof remote!=="object") return;
-          lastRemotePayload=remote;
-          window.dispatchEvent(new CustomEvent("firebase-remote-state",{detail:remote}));
+          const snapData=snap.data()||{};
+          auditHistory=Array.isArray(snapData.changeHistory)?snapData.changeHistory:[];
+          window.dispatchEvent(new CustomEvent("firebase-audit-state",{
+            detail:{history:auditHistory,lastEdit:snapData.lastEdit||auditHistory[0]||null}
+          }));
+          const remote=snapData.payload;
+          if(remote && typeof remote==="object"){
+            lastRemotePayload=remote;
+            window.dispatchEvent(new CustomEvent("firebase-remote-state",{detail:remote}));
+          }
           status("online",snap.metadata.fromCache?"동기화됨 · 캐시":"실시간 동기화",currentUid);
         },err=>{
           console.error("Firebase snapshot error:",err);
           status("error","수신 오류 · "+(err.code||err.message||"unknown"),currentUid);
         });
 
-        ready=true;
         status("online","실시간 동기화",currentUid);
       }catch(err){
         console.error("Firebase initial load error:",err);

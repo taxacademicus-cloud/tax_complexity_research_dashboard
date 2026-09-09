@@ -1738,12 +1738,13 @@ import {
 
 /* ▼ Firebase Console > Project settings > Your apps > SDK setup and configuration 값으로 교체 */
 const firebaseConfig = {
-  apiKey: "AIzaSyCyQwbmJcn88DQIBGIVd3aZDDs_llI5HYM",
+  apiKey: "AIzaSyCyQwbmJcn88DQIBGIvd3aZD0s_l1l5HYM",
   authDomain: "tax-complexity-dashboard.firebaseapp.com",
   projectId: "tax-complexity-dashboard",
   storageBucket: "tax-complexity-dashboard.firebasestorage.app",
   messagingSenderId: "185199295591",
-  appId: "1:185199295591:web:3d030ac0d0f938e1bd28c2"
+  appId: "1:185199295591:web:3d030ac0d0f938e1bd28c2",
+  measurementId: "G-82DQM8884C"
 };
 
 /* 모든 작업자가 같은 WORKSPACE_ID를 사용해야 같은 연구 데이터가 공유됩니다. */
@@ -1755,11 +1756,22 @@ const configured =
   firebaseConfig.projectId &&
   !Object.values(firebaseConfig).some(v=>String(v).includes("YOUR_"));
 
+let lastFirebaseDiagnostic="";
 function status(state,message,uid=""){
+  lastFirebaseDiagnostic=message||"";
   window.dispatchEvent(new CustomEvent("firebase-sync-status",{
     detail:{state,message,uid}
   }));
 }
+
+document.addEventListener("click",e=>{
+  const el=e.target.closest?.("#syncStatus");
+  if(el && lastFirebaseDiagnostic){
+    alert("Firebase 상태\n\n"+lastFirebaseDiagnostic+
+      "\n\n현재 Firestore 경로: research_dashboard / main_data"+
+      "\n현재 웹 도메인: "+location.hostname);
+  }
+});
 
 if(!configured){
   status("offline","Firebase 설정 필요");
@@ -1817,7 +1829,7 @@ if(!configured){
         status("online","실시간 동기화",currentUid);
       }catch(err){
         console.error("Firebase write error:",err);
-        status("error","동기화 저장 오류",currentUid);
+        status("error","저장 오류 · "+(err.code||err.message||"unknown"),currentUid);
       }
     }
 
@@ -1857,21 +1869,21 @@ if(!configured){
           status("online",snap.metadata.fromCache?"동기화됨 · 캐시":"실시간 동기화",currentUid);
         },err=>{
           console.error("Firebase snapshot error:",err);
-          status("error","실시간 수신 오류",currentUid);
+          status("error","수신 오류 · "+(err.code||err.message||"unknown"),currentUid);
         });
 
         ready=true;
         status("online","실시간 동기화",currentUid);
       }catch(err){
         console.error("Firebase initial load error:",err);
-        status("error","Firebase 초기화 오류",currentUid);
+        status("error","초기화 오류 · "+(err.code||err.message||"unknown"),currentUid);
       }
     });
 
     await signInAnonymously(auth);
   }catch(err){
     console.error("Firebase setup error:",err);
-    status("error","Firebase 연결 실패");
+    status("error","Firebase 연결 실패 · "+(err.code||err.message||"unknown"));
   }
 }
 </script>

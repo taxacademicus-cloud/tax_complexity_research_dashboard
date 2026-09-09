@@ -425,7 +425,7 @@ h1{font-size:30px;letter-spacing:-.4px}
     <button class="page-tab active" data-page="overview">전체 연구현황</button>
     <button class="page-tab" data-page="meetings">연구미팅</button>
     <button class="page-tab" data-page="journal">연구일지</button>
-      <button class="page-tab" data-page="journal" id="referencePageBtn">레퍼런스</button>
+      <button class="page-tab" data-page="reference" id="referencePageBtn">레퍼런스</button>
     <button class="page-tab" data-page="pilot">파일럿 테스트</button>
     <button class="page-tab" data-page="codebook">코드북</button>
   </div>
@@ -1745,9 +1745,6 @@ document.querySelectorAll(".page-tab").forEach(b=>b.addEventListener("click",()=
 
 
 
-document.getElementById("referencePageBtn").onclick=()=>{
-  data.selectedPage="reference";save();renderPageNav();renderReferences();window.scrollTo({top:0,behavior:"smooth"});
-};
 document.getElementById("addReferenceBtn").onclick=()=>openReference();
 document.getElementById("closeReference").onclick=closeReference;
 document.getElementById("cancelReference").onclick=closeReference;

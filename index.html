@@ -303,6 +303,19 @@ h1{font-size:30px;letter-spacing:-.4px}
 .journal-empty{padding:38px 18px;text-align:center;color:var(--muted);border:1px dashed #cfd8e3;border-radius:14px;background:#fbfcfe}
 @media(max-width:800px){.journal-summary{grid-template-columns:1fr 1fr}}
 
+
+/* ===== Firebase realtime collaboration ===== */
+.sync-wrap{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:9px;justify-content:flex-end}
+.sync-pill{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border-radius:999px;border:1px solid #dbe2ea;background:#fff;font-size:10px;font-weight:800;color:#5f6b76}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#9ca3af}
+.sync-pill.connecting .sync-dot{background:#d59b22}
+.sync-pill.online{background:#edf8f1;border-color:#cce8d6;color:#17613e}
+.sync-pill.online .sync-dot{background:#27a164}
+.sync-pill.error{background:#fff2f0;border-color:#f1cbc6;color:#9c3328}
+.sync-pill.error .sync-dot{background:#d14b3f}
+.sync-pill.offline{background:#f4f5f7;color:#667085}
+.sync-worker{font-size:9px;color:#7b8794;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -317,11 +330,17 @@ h1{font-size:30px;letter-spacing:-.4px}
         연구자: PI_ M. Kang | SR_ H. Jo
       </div>
     </div>
-    <div class="top-actions">
-      <button class="btn-primary" id="addRiskBtn">+ 이슈/리스크 추가</button>
-      <button class="btn-soft" id="exportBtn">데이터 백업</button>
-      <button class="btn-ghost" id="resetBtn">초기화</button>
-      <button class="btn-soft" id="referencePageBtn">레퍼런스</button>
+    <div>
+      <div class="top-actions">
+        <button class="btn-primary" id="addRiskBtn">+ 이슈/리스크 추가</button>
+        <button class="btn-soft" id="exportBtn">데이터 백업</button>
+        <button class="btn-ghost" id="resetBtn">초기화</button>
+        <button class="btn-soft" id="referencePageBtn">레퍼런스</button>
+      </div>
+      <div class="sync-wrap">
+        <div class="sync-pill connecting" id="syncStatus"><span class="sync-dot"></span><span id="syncStatusText">Firebase 설정 확인 중</span></div>
+        <div class="sync-worker" id="syncWorkerId"></div>
+      </div>
     </div>
   </div>
 
@@ -725,7 +744,7 @@ h1{font-size:30px;letter-spacing:-.4px}
   </div>
 </div>
 
-<script type="module">
+<script>
 const KEY="tax-complexity-research-dashboard-v1";
 
 const baseYears = [
@@ -818,7 +837,49 @@ function load(){
   try{const x=JSON.parse(localStorage.getItem(KEY)); if(x&&x.years)return x;}catch(e){}
   const x=makeInitial(); localStorage.setItem(KEY,JSON.stringify(x)); return x;
 }
-function save(){localStorage.setItem(KEY,JSON.stringify(data));}
+function sharedPayload(){
+  const payload=JSON.parse(JSON.stringify(data));
+  delete payload.selectedPage;
+  delete payload.selectedYear;
+  return payload;
+}
+function save(){
+  localStorage.setItem(KEY,JSON.stringify(data));
+  window.dispatchEvent(new CustomEvent("dashboard-local-change",{detail:sharedPayload()}));
+}
+
+window.addEventListener("firebase-request-local-state",()=>{
+  window.dispatchEvent(new CustomEvent("dashboard-local-change",{detail:sharedPayload()}));
+});
+
+window.addEventListener("firebase-remote-state",e=>{
+  if(!e.detail || typeof e.detail!=="object") return;
+  const localPage=data.selectedPage;
+  const localYear=data.selectedYear;
+  data={...data,...e.detail,selectedPage:localPage,selectedYear:localYear};
+
+  // Backward-compatible safety for shared records created by older versions.
+  if(!Array.isArray(data.meetings)) data.meetings=[];
+  if(!Array.isArray(data.journals)) data.journals=[];
+  if(!Array.isArray(data.references)) data.references=[];
+  data.years?.forEach(y=>y.quarters?.forEach(q=>{if(!Array.isArray(q.updates)) q.updates=[];}));
+
+  localStorage.setItem(KEY,JSON.stringify(data));
+  render();
+});
+
+window.addEventListener("firebase-sync-status",e=>{
+  const detail=e.detail||{};
+  const pill=document.getElementById("syncStatus");
+  const label=document.getElementById("syncStatusText");
+  const worker=document.getElementById("syncWorkerId");
+  if(!pill||!label) return;
+  pill.classList.remove("connecting","online","error","offline");
+  pill.classList.add(detail.state||"offline");
+  label.textContent=detail.message||"동기화 상태 확인";
+  if(worker) worker.textContent=detail.uid?("작업자 ID: "+detail.uid):"";
+});
+
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
 
 function render(){
@@ -1639,7 +1700,14 @@ document.getElementById("riskForm").addEventListener("submit",e=>{
 });
 
 document.getElementById("resetBtn").onclick=()=>{
- if(confirm("입력한 진행상황과 리스크를 모두 지우고 연구계획서 기준 초기 상태로 되돌릴까요?")){data=makeInitial();save();render();}
+ if(confirm("주의: Firebase가 연결된 경우 이 작업은 모든 작업자에게 공유되는 데이터를 초기화합니다. 정말 전체 공유 데이터를 연구계획서 기준 초기 상태로 되돌릴까요?")){
+   if(confirm("한 번 더 확인합니다. 공유 데이터 전체를 초기화할까요?")){
+     const keepPage=data.selectedPage, keepYear=data.selectedYear;
+     data=makeInitial();
+     data.selectedPage=keepPage; data.selectedYear=keepYear;
+     save();render();
+   }
+ }
 };
 document.getElementById("exportBtn").onclick=()=>{
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json;charset=utf-8"});
@@ -1649,5 +1717,164 @@ document.querySelectorAll(".modal-bg").forEach(m=>m.addEventListener("click",e=>
 document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal-bg.show").forEach(m=>m.classList.remove("show"));});
 render();
 </script>
+
+<script type="module">
+/*
+========================================================================
+ FIREBASE REALTIME COLLABORATION SETUP
+ 1) Firebase Console에서 Web App을 등록한 뒤 아래 firebaseConfig 값을 교체하세요.
+ 2) Authentication > Sign-in method > Anonymous 를 활성화하세요.
+ 3) Cloud Firestore 데이터베이스를 생성하세요.
+ 4) 같은 HTML을 모든 작업자가 사용하면 같은 공유 문서를 실시간으로 보게 됩니다.
+========================================================================
+*/
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+import {
+  getAuth, signInAnonymously, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+/* ▼ Firebase Console > Project settings > Your apps > SDK setup and configuration 값으로 교체 */
+const firebaseConfig = {
+  apiKey: "AIzaSyCyQwbmJcn88DQIBGIVd3aZDDs_llI5HYM",
+  authDomain: "tax-complexity-dashboard.firebaseapp.com",
+  projectId: "tax-complexity-dashboard",
+  storageBucket: "tax-complexity-dashboard.firebasestorage.app",
+  messagingSenderId: "185199295591",
+  appId: "1:185199295591:web:3d030ac0d0f938e1bd28c2"
+};
+
+/* 모든 작업자가 같은 WORKSPACE_ID를 사용해야 같은 연구 데이터가 공유됩니다. */
+const WORKSPACE_ID = "main_data";
+const COLLECTION = "research_dashboard";
+
+const configured =
+  firebaseConfig.apiKey &&
+  firebaseConfig.projectId &&
+  !Object.values(firebaseConfig).some(v=>String(v).includes("YOUR_"));
+
+function status(state,message,uid=""){
+  window.dispatchEvent(new CustomEvent("firebase-sync-status",{
+    detail:{state,message,uid}
+  }));
+}
+
+if(!configured){
+  status("offline","Firebase 설정 필요");
+} else {
+  try{
+    status("connecting","Firebase 연결 중");
+
+    const app=initializeApp(firebaseConfig);
+    const db=getFirestore(app);
+    const auth=getAuth(app);
+    const stateRef=doc(db,COLLECTION,WORKSPACE_ID);
+
+    let ready=false;
+    let remoteExists=false;
+    let currentUid="";
+    let lastRemotePayload=null;
+    let writeTimer=null;
+    let queuedPayload=null;
+
+    function same(a,b){
+      try{return JSON.stringify(a)===JSON.stringify(b);}catch(e){return false;}
+    }
+
+    async function writePayload(payload){
+      if(!ready || !payload) return;
+      try{
+        if(!remoteExists){
+          await setDoc(stateRef,{
+            payload,
+            updatedAt:serverTimestamp(),
+            updatedBy:currentUid
+          });
+          remoteExists=true;
+          lastRemotePayload=payload;
+        } else {
+          /*
+            Top-level 단위로 변경된 항목만 업데이트합니다.
+            selectedPage/selectedYear는 payload에서 이미 제외되어 개인 화면 상태는 공유하지 않습니다.
+          */
+          const patch={updatedAt:serverTimestamp(),updatedBy:currentUid};
+          const before=lastRemotePayload||{};
+          const keys=new Set([...Object.keys(before),...Object.keys(payload)]);
+          let changed=0;
+          keys.forEach(k=>{
+            if(!same(before[k],payload[k])){
+              patch["payload."+k]=payload[k]===undefined?null:payload[k];
+              changed++;
+            }
+          });
+          if(changed>0){
+            await updateDoc(stateRef,patch);
+            lastRemotePayload=payload;
+          }
+        }
+        status("online","실시간 동기화",currentUid);
+      }catch(err){
+        console.error("Firebase write error:",err);
+        status("error","동기화 저장 오류",currentUid);
+      }
+    }
+
+    window.addEventListener("dashboard-local-change",e=>{
+      queuedPayload=e.detail;
+      clearTimeout(writeTimer);
+      writeTimer=setTimeout(()=>writePayload(queuedPayload),350);
+    });
+
+    onAuthStateChanged(auth,async user=>{
+      if(!user) return;
+      currentUid=user.uid;
+      status("connecting","공유 데이터 불러오는 중",currentUid);
+
+      try{
+        const first=await getDoc(stateRef);
+        remoteExists=first.exists();
+
+        if(remoteExists){
+          const remote=first.data()?.payload;
+          if(remote && typeof remote==="object"){
+            lastRemotePayload=remote;
+            window.dispatchEvent(new CustomEvent("firebase-remote-state",{detail:remote}));
+          }
+        }else{
+          /* 최초 1회: 이 브라우저에 이미 저장된 데이터를 Firebase 초기 공유 데이터로 업로드 */
+          window.dispatchEvent(new CustomEvent("firebase-request-local-state"));
+        }
+
+        onSnapshot(stateRef,snap=>{
+          if(!snap.exists()) return;
+          remoteExists=true;
+          const remote=snap.data()?.payload;
+          if(!remote || typeof remote!=="object") return;
+          lastRemotePayload=remote;
+          window.dispatchEvent(new CustomEvent("firebase-remote-state",{detail:remote}));
+          status("online",snap.metadata.fromCache?"동기화됨 · 캐시":"실시간 동기화",currentUid);
+        },err=>{
+          console.error("Firebase snapshot error:",err);
+          status("error","실시간 수신 오류",currentUid);
+        });
+
+        ready=true;
+        status("online","실시간 동기화",currentUid);
+      }catch(err){
+        console.error("Firebase initial load error:",err);
+        status("error","Firebase 초기화 오류",currentUid);
+      }
+    });
+
+    await signInAnonymously(auth);
+  }catch(err){
+    console.error("Firebase setup error:",err);
+    status("error","Firebase 연결 실패");
+  }
+}
+</script>
+
 </body>
 </html>

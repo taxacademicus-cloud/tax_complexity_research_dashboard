@@ -316,6 +316,19 @@ h1{font-size:30px;letter-spacing:-.4px}
 .sync-pill.offline{background:#f4f5f7;color:#667085}
 .sync-worker{font-size:9px;color:#7b8794;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
+
+/* ===== Collaboration metadata & change history ===== */
+.collab-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:6px;justify-content:flex-end}
+.worker-chip,.last-edit-chip{font-size:9px;color:#607080;background:#fff;border:1px solid #dbe3ec;border-radius:999px;padding:5px 8px}
+.worker-chip button{border:0;background:transparent;color:#2f5c9d;font-weight:800;cursor:pointer;padding:0;margin-left:4px;font-size:9px}
+.history-list{display:grid;gap:8px;max-height:420px;overflow:auto}
+.history-item{border:1px solid var(--line);border-radius:11px;padding:10px;background:#fbfcfe}
+.history-item .h-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.history-item .h-actor{font-size:11px;font-weight:800;color:#244f8f}
+.history-item .h-time{font-size:10px;color:var(--muted);white-space:nowrap}
+.history-item .h-section{font-size:12px;font-weight:800;margin-top:5px}
+.history-item .h-desc{font-size:11px;color:#5d6873;margin-top:4px;line-height:1.5}
+
 </style>
 </head>
 <body>
@@ -333,6 +346,7 @@ h1{font-size:30px;letter-spacing:-.4px}
     <div>
       <div class="top-actions">
         <button class="btn-primary" id="addRiskBtn">+ 이슈/리스크 추가</button>
+        <button class="btn-soft" id="historyBtn">변경이력</button>
         <button class="btn-soft" id="exportBtn">데이터 백업</button>
         <button class="btn-ghost" id="resetBtn">초기화</button>
         <button class="btn-soft" id="referencePageBtn">레퍼런스</button>
@@ -340,6 +354,10 @@ h1{font-size:30px;letter-spacing:-.4px}
       <div class="sync-wrap">
         <div class="sync-pill connecting" id="syncStatus"><span class="sync-dot"></span><span id="syncStatusText">Firebase 설정 확인 중</span></div>
         <div class="sync-worker" id="syncWorkerId"></div>
+      </div>
+      <div class="collab-meta">
+        <div class="worker-chip">작업자 <b id="workerNameLabel">미설정</b><button type="button" id="workerNameBtn">이름 설정</button></div>
+        <div class="last-edit-chip" id="lastEditLabel">최근 수정 정보 없음</div>
       </div>
     </div>
   </div>
@@ -692,6 +710,26 @@ h1{font-size:30px;letter-spacing:-.4px}
   </div>
 </div>
 
+<div class="modal-bg" id="workerModal">
+  <div class="modal">
+    <div class="modal-head"><h3>작업자 이름 설정</h3><button class="btn-ghost" id="closeWorkerModal">닫기</button></div>
+    <div class="field">
+      <label>이 대시보드에서 표시할 이름</label>
+      <input id="workerNameInput" placeholder="예: M. Kang / H. Jo">
+      <div class="small" style="margin-top:7px">이름은 이 브라우저에 저장되며 이후 변경이력의 작성자명으로 사용됩니다.</div>
+    </div>
+    <div class="modal-actions"><button class="btn-primary" id="saveWorkerName">저장</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="historyModal">
+  <div class="modal">
+    <div class="modal-head"><h3>공동작업 변경이력</h3><button class="btn-ghost" id="closeHistoryModal">닫기</button></div>
+    <div class="small" style="margin-bottom:10px">최근 100건까지 공유 저장됩니다.</div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+</div>
+
 <div class="modal-bg" id="journalModal">
   <div class="modal">
     <div class="modal-head"><h3 id="journalModalTitle">연구일지 추가</h3><button class="btn-ghost" id="closeJournal">닫기</button></div>
@@ -794,6 +832,7 @@ function makeInitial(){
     },
     meetings:[],
     journals:[],
+    changeHistory:[],
     references:[],
     codebook:{
       versions:[
@@ -816,6 +855,7 @@ data.years.forEach(y=>y.quarters.forEach(q=>{
 }));
 if(!Array.isArray(data.meetings)) data.meetings=[];
 if(!Array.isArray(data.journals)) data.journals=[];
+if(!Array.isArray(data.changeHistory)) data.changeHistory=[];
 if(!Array.isArray(data.references)) data.references=[];
 if(!data.codebook || !Array.isArray(data.codebook.versions)) data.codebook=makeInitial().codebook;
 if(!data.pilot){
@@ -861,6 +901,7 @@ window.addEventListener("firebase-remote-state",e=>{
   // Backward-compatible safety for shared records created by older versions.
   if(!Array.isArray(data.meetings)) data.meetings=[];
   if(!Array.isArray(data.journals)) data.journals=[];
+  if(!Array.isArray(data.changeHistory)) data.changeHistory=[];
   if(!Array.isArray(data.references)) data.references=[];
   data.years?.forEach(y=>y.quarters?.forEach(q=>{if(!Array.isArray(q.updates)) q.updates=[];}));
 
@@ -882,8 +923,65 @@ window.addEventListener("firebase-sync-status",e=>{
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
 
+
+const WORKER_NAME_KEY="tax_complexity_worker_name";
+function getWorkerName(){return localStorage.getItem(WORKER_NAME_KEY)||"";}
+function setWorkerName(name){
+  localStorage.setItem(WORKER_NAME_KEY,name.trim());
+  renderCollabMeta();
+}
+function renderCollabMeta(){
+  const n=getWorkerName();
+  const el=document.getElementById("workerNameLabel");
+  if(el) el.textContent=n||"미설정";
+  const last=(data.changeHistory||[])[0];
+  const le=document.getElementById("lastEditLabel");
+  if(le){
+    le.textContent=last
+      ? `최근 수정 ${last.actorName||"작업자"} · ${formatHistoryTime(last.at)}`
+      : "최근 수정 정보 없음";
+  }
+}
+function formatHistoryTime(v){
+  if(!v) return "";
+  const d=new Date(v);
+  if(Number.isNaN(d.getTime())) return String(v);
+  return d.toLocaleString("ko-KR",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"});
+}
+function sectionLabel(k){
+  const map={
+    years:"연차·분기 진행",
+    meetings:"연구미팅",
+    journals:"연구일지",
+    pilot:"파일럿 테스트",
+    codebook:"코드북",
+    references:"레퍼런스",
+    risks:"이슈·리스크",
+    changeHistory:"변경이력"
+  };
+  return map[k]||k;
+}
+function renderHistory(){
+  const box=document.getElementById("historyList");
+  if(!box) return;
+  const rows=data.changeHistory||[];
+  if(!rows.length){
+    box.innerHTML='<div class="journal-empty">아직 기록된 변경이력이 없습니다.</div>';
+    return;
+  }
+  box.innerHTML=rows.map(h=>`
+    <div class="history-item">
+      <div class="h-top">
+        <div class="h-actor">${esc(h.actorName||"작업자")}</div>
+        <div class="h-time">${esc(formatHistoryTime(h.at))}</div>
+      </div>
+      <div class="h-section">${esc((h.sections||[]).map(sectionLabel).join(" · ")||"데이터 변경")}</div>
+      <div class="h-desc">${esc(h.description||"공유 데이터가 수정되었습니다.")}</div>
+    </div>`).join("");
+}
+
 function render(){
-  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs(); renderMeetings(); renderJournals(); renderPilotPage(); renderCodebook(); renderReferences(); renderPageNav();
+  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs(); renderMeetings(); renderJournals(); renderPilotPage(); renderCodebook(); renderReferences(); renderPageNav(); renderCollabMeta();
 }
 
 function renderPageNav(){
@@ -1641,6 +1739,24 @@ document.getElementById("cbVersionForm").addEventListener("submit",e=>{
 });
 
 
+
+document.getElementById("workerNameBtn").onclick=()=>{
+  document.getElementById("workerNameInput").value=getWorkerName();
+  document.getElementById("workerModal").classList.add("show");
+};
+document.getElementById("closeWorkerModal").onclick=()=>document.getElementById("workerModal").classList.remove("show");
+document.getElementById("saveWorkerName").onclick=()=>{
+  const v=document.getElementById("workerNameInput").value.trim();
+  if(!v){alert("작업자 이름을 입력해주세요.");return;}
+  setWorkerName(v);
+  document.getElementById("workerModal").classList.remove("show");
+};
+document.getElementById("historyBtn").onclick=()=>{
+  renderHistory();
+  document.getElementById("historyModal").classList.add("show");
+};
+document.getElementById("closeHistoryModal").onclick=()=>document.getElementById("historyModal").classList.remove("show");
+
 document.getElementById("addJournalBtn").onclick=()=>openJournal();
 document.getElementById("closeJournal").onclick=closeJournal;
 document.getElementById("cancelJournal").onclick=closeJournal;
@@ -1802,7 +1918,8 @@ if(!configured){
           await setDoc(stateRef,{
             payload,
             updatedAt:serverTimestamp(),
-            updatedBy:currentUid
+            updatedBy:currentUid,
+            updatedByName:localStorage.getItem("tax_complexity_worker_name")||"이름 미설정"
           });
           remoteExists=true;
           lastRemotePayload=payload;
@@ -1811,7 +1928,11 @@ if(!configured){
             Top-level 단위로 변경된 항목만 업데이트합니다.
             selectedPage/selectedYear는 payload에서 이미 제외되어 개인 화면 상태는 공유하지 않습니다.
           */
-          const patch={updatedAt:serverTimestamp(),updatedBy:currentUid};
+          const patch={
+            updatedAt:serverTimestamp(),
+            updatedBy:currentUid,
+            updatedByName:localStorage.getItem("tax_complexity_worker_name")||"이름 미설정"
+          };
           const before=lastRemotePayload||{};
           const keys=new Set([...Object.keys(before),...Object.keys(payload)]);
           let changed=0;
@@ -1834,7 +1955,35 @@ if(!configured){
     }
 
     window.addEventListener("dashboard-local-change",e=>{
-      queuedPayload=e.detail;
+      const incoming=JSON.parse(JSON.stringify(e.detail||{}));
+      const before=lastRemotePayload||{};
+      const ignore=new Set(["changeHistory"]);
+      const keys=new Set([...Object.keys(before),...Object.keys(incoming)]);
+      const changed=[...keys].filter(k=>!ignore.has(k) && !same(before[k],incoming[k]));
+
+      if(changed.length){
+        const actorName=localStorage.getItem("tax_complexity_worker_name")||"이름 미설정";
+        const history=Array.isArray(incoming.changeHistory)?incoming.changeHistory:[];
+        history.unshift({
+          id:"chg_"+Date.now()+"_"+Math.random().toString(36).slice(2,7),
+          at:new Date().toISOString(),
+          actorName,
+          actorUid:currentUid||"",
+          sections:changed,
+          description:changed.map(sectionLabel=>({
+            years:"연차·분기 진행",
+            meetings:"연구미팅",
+            journals:"연구일지",
+            pilot:"파일럿 테스트",
+            codebook:"코드북",
+            references:"레퍼런스",
+            risks:"이슈·리스크"
+          }[sectionLabel]||sectionLabel)).join(", ")+" 수정"
+        });
+        incoming.changeHistory=history.slice(0,100);
+      }
+
+      queuedPayload=incoming;
       clearTimeout(writeTimer);
       writeTimer=setTimeout(()=>writePayload(queuedPayload),350);
     });

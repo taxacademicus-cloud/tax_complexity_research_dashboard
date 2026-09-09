@@ -12,10 +12,15 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans KR","Apple SD Gothic Neo",sans-serif}
 .wrap{max-width:1480px;margin:0 auto;padding:24px}
-.hero{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:18px}
+.hero{display:grid;grid-template-columns:minmax(420px,1fr) minmax(690px,auto);gap:28px;align-items:start;margin-bottom:18px}
 h1{margin:0;font-size:28px;line-height:1.35}
 .subtitle{margin-top:7px;color:var(--muted);font-size:14px;line-height:1.6}
-.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.hero-tools{display:flex;flex-direction:column;align-items:flex-end;gap:10px;min-width:0}
+.top-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:nowrap;white-space:nowrap}
+.top-actions button{flex:0 0 auto}
+.top-actions .logout-sep{width:1px;height:30px;background:#d8dee8;margin:0 4px}
+#logoutBtn{background:#fff;color:#374151;border:1px solid #d9e0e8}
+#logoutBtn:hover{background:#f7f9fb}
 button,select,input,textarea{font:inherit}
 button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
 .btn-primary{background:var(--accent);color:#fff}
@@ -305,7 +310,7 @@ h1{font-size:30px;letter-spacing:-.4px}
 
 
 /* ===== Firebase realtime collaboration ===== */
-.sync-wrap{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:9px;justify-content:flex-end}
+.sync-wrap{display:flex;align-items:center;gap:10px;flex-wrap:nowrap;justify-content:flex-end;min-width:0}
 .sync-pill{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border-radius:999px;border:1px solid #dbe2ea;background:#fff;font-size:10px;font-weight:800;color:#5f6b76}
 .sync-dot{width:8px;height:8px;border-radius:50%;background:#9ca3af}
 .sync-pill.connecting .sync-dot{background:#d59b22}
@@ -318,7 +323,7 @@ h1{font-size:30px;letter-spacing:-.4px}
 
 
 /* ===== Stable collaboration metadata ===== */
-.collab-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:6px;justify-content:flex-end}
+.collab-meta{display:flex;align-items:center;gap:10px;flex-wrap:nowrap;justify-content:flex-end;min-width:0}
 .worker-chip,.last-edit-chip{font-size:9px;color:#607080;background:#fff;border:1px solid #dbe3ec;border-radius:999px;padding:5px 8px}
 .worker-chip button{border:0;background:transparent;color:#2f5c9d;font-weight:800;cursor:pointer;padding:0;margin-left:4px;font-size:9px}
 .history-list{display:grid;gap:8px;max-height:420px;overflow:auto}
@@ -351,7 +356,20 @@ h1{font-size:30px;letter-spacing:-.4px}
 .auth-error{display:none;margin-top:12px;padding:9px 10px;border-radius:9px;background:#fff2f2;color:#ad2e2e;font-size:11px;line-height:1.45}
 .auth-error.show{display:block}
 .auth-note{font-size:10px;color:#8a96a3;margin-top:14px;line-height:1.5}
-#logoutBtn{display:none}
+#logoutBtn{display:inline-flex!important;align-items:center;justify-content:center}
+
+
+/* Header toolbar responsive behavior */
+@media (max-width:1180px){
+  .hero{grid-template-columns:1fr}
+  .hero-tools{align-items:flex-start;width:100%}
+  .top-actions,.sync-wrap,.collab-meta{justify-content:flex-start}
+}
+@media (max-width:760px){
+  .top-actions{flex-wrap:wrap;white-space:normal}
+  .top-actions .logout-sep{display:none}
+  .sync-wrap,.collab-meta{flex-wrap:wrap}
+}
 
 </style>
 </head>
@@ -383,14 +401,14 @@ h1{font-size:30px;letter-spacing:-.4px}
         연구자: PI_ M. Kang | SR_ H. Jo
       </div>
     </div>
-    <div>
+    <div class="hero-tools">
       <div class="top-actions">
         <button class="btn-primary" id="addRiskBtn">+ 이슈/리스크 추가</button>
         <button class="btn-soft" id="historyBtn">변경이력</button>
-        <button class="btn-ghost" id="logoutBtn">로그아웃</button>
         <button class="btn-soft" id="exportBtn">데이터 백업</button>
         <button class="btn-ghost" id="resetBtn">초기화</button>
-        <button class="btn-soft" id="referencePageBtn">레퍼런스</button>
+        <span class="logout-sep" aria-hidden="true"></span>
+        <button class="btn-ghost" id="logoutBtn" title="연구자 계정에서 로그아웃">로그아웃</button>
       </div>
       <div class="sync-wrap">
         <div class="sync-pill connecting" id="syncStatus"><span class="sync-dot"></span><span id="syncStatusText">Firebase 설정 확인 중</span></div>
@@ -407,6 +425,7 @@ h1{font-size:30px;letter-spacing:-.4px}
     <button class="page-tab active" data-page="overview">전체 연구현황</button>
     <button class="page-tab" data-page="meetings">연구미팅</button>
     <button class="page-tab" data-page="journal">연구일지</button>
+      <button class="page-tab" data-page="journal" id="referencePageBtn">레퍼런스</button>
     <button class="page-tab" data-page="pilot">파일럿 테스트</button>
     <button class="page-tab" data-page="codebook">코드북</button>
   </div>
@@ -1926,15 +1945,11 @@ function showAuthGate(message=""){
     err.textContent=message||"";
     err.classList.toggle("show",!!message);
   }
-  const logout=document.getElementById("logoutBtn");
-  if(logout) logout.style.display="none";
 }
 function hideAuthGate(){
   document.getElementById("authGate")?.classList.add("hidden");
   const err=document.getElementById("authError");
   if(err){err.textContent="";err.classList.remove("show");}
-  const logout=document.getElementById("logoutBtn");
-  if(logout) logout.style.display="";
 }
 function authMessage(err){
   const code=err?.code||"";

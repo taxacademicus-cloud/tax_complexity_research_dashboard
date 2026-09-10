@@ -371,6 +371,45 @@ h1{font-size:30px;letter-spacing:-.4px}
   .sync-wrap,.collab-meta{flex-wrap:wrap}
 }
 
+
+/* ===== Codebook version pages ===== */
+.cb-page-nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.cb-page-tab{border:1px solid #dbe3ec;background:#f8fafc;color:#526274;border-radius:10px;padding:8px 12px;font-size:11px;font-weight:800;cursor:pointer}
+.cb-page-tab:hover{background:#f1f5f9}
+.cb-page-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.cb-page-shell{border-top:1px solid #e7ecf2;padding-top:14px}
+.cb-page-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:14px;padding:13px 14px;border:1px solid #dce5ef;background:#f8fbff;border-radius:12px}
+.cb-page-head .version-title{font-size:18px;font-weight:800;color:#244f87}
+.cb-page-head .version-meta{font-size:10px;color:#718096;margin-top:4px}
+.cb-page-badge{font-size:10px;font-weight:800;border-radius:999px;padding:5px 8px;background:#eef3f8;color:#607080}
+.cb-page-badge.current{background:#eaf7ef;color:#277746}
+.cb-page-badge.draft{background:#fff7df;color:#9a6a00}
+.cb-page-badge.archived{background:#f1f3f5;color:#667085}
+.cb-version-row.selected{border-color:#8eb0dc;background:#f7fbff;box-shadow:0 0 0 1px rgba(36,79,143,.05)}
+@media(max-width:700px){.cb-page-head{flex-direction:column}}
+
+
+/* ===== Codebook full content editor ===== */
+.cb-content-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.cb-edit-modal .modal{width:min(1080px,96vw);max-height:92vh;overflow:auto}
+.cb-editor-section{border:1px solid #dfe6ee;border-radius:12px;padding:14px;margin:12px 0;background:#fbfcfe}
+.cb-editor-section h4{margin:0 0 10px;font-size:13px;color:#294f82}
+.cb-editor-row{display:grid;gap:8px;align-items:start;margin-bottom:8px}
+.cb-editor-row.cols-2{grid-template-columns:minmax(180px,.7fr) minmax(280px,1.7fr) auto}
+.cb-editor-row.cols-3{grid-template-columns:minmax(110px,.45fr) minmax(160px,.7fr) minmax(300px,1.8fr) auto}
+.cb-editor-row.cols-5{grid-template-columns:repeat(5,minmax(120px,1fr)) auto}
+.cb-editor-row.single{grid-template-columns:1fr auto}
+.cb-editor-row input,.cb-editor-row textarea,
+.cb-editor-section>textarea{width:100%;box-sizing:border-box}
+.cb-editor-row textarea{min-height:68px}
+.cb-editor-add{margin-top:4px}
+.cb-editor-help{font-size:10px;color:#7b8794;line-height:1.55;margin-top:5px}
+.cb-editor-empty{padding:10px;border:1px dashed #cfd8e3;border-radius:9px;color:#8290a0;font-size:11px}
+@media(max-width:900px){
+  .cb-editor-row.cols-2,.cb-editor-row.cols-3,.cb-editor-row.cols-5{grid-template-columns:1fr}
+  .cb-editor-row button{justify-self:start}
+}
+
 </style>
 </head>
 <body>
@@ -386,7 +425,7 @@ h1{font-size:30px;letter-spacing:-.4px}
     <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="비밀번호">
     <button class="auth-submit" id="loginSubmit" type="submit">로그인</button>
     <div class="auth-error" id="authError"></div>
-    <div class="auth-note">로그인 관련 문의: j5tax@naver.com</div>
+    <div class="auth-note">Firebase Authentication에 등록된 연구자 계정만 사용할 수 있습니다.</div>
   </form>
 </div>
 
@@ -625,67 +664,22 @@ h1{font-size:30px;letter-spacing:-.4px}
         </section>
 
         <section class="panel">
-          <h2>조문 Lineage Codebook</h2>
-          <div class="section-caption">개정 전후 조문의 계보관계를 9개 relation_type으로 판정합니다.</div>
-          <div class="cb-priority"><b>상위 판정원칙</b><br>기술적·표현상의 차이 확인 → 동일 규제단위의 연속성 확인 → 내용/위치 변화 확인 → 탄생·소멸·분할·통합·법률 간 이전 확인 → 증거가 부족하면 UNRESOLVED</div>
-          <div class="cb-relations" id="cbRelations" style="margin-top:12px"></div>
-        </section>
-
-        <section class="panel">
-          <h2>유형별 ID / Version 규칙</h2>
-          <div class="table-wrap cb-rule-table">
-            <table>
-              <thead><tr><th>관계</th><th>실제 변화</th><th>provision_id</th><th>provision_version_id</th><th>source_locator_id</th></tr></thead>
-              <tbody id="cbRuleTable"></tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="panel">
-          <h2>불변 원문 Snapshot / Observation</h2>
-          <div class="cb-grid">
-            <div class="cb-card"><h3>source_snapshot</h3><p>실제로 확보한 불변 원본 객체를 관리합니다. 동일 원문은 재사용하고 response_sha256으로 무결성을 검증하며 원본은 덮어쓰지 않습니다.</p></div>
-            <div class="cb-card"><h3>collection_observation</h3><p>API 요청·수집이라는 사건을 관리합니다. 동일 Snapshot을 반복 관찰할 수 있고, 실패한 수집도 삭제하지 않고 기록하며 실패 시 snapshot_id는 NULL이 될 수 있습니다.</p></div>
-          </div>
+          <h2>버전별 Codebook 페이지</h2>
+          <div class="section-caption">버전을 선택하면 해당 버전에 저장된 Codebook 내용을 독립된 페이지로 확인할 수 있습니다.</div>
+          <div class="cb-page-nav" id="cbVersionTabs"></div>
+          <div class="cb-page-shell" id="cbVersionPage"></div>
         </section>
       </main>
 
       <aside>
         <section class="panel">
-          <h2>식별자 체계</h2>
-          <div class="workstreams">
-            <div class="ws"><b>law_id</b><span>법률 자체의 정체성을 식별. 국가법령정보 API의 법령 식별값 사용.</span></div>
-            <div class="ws"><b>source_locator_id</b><span>law_id + MST + 조문 구조정보를 이용해 특정 법령 버전의 조문 위치를 식별.</span></div>
-            <div class="ws"><b>provision_id</b><span>개정을 넘어 추적하는 논리적 규제단위의 영구 정체성.</span></div>
-            <div class="ws"><b>provision_version_id</b><span>특정 시점의 조문 문언·위치·효력 상태를 식별.</span></div>
-            <div class="ws"><b>snapshot_id</b><span>판정의 근거가 된 불변 API 원문 객체를 식별.</span></div>
-          </div>
-        </section>
-
-        <section class="panel">
-          <h2>최소 DB Schema · schema-0.1</h2>
+          <h2>버전 페이지 안내</h2>
           <div class="small" style="line-height:1.75">
-            source_snapshot · collection_observation · law_version · provision_identity · provision_version · amendment_event · provision_lineage · annotation · pipeline_run · release_manifest
+            · 각 버전은 독립된 Codebook 내용 스냅숏을 가집니다.<br>
+            · 새 버전을 등록하면 선택 중인 버전 내용을 복제해 새 페이지를 만듭니다.<br>
+            · 이후 버전별 내용은 서로 섞이지 않고 별도로 보존됩니다.<br>
+            · Version History의 <b>열기</b> 버튼으로 해당 페이지로 이동할 수 있습니다.
           </div>
-        </section>
-
-        <section class="panel">
-          <h2>Validation 핵심원칙</h2>
-          <div class="small" style="line-height:1.75">
-            · relation_type은 허용된 9개 값만 사용<br>
-            · confidence는 0~1 범위로 통제<br>
-            · 불확실한 계보는 강제 연결하지 않고 UNRESOLVED로 보존<br>
-            · 판정 근거(evidence), 방법, confidence, review status 기록<br>
-            · 원천 → 조문 → 판단 → 지표의 추적가능성 유지
-          </div>
-        </section>
-
-        <section class="panel">
-          <h2>설계 결정 확인 필요</h2>
-          <div class="cb-open-item">의미는 거의 같지만 문언이 변경된 경우 SAME/MODIFY 경계</div>
-          <div class="cb-open-item">법 전체 MST 변경만으로 provision_version_id를 새로 만들지 여부</div>
-          <div class="cb-open-item">MODIFY의 FORMAL / SUBSTANTIVE 하위 구분 여부</div>
-          <div class="cb-open-item">위치 이동과 문언 변경이 동시에 발생한 복합사례 처리</div>
         </section>
       </aside>
     </div>
@@ -767,6 +761,68 @@ h1{font-size:30px;letter-spacing:-.4px}
       </div>
       <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelCbVersion">취소</button><button type="submit" class="btn-primary">저장</button></div>
     </form>
+  </div>
+</div>
+
+
+<div class="modal-bg cb-edit-modal" id="cbContentModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="cbContentModalTitle">Codebook 내용 수정</h3>
+      <button class="btn-ghost" id="closeCbContentModal">닫기</button>
+    </div>
+
+    <div class="cb-editor-section">
+      <h4>상위 판정원칙</h4>
+      <textarea id="cbEditPriority" placeholder="상위 판정원칙"></textarea>
+    </div>
+
+    <div class="cb-editor-section">
+      <h4>조문 Lineage 관계유형</h4>
+      <div id="cbEditRelations"></div>
+      <button type="button" class="btn-soft cb-editor-add" data-add="relations">+ 관계유형 추가</button>
+      <div class="cb-editor-help">코드 · 명칭 · 판정/설명 순서로 관리합니다.</div>
+    </div>
+
+    <div class="cb-editor-section">
+      <h4>유형별 ID / Version 규칙</h4>
+      <div id="cbEditRules"></div>
+      <button type="button" class="btn-soft cb-editor-add" data-add="rules">+ 규칙 행 추가</button>
+    </div>
+
+    <div class="cb-editor-section">
+      <h4>불변 원문 Snapshot / Observation</h4>
+      <div id="cbEditSnapshots"></div>
+      <button type="button" class="btn-soft cb-editor-add" data-add="snapshots">+ 항목 추가</button>
+    </div>
+
+    <div class="cb-editor-section">
+      <h4>식별자 체계</h4>
+      <div id="cbEditIdentifiers"></div>
+      <button type="button" class="btn-soft cb-editor-add" data-add="identifiers">+ 식별자 추가</button>
+    </div>
+
+    <div class="cb-editor-section">
+      <h4>최소 DB Schema</h4>
+      <textarea id="cbEditSchema" placeholder="DB Schema 항목"></textarea>
+    </div>
+
+    <div class="cb-editor-section">
+      <h4>Validation 핵심원칙</h4>
+      <div id="cbEditValidation"></div>
+      <button type="button" class="btn-soft cb-editor-add" data-add="validation">+ 원칙 추가</button>
+    </div>
+
+    <div class="cb-editor-section">
+      <h4>설계 결정 확인 필요</h4>
+      <div id="cbEditOpenDecisions"></div>
+      <button type="button" class="btn-soft cb-editor-add" data-add="openDecisions">+ 결정사항 추가</button>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-ghost" id="cancelCbContentModal">취소</button>
+      <button type="button" class="btn-primary" id="saveCbContent">내용 저장</button>
+    </div>
   </div>
 </div>
 
@@ -895,12 +951,70 @@ function makeInitial(){
     references:[],
     codebook:{
       versions:[
-        {id:"cb_initial_20260902",version:"CB-2026.09.02",date:"2026-09-02",status:"current",owner:"",changes:"조문 Lineage Codebook 최초 확정 기록. SAME, MODIFY, RENUMBER, NEW, REPEAL, SPLIT, MERGE, TRANSFER, UNRESOLVED 판정기준을 정리."}
+        {id:"cb_initial_20260902",version:"CB-2026.09.02",date:"2026-09-02",status:"draft",owner:"",changes:"조문 Lineage Codebook 최초 확정 기록. SAME, MODIFY, RENUMBER, NEW, REPEAL, SPLIT, MERGE, TRANSFER, UNRESOLVED 판정기준을 정리."}
       ]
     },
     risks:[]
   };
 }
+
+
+function defaultCodebookContent(){
+  return {
+    priority:"기술적·표현상의 차이 확인 → 동일 규제단위의 연속성 확인 → 내용/위치 변화 확인 → 탄생·소멸·분할·통합·법률 간 이전 확인 → 증거가 부족하면 UNRESOLVED",
+    relations:[
+      ["SAME","실질적 변화 없음","동일 위치·정규화 문언 동일. MST 변경만으로 새 provision_version을 만들지 않음."],
+      ["MODIFY","내용 변경","동일 규제단위는 유지되나 문언 또는 규범적 내용이 실제 변경됨."],
+      ["RENUMBER","위치 변경","동일 규제단위가 다른 조·항·호 등 구조적 위치로 이동."],
+      ["NEW","새 규제단위 출현","기존 규제단위와 계보적 연속성이 없는 새로운 규제단위."],
+      ["REPEAL","규제단위 소멸","기존 규제단위가 종료되고 이를 승계하는 후속 규제단위가 없음."],
+      ["SPLIT","1 → N 분화","하나의 규제단위가 둘 이상의 독립 규제단위로 분화."],
+      ["MERGE","N → 1 통합","둘 이상의 규제단위가 하나의 새로운 규제단위로 통합."],
+      ["TRANSFER","법률 간 이전","동일·연속 규제단위가 다른 법률로 이전."],
+      ["UNRESOLVED","판정 보류","현재 증거만으로 다른 유형을 신뢰성 있게 확정할 수 없음."]
+    ],
+    rules:[
+      ["SAME","변화 없음","유지","유지","새 MST 기준 신규"],
+      ["MODIFY","내용 변경","유지","신규 생성","새 MST 기준 신규"],
+      ["RENUMBER","위치 변경","유지","신규 생성","신규 생성"],
+      ["NEW","새 규제단위","신규 발급","신규 V001","신규 생성"],
+      ["REPEAL","규제단위 소멸","종료·보존","신규 생성 안 함","신규 없음"],
+      ["SPLIT","1→N","기존 종료·후속 신규","후속 각각 V001","후속 각각 신규"],
+      ["MERGE","N→1","기존 종료·후속 신규","후속 V001","통합 후 신규"],
+      ["TRANSFER","법률 간 이전","기존 종료·이전 후 신규","이전 후 V001","이전 후 법률 기준 신규"],
+      ["UNRESOLVED","확정 불가","판정 보류","계보 연결 보류","실제 위치별 생성·보존"]
+    ],
+    snapshots:[
+      {title:"source_snapshot",text:"실제로 확보한 불변 원본 객체를 관리합니다. 동일 원문은 재사용하고 response_sha256으로 무결성을 검증하며 원본은 덮어쓰지 않습니다."},
+      {title:"collection_observation",text:"API 요청·수집이라는 사건을 관리합니다. 동일 Snapshot을 반복 관찰할 수 있고, 실패한 수집도 삭제하지 않고 기록하며 실패 시 snapshot_id는 NULL이 될 수 있습니다."}
+    ],
+    identifiers:[
+      ["law_id","법률 자체의 정체성을 식별. 국가법령정보 API의 법령 식별값 사용."],
+      ["source_locator_id","law_id + MST + 조문 구조정보를 이용해 특정 법령 버전의 조문 위치를 식별."],
+      ["provision_id","개정을 넘어 추적하는 논리적 규제단위의 영구 정체성."],
+      ["provision_version_id","특정 시점의 조문 문언·위치·효력 상태를 식별."],
+      ["snapshot_id","판정의 근거가 된 불변 API 원문 객체를 식별."]
+    ],
+    schema:"source_snapshot · collection_observation · law_version · provision_identity · provision_version · amendment_event · provision_lineage · annotation · pipeline_run · release_manifest",
+    validation:[
+      "relation_type은 허용된 9개 값만 사용",
+      "confidence는 0~1 범위로 통제",
+      "불확실한 계보는 강제 연결하지 않고 UNRESOLVED로 보존",
+      "판정 근거(evidence), 방법, confidence, review status 기록",
+      "원천 → 조문 → 판단 → 지표의 추적가능성 유지"
+    ],
+    openDecisions:[
+      "의미는 거의 같지만 문언이 변경된 경우 SAME/MODIFY 경계",
+      "법 전체 MST 변경만으로 provision_version_id를 새로 만들지 여부",
+      "MODIFY의 FORMAL / SUBSTANTIVE 하위 구분 여부",
+      "위치 이동과 문언 변경이 동시에 발생한 복합사례 처리"
+    ]
+  };
+}
+function cloneCodebookContent(x){
+  return JSON.parse(JSON.stringify(x||defaultCodebookContent()));
+}
+let selectedCodebookVersionId=null;
 
 let data=load();
 if(!data.selectedPage) data.selectedPage="overview";
@@ -915,7 +1029,14 @@ data.years.forEach(y=>y.quarters.forEach(q=>{
 if(!Array.isArray(data.meetings)) data.meetings=[];
 if(!Array.isArray(data.journals)) data.journals=[];
 if(!Array.isArray(data.references)) data.references=[];
+
 if(!data.codebook || !Array.isArray(data.codebook.versions)) data.codebook=makeInitial().codebook;
+data.codebook.versions.forEach(v=>{
+  if(!v.content) v.content=cloneCodebookContent(defaultCodebookContent());
+  if(v.id==="cb_initial_20260902" && !data.codebook.versionPagesMigrated && v.status==="current") v.status="draft";
+});
+data.codebook.versionPagesMigrated=true;
+
 if(!data.pilot){
   data.pilot=makeInitial().pilot;
 }else{
@@ -1389,33 +1510,13 @@ function openReference(id=null){
 function closeReference(){document.getElementById("referenceModal").classList.remove("show");}
 
 function renderCodebook(){
-  const relations=[
-    ["SAME","실질적 변화 없음","동일 위치·정규화 문언 동일. MST 변경만으로 새 provision_version을 만들지 않음."],
-    ["MODIFY","내용 변경","동일 규제단위는 유지되나 문언 또는 규범적 내용이 실제 변경됨."],
-    ["RENUMBER","위치 변경","동일 규제단위가 다른 조·항·호 등 구조적 위치로 이동."],
-    ["NEW","새 규제단위 출현","기존 규제단위와 계보적 연속성이 없는 새로운 규제단위."],
-    ["REPEAL","규제단위 소멸","기존 규제단위가 종료되고 이를 승계하는 후속 규제단위가 없음."],
-    ["SPLIT","1 → N 분화","하나의 규제단위가 둘 이상의 독립 규제단위로 분화."],
-    ["MERGE","N → 1 통합","둘 이상의 규제단위가 하나의 새로운 규제단위로 통합."],
-    ["TRANSFER","법률 간 이전","동일·연속 규제단위가 다른 법률로 이전."],
-    ["UNRESOLVED","판정 보류","현재 증거만으로 다른 유형을 신뢰성 있게 확정할 수 없음."]
-  ];
-  const rules=[
-    ["SAME","변화 없음","유지","유지","새 MST 기준 신규"],
-    ["MODIFY","내용 변경","유지","신규 생성","새 MST 기준 신규"],
-    ["RENUMBER","위치 변경","유지","신규 생성","신규 생성"],
-    ["NEW","새 규제단위","신규 발급","신규 V001","신규 생성"],
-    ["REPEAL","규제단위 소멸","종료·보존","신규 생성 안 함","신규 없음"],
-    ["SPLIT","1→N","기존 종료·후속 신규","후속 각각 V001","후속 각각 신규"],
-    ["MERGE","N→1","기존 종료·후속 신규","후속 V001","통합 후 신규"],
-    ["TRANSFER","법률 간 이전","기존 종료·이전 후 신규","이전 후 V001","이전 후 법률 기준 신규"],
-    ["UNRESOLVED","확정 불가","판정 보류","계보 연결 보류","실제 위치별 생성·보존"]
-  ];
-  document.getElementById("cbRelations").innerHTML=relations.map(r=>`<div class="cb-rel"><b>${r[0]}</b><div><strong>${r[1]}</strong><br>${r[2]}</div></div>`).join("");
-  document.getElementById("cbRuleTable").innerHTML=rules.map(r=>`<tr>${r.map((c,i)=>`<td>${i===0?`<b>${c}</b>`:c}</td>`).join("")}</tr>`).join("");
-
   const vs=[...(data.codebook?.versions||[])].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
   const current=vs.find(v=>v.status==="current")||vs[0];
+  if(!selectedCodebookVersionId || !vs.some(v=>String(v.id)===String(selectedCodebookVersionId))){
+    selectedCodebookVersionId=current?.id||vs[0]?.id||null;
+  }
+  const selected=vs.find(v=>String(v.id)===String(selectedCodebookVersionId))||current||vs[0];
+
   document.getElementById("cbCurrentVersion").textContent=current?.version||"미지정";
   document.getElementById("cbUpdatedDate").textContent=current?.date?prettyDate(current.date):"-";
   document.getElementById("cbCurrentHero").textContent=current?.version||"미지정";
@@ -1426,22 +1527,275 @@ function renderCodebook(){
   if(!vs.length){
     list.innerHTML='<div class="empty">등록된 Codebook 버전이 없습니다.</div>';
   }else{
-    list.innerHTML=vs.map(v=>`<div class="cb-version-row">
+    list.innerHTML=vs.map(v=>`<div class="cb-version-row ${String(v.id)===String(selectedCodebookVersionId)?"selected":""}">
       <div><b>${esc(v.version)}</b></div>
       <div class="small">${prettyDate(v.date)}</div>
       <div><span class="cb-status ${v.status}">${statusName[v.status]||v.status}</span></div>
       <div class="small">${esc(v.changes||"")}${v.owner?`<br><b>확정:</b> ${esc(v.owner)}`:""}</div>
-      <div><button class="btn-soft edit-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">수정</button> <button class="btn-danger delete-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">삭제</button></div>
+      <div>
+        <button class="btn-soft open-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">열기</button>
+        <button class="btn-soft edit-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">수정</button>
+        <button class="btn-danger delete-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">삭제</button>
+      </div>
     </div>`).join("");
   }
+
+  const tabs=document.getElementById("cbVersionTabs");
+  tabs.innerHTML=vs.map(v=>`<button class="cb-page-tab ${String(v.id)===String(selectedCodebookVersionId)?"active":""}" data-id="${esc(v.id)}">${esc(v.version)} · ${statusName[v.status]||v.status}</button>`).join("");
+
+  const page=document.getElementById("cbVersionPage");
+  if(!selected){
+    page.innerHTML='<div class="empty">표시할 Codebook 버전이 없습니다.</div>';
+  }else{
+    const c=selected.content||defaultCodebookContent();
+    page.innerHTML=`
+      <div class="cb-page-head">
+        <div>
+          <div class="version-title">${esc(selected.version)}</div>
+          <div class="version-meta">${prettyDate(selected.date)}${selected.owner?` · 담당/확정: ${esc(selected.owner)}`:""}<br>${esc(selected.changes||"변경내용 미입력")}</div>
+        </div>
+        <div class="cb-content-actions">
+          <span class="cb-page-badge ${selected.status}">${statusName[selected.status]||selected.status}</span>
+          <button class="btn-primary edit-cb-content" data-id="${esc(selected.id)}">내용 수정</button>
+        </div>
+      </div>
+
+      <section class="panel">
+        <h2>조문 Lineage Codebook</h2>
+        <div class="section-caption">이 내용은 <b>${esc(selected.version)}</b> 버전에 귀속된 독립 스냅숏입니다.</div>
+        <div class="cb-priority"><b>상위 판정원칙</b><br>${esc(c.priority||"")}</div>
+        <div class="cb-relations" style="margin-top:12px">${(c.relations||[]).map(r=>`<div class="cb-rel"><b>${esc(r[0])}</b><div><strong>${esc(r[1])}</strong><br>${esc(r[2])}</div></div>`).join("")}</div>
+      </section>
+
+      <section class="panel">
+        <h2>유형별 ID / Version 규칙</h2>
+        <div class="table-wrap cb-rule-table"><table>
+          <thead><tr><th>관계</th><th>실제 변화</th><th>provision_id</th><th>provision_version_id</th><th>source_locator_id</th></tr></thead>
+          <tbody>${(c.rules||[]).map(r=>`<tr>${r.map((x,i)=>`<td>${i===0?`<b>${esc(x)}</b>`:esc(x)}</td>`).join("")}</tr>`).join("")}</tbody>
+        </table></div>
+      </section>
+
+      <section class="panel">
+        <h2>불변 원문 Snapshot / Observation</h2>
+        <div class="cb-grid">${(c.snapshots||[]).map(x=>`<div class="cb-card"><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p></div>`).join("")}</div>
+      </section>
+
+      <div class="grid-2">
+        <div>
+          <section class="panel">
+            <h2>식별자 체계</h2>
+            <div class="workstreams">${(c.identifiers||[]).map(x=>`<div class="ws"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join("")}</div>
+          </section>
+          <section class="panel">
+            <h2>최소 DB Schema · schema-0.1</h2>
+            <div class="small" style="line-height:1.75">${esc(c.schema||"")}</div>
+          </section>
+        </div>
+        <div>
+          <section class="panel">
+            <h2>Validation 핵심원칙</h2>
+            <div class="small" style="line-height:1.75">${(c.validation||[]).map(x=>`· ${esc(x)}`).join("<br>")}</div>
+          </section>
+          <section class="panel">
+            <h2>설계 결정 확인 필요</h2>
+            ${(c.openDecisions||[]).map(x=>`<div class="cb-open-item">${esc(x)}</div>`).join("")}
+          </section>
+        </div>
+      </div>`;
+  }
+
+  document.querySelectorAll(".cb-page-tab,.open-cb-version").forEach(b=>b.addEventListener("click",()=>{
+    selectedCodebookVersionId=b.dataset.id;
+    renderCodebook();
+  }));
   document.querySelectorAll(".edit-cb-version").forEach(b=>b.addEventListener("click",()=>openCbVersion(b.dataset.id)));
+  document.querySelectorAll(".edit-cb-content").forEach(b=>b.addEventListener("click",()=>openCbContentEditor(b.dataset.id)));
   document.querySelectorAll(".delete-cb-version").forEach(b=>b.addEventListener("click",()=>{
-    if(confirm("이 Codebook 버전 기록을 삭제할까요?")){
+    if(confirm("이 Codebook 버전 기록과 해당 버전 페이지를 삭제할까요?")){
       data.codebook.versions=data.codebook.versions.filter(v=>String(v.id)!==String(b.dataset.id));
+      if(String(selectedCodebookVersionId)===String(b.dataset.id)) selectedCodebookVersionId=null;
       save(); render();
     }
   }));
 }
+
+
+let editingCbContentVersionId=null;
+let cbEditorDraft=null;
+
+function cbSafeArray(v){return Array.isArray(v)?v:[];}
+function cbEscAttr(v){return esc(v==null?"":String(v));}
+
+function openCbContentEditor(id){
+  const version=data.codebook.versions.find(v=>String(v.id)===String(id));
+  if(!version) return;
+  editingCbContentVersionId=version.id;
+  cbEditorDraft=cloneCodebookContent(version.content||defaultCodebookContent());
+  document.getElementById("cbContentModalTitle").textContent=`Codebook 내용 수정 · ${version.version}`;
+  renderCbContentEditor();
+  document.getElementById("cbContentModal").classList.add("show");
+}
+
+function closeCbContentEditor(){
+  document.getElementById("cbContentModal").classList.remove("show");
+  editingCbContentVersionId=null;
+  cbEditorDraft=null;
+}
+
+function renderCbContentEditor(){
+  if(!cbEditorDraft) return;
+  document.getElementById("cbEditPriority").value=cbEditorDraft.priority||"";
+  document.getElementById("cbEditSchema").value=cbEditorDraft.schema||"";
+
+  const relations=document.getElementById("cbEditRelations");
+  relations.innerHTML=cbSafeArray(cbEditorDraft.relations).length
+    ? cbEditorDraft.relations.map((r,i)=>`
+      <div class="cb-editor-row cols-3" data-kind="relations" data-index="${i}">
+        <input data-field="0" value="${cbEscAttr(r[0])}" placeholder="코드">
+        <input data-field="1" value="${cbEscAttr(r[1])}" placeholder="명칭">
+        <textarea data-field="2" placeholder="설명">${esc(r[2]||"")}</textarea>
+        <button type="button" class="btn-danger cb-remove-row">삭제</button>
+      </div>`).join("")
+    : '<div class="cb-editor-empty">등록된 관계유형이 없습니다.</div>';
+
+  const rules=document.getElementById("cbEditRules");
+  rules.innerHTML=cbSafeArray(cbEditorDraft.rules).length
+    ? cbEditorDraft.rules.map((r,i)=>`
+      <div class="cb-editor-row cols-5" data-kind="rules" data-index="${i}">
+        <input data-field="0" value="${cbEscAttr(r[0])}" placeholder="관계">
+        <input data-field="1" value="${cbEscAttr(r[1])}" placeholder="실제 변화">
+        <input data-field="2" value="${cbEscAttr(r[2])}" placeholder="provision_id">
+        <input data-field="3" value="${cbEscAttr(r[3])}" placeholder="provision_version_id">
+        <input data-field="4" value="${cbEscAttr(r[4])}" placeholder="source_locator_id">
+        <button type="button" class="btn-danger cb-remove-row">삭제</button>
+      </div>`).join("")
+    : '<div class="cb-editor-empty">등록된 규칙이 없습니다.</div>';
+
+  const snapshots=document.getElementById("cbEditSnapshots");
+  snapshots.innerHTML=cbSafeArray(cbEditorDraft.snapshots).length
+    ? cbEditorDraft.snapshots.map((r,i)=>`
+      <div class="cb-editor-row cols-2" data-kind="snapshots" data-index="${i}">
+        <input data-field="title" value="${cbEscAttr(r.title)}" placeholder="항목명">
+        <textarea data-field="text" placeholder="설명">${esc(r.text||"")}</textarea>
+        <button type="button" class="btn-danger cb-remove-row">삭제</button>
+      </div>`).join("")
+    : '<div class="cb-editor-empty">등록된 Snapshot/Observation 항목이 없습니다.</div>';
+
+  const identifiers=document.getElementById("cbEditIdentifiers");
+  identifiers.innerHTML=cbSafeArray(cbEditorDraft.identifiers).length
+    ? cbEditorDraft.identifiers.map((r,i)=>`
+      <div class="cb-editor-row cols-2" data-kind="identifiers" data-index="${i}">
+        <input data-field="0" value="${cbEscAttr(r[0])}" placeholder="식별자">
+        <textarea data-field="1" placeholder="설명">${esc(r[1]||"")}</textarea>
+        <button type="button" class="btn-danger cb-remove-row">삭제</button>
+      </div>`).join("")
+    : '<div class="cb-editor-empty">등록된 식별자가 없습니다.</div>';
+
+  const validation=document.getElementById("cbEditValidation");
+  validation.innerHTML=cbSafeArray(cbEditorDraft.validation).length
+    ? cbEditorDraft.validation.map((r,i)=>`
+      <div class="cb-editor-row single" data-kind="validation" data-index="${i}">
+        <textarea data-field="value" placeholder="Validation 원칙">${esc(r||"")}</textarea>
+        <button type="button" class="btn-danger cb-remove-row">삭제</button>
+      </div>`).join("")
+    : '<div class="cb-editor-empty">등록된 Validation 원칙이 없습니다.</div>';
+
+  const decisions=document.getElementById("cbEditOpenDecisions");
+  decisions.innerHTML=cbSafeArray(cbEditorDraft.openDecisions).length
+    ? cbEditorDraft.openDecisions.map((r,i)=>`
+      <div class="cb-editor-row single" data-kind="openDecisions" data-index="${i}">
+        <textarea data-field="value" placeholder="설계 결정사항">${esc(r||"")}</textarea>
+        <button type="button" class="btn-danger cb-remove-row">삭제</button>
+      </div>`).join("")
+    : '<div class="cb-editor-empty">등록된 설계 결정사항이 없습니다.</div>';
+
+  bindCbEditorRows();
+}
+
+function syncCbEditorDraftFromDom(){
+  if(!cbEditorDraft) return;
+  cbEditorDraft.priority=document.getElementById("cbEditPriority").value;
+  cbEditorDraft.schema=document.getElementById("cbEditSchema").value;
+
+  const arrayKinds=["relations","rules","identifiers"];
+  arrayKinds.forEach(kind=>{
+    const rows=[...document.querySelectorAll(`[data-kind="${kind}"]`)];
+    cbEditorDraft[kind]=rows.map(row=>{
+      const inputs=[...row.querySelectorAll("[data-field]")];
+      const max=Math.max(...inputs.map(el=>Number(el.dataset.field)));
+      const a=Array(max+1).fill("");
+      inputs.forEach(el=>a[Number(el.dataset.field)]=el.value);
+      return a;
+    });
+  });
+
+  cbEditorDraft.snapshots=[...document.querySelectorAll('[data-kind="snapshots"]')].map(row=>({
+    title:row.querySelector('[data-field="title"]').value,
+    text:row.querySelector('[data-field="text"]').value
+  }));
+
+  ["validation","openDecisions"].forEach(kind=>{
+    cbEditorDraft[kind]=[...document.querySelectorAll(`[data-kind="${kind}"]`)]
+      .map(row=>row.querySelector('[data-field="value"]').value);
+  });
+}
+
+function bindCbEditorRows(){
+  document.querySelectorAll("#cbContentModal .cb-remove-row").forEach(btn=>{
+    btn.onclick=()=>{
+      syncCbEditorDraftFromDom();
+      const row=btn.closest("[data-kind]");
+      const kind=row.dataset.kind;
+      const idx=Number(row.dataset.index);
+      cbEditorDraft[kind].splice(idx,1);
+      renderCbContentEditor();
+    };
+  });
+}
+
+function addCbEditorItem(kind){
+  syncCbEditorDraftFromDom();
+  if(!cbEditorDraft[kind]) cbEditorDraft[kind]=[];
+  const defaults={
+    relations:["","",""],
+    rules:["","","","",""],
+    snapshots:{title:"",text:""},
+    identifiers:["",""],
+    validation:"",
+    openDecisions:""
+  };
+  cbEditorDraft[kind].push(JSON.parse(JSON.stringify(defaults[kind])));
+  renderCbContentEditor();
+  const boxMap={
+    relations:"cbEditRelations",
+    rules:"cbEditRules",
+    snapshots:"cbEditSnapshots",
+    identifiers:"cbEditIdentifiers",
+    validation:"cbEditValidation",
+    openDecisions:"cbEditOpenDecisions"
+  };
+  document.getElementById(boxMap[kind])?.lastElementChild?.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+document.querySelectorAll("#cbContentModal [data-add]").forEach(btn=>{
+  btn.addEventListener("click",()=>addCbEditorItem(btn.dataset.add));
+});
+document.getElementById("closeCbContentModal").onclick=closeCbContentEditor;
+document.getElementById("cancelCbContentModal").onclick=closeCbContentEditor;
+document.getElementById("saveCbContent").onclick=()=>{
+  if(!editingCbContentVersionId || !cbEditorDraft) return;
+  syncCbEditorDraftFromDom();
+
+  const version=data.codebook.versions.find(v=>String(v.id)===String(editingCbContentVersionId));
+  if(!version) return;
+  version.content=cloneCodebookContent(cbEditorDraft);
+
+  selectedCodebookVersionId=version.id;
+  save();
+  closeCbContentEditor();
+  render();
+};
+
 
 let editingCbVersionId=null;
 function openCbVersion(id=null){
@@ -1778,13 +2132,18 @@ document.getElementById("cancelCbVersion").onclick=closeCbVersion;
 document.getElementById("cbVersionForm").addEventListener("submit",e=>{
   e.preventDefault();
   const status=document.getElementById("cbVersionStatus").value;
+  const existing=editingCbVersionId?data.codebook.versions.find(v=>String(v.id)===String(editingCbVersionId)):null;
+  const sourceVersion=data.codebook.versions.find(v=>String(v.id)===String(selectedCodebookVersionId))
+    || data.codebook.versions.find(v=>v.status==="current")
+    || data.codebook.versions[0];
   const payload={
     id:editingCbVersionId||("cb_"+Date.now()),
     version:document.getElementById("cbVersionName").value.trim(),
     date:document.getElementById("cbVersionDate").value,
     status,
     owner:document.getElementById("cbVersionOwner").value.trim(),
-    changes:document.getElementById("cbVersionChanges").value.trim()
+    changes:document.getElementById("cbVersionChanges").value.trim(),
+    content:existing?.content?cloneCodebookContent(existing.content):cloneCodebookContent(sourceVersion?.content||defaultCodebookContent())
   };
   if(status==="current"){
     data.codebook.versions.forEach(v=>{if(String(v.id)!==String(editingCbVersionId))v.status="archived";});
@@ -1795,6 +2154,7 @@ document.getElementById("cbVersionForm").addEventListener("submit",e=>{
   }else{
     data.codebook.versions.push(payload);
   }
+  selectedCodebookVersionId=payload.id;
   save();closeCbVersion();render();
 });
 

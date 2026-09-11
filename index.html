@@ -410,6 +410,100 @@ h1{font-size:30px;letter-spacing:-.4px}
   .cb-editor-row button{justify-self:start}
 }
 
+
+/* ===== Versioned DB Schema page ===== */
+.schema-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.schema-kpi{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px}
+.schema-kpi .slabel{font-size:10px;color:var(--muted)}
+.schema-kpi .svalue{font-size:18px;font-weight:800;margin-top:5px;color:#1f477d}
+.schema-version-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;border:1px solid #d9e4f0;background:#f8fbff;border-radius:13px;padding:14px;margin-bottom:12px}
+.schema-version-title{font-size:20px;font-weight:800;color:#244f87}
+.schema-version-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 15px}
+.schema-version-tab{border:1px solid #dbe3ec;background:#f8fafc;color:#526274;border-radius:10px;padding:8px 12px;font-size:11px;font-weight:800;cursor:pointer}
+.schema-version-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.schema-overview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.schema-overview-item{border:1px solid #e0e6ed;border-radius:10px;padding:10px;background:#fbfcfe}
+.schema-overview-item b{font-size:11px;color:#244f87}
+.schema-overview-item .sm{font-size:10px;color:#6d7885;margin-top:3px;line-height:1.5}
+.schema-table-block{margin:13px 0;border:1px solid #dfe6ee;border-radius:12px;overflow:hidden;background:#fff}
+.schema-table-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 13px;background:#f6f9fc;border-bottom:1px solid #e1e7ee}
+.schema-table-head h3{margin:0;font-size:13px;color:#234d82}
+.schema-fields{overflow:auto}
+.schema-fields table{width:100%;border-collapse:collapse;min-width:1050px}
+.schema-fields th,.schema-fields td{border-bottom:1px solid #edf0f3;padding:8px 9px;text-align:left;vertical-align:top;font-size:10px;line-height:1.45}
+.schema-fields th{background:#fbfcfe;color:#526171;font-weight:800;position:sticky;top:0}
+.schema-status{font-size:10px;font-weight:800;border-radius:999px;padding:5px 8px;background:#eef3f8;color:#607080}
+.schema-status.current{background:#eaf7ef;color:#277746}
+.schema-status.draft{background:#fff7df;color:#9a6a00}
+.schema-status.archived{background:#f1f3f5;color:#667085}
+.schema-version-list{display:grid;gap:8px}
+.schema-version-row{display:grid;grid-template-columns:1fr 110px 85px 1.8fr auto;gap:8px;align-items:center;border:1px solid #e0e6ed;border-radius:10px;padding:9px 10px}
+.schema-version-row.selected{border-color:#8eb0dc;background:#f7fbff}
+.schema-edit-modal .modal{width:min(1180px,96vw);max-height:92vh;overflow:auto}
+.schema-editor-section{border:1px solid #dfe6ee;border-radius:12px;padding:13px;margin:12px 0;background:#fbfcfe}
+.schema-editor-row{display:grid;grid-template-columns:55px minmax(130px,.8fr) minmax(140px,.8fr) minmax(280px,1.7fr) auto;gap:7px;align-items:start;margin-bottom:7px}
+.schema-field-row{display:grid;grid-template-columns:1.05fr 1.25fr 1fr 1.45fr 1fr 1.65fr auto;gap:6px;align-items:start;margin-bottom:6px}
+.schema-editor-row input,.schema-editor-row textarea,.schema-field-row input,.schema-field-row textarea{width:100%;box-sizing:border-box;font-size:10px}
+.schema-field-row textarea{min-height:58px}
+.schema-editor-table{border:1px solid #e1e7ee;border-radius:10px;padding:10px;margin:10px 0;background:#fff}
+.schema-editor-table-head{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.schema-editor-table-head input{flex:1}
+@media(max-width:1000px){
+ .schema-summary{grid-template-columns:repeat(2,1fr)}
+ .schema-overview-grid{grid-template-columns:1fr}
+ .schema-version-row{grid-template-columns:1fr}
+ .schema-editor-row,.schema-field-row{grid-template-columns:1fr}
+}
+
+
+/* ===== Codebook detail subpages ===== */
+.cb-detail-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 14px}
+.cb-detail-tab{border:1px solid #d9e2ec;background:#f8fafc;color:#526274;border-radius:10px;padding:8px 12px;font-size:11px;font-weight:800;cursor:pointer}
+.cb-detail-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.cb-detail-table{overflow:auto;border:1px solid #e1e7ee;border-radius:12px;background:#fff}
+.cb-detail-table table{width:100%;border-collapse:collapse;min-width:760px}
+.cb-detail-table th,.cb-detail-table td{padding:9px 10px;border-bottom:1px solid #edf0f3;text-align:left;vertical-align:top;font-size:10px;line-height:1.5}
+.cb-detail-table th{background:#f7f9fc;color:#536273;font-weight:800;position:sticky;top:0}
+.cb-detail-table.lineage table{min-width:1800px}
+.cb-detail-table.nodes table{min-width:520px}
+.cb-detail-count{font-size:10px;color:#7b8794;margin-bottom:8px}
+.cb-detail-editor .modal{width:min(1180px,96vw);max-height:92vh;overflow:auto}
+.cb-detail-edit-row{display:grid;gap:6px;align-items:start;margin-bottom:7px}
+.cb-detail-edit-row.version{grid-template-columns:1fr 2fr auto}
+.cb-detail-edit-row.relation{grid-template-columns:.6fr .8fr 1.8fr 1.5fr 1fr auto}
+.cb-detail-edit-row.lineage{grid-template-columns:repeat(9,minmax(160px,1fr)) auto;min-width:1700px}
+.cb-detail-edit-row.nodes{grid-template-columns:.7fr 2fr auto}
+.cb-detail-edit-row input,.cb-detail-edit-row textarea{width:100%;box-sizing:border-box;font-size:10px}
+.cb-detail-edit-row textarea{min-height:62px}
+.cb-detail-editor-scroll{overflow:auto}
+@media(max-width:800px){
+ .cb-detail-edit-row.version,.cb-detail-edit-row.relation,.cb-detail-edit-row.nodes{grid-template-columns:1fr}
+}
+
+
+/* ===== Codebook nested detail-version pages ===== */
+.cb-subversion-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 14px;padding:10px;border:1px solid #e0e7ef;border-radius:12px;background:#fbfcfe}
+.cb-subversion-label{font-size:10px;font-weight:800;color:#657283;margin-right:2px}
+.cb-subversion-tab{border:1px solid #d8e1eb;background:#fff;color:#556474;border-radius:999px;padding:6px 10px;font-size:10px;font-weight:800;cursor:pointer}
+.cb-subversion-tab.active{background:#294f82;border-color:#294f82;color:#fff}
+.cb-subversion-meta{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin:0 0 10px;padding:10px 12px;border:1px solid #e2e8ef;border-radius:10px;background:#fff}
+.cb-subversion-meta b{color:#244f87}
+.cb-subversion-empty{padding:22px;border:1px dashed #cfd9e4;border-radius:12px;text-align:center;color:#7d8996;font-size:11px;background:#fbfcfe}
+.cb-detail-version-actions{display:flex;gap:7px;flex-wrap:wrap}
+
+
+/* ===== Codebook: detail -> independent version registration ===== */
+.cb-root-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.cb-root-tab{border:1px solid #d9e2ec;background:#f8fafc;color:#526274;border-radius:10px;padding:9px 13px;font-size:11px;font-weight:800;cursor:pointer}
+.cb-root-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.cb-section-version-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin:0 0 12px;padding:13px 14px;border:1px solid #dce5ef;background:#f8fbff;border-radius:12px}
+.cb-section-version-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cb-section-version-list{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.cb-section-version-tab{border:1px solid #d8e1eb;background:#fff;color:#556474;border-radius:999px;padding:7px 11px;font-size:10px;font-weight:800;cursor:pointer}
+.cb-section-version-tab.active{background:#294f82;border-color:#294f82;color:#fff}
+.cb-section-version-meta{font-size:10px;color:#6f7d8d;line-height:1.55;margin-top:5px}
+.cb-section-version-empty{padding:20px;border:1px dashed #cfd9e4;border-radius:12px;color:#7d8996;text-align:center;background:#fbfcfe;font-size:11px}
+
 </style>
 </head>
 <body>
@@ -466,6 +560,7 @@ h1{font-size:30px;letter-spacing:-.4px}
     <button class="page-tab" data-page="journal">연구일지</button>
       <button class="page-tab" data-page="reference" id="referencePageBtn">레퍼런스</button>
     <button class="page-tab" data-page="pilot">파일럿 테스트</button>
+    <button class="page-tab" data-page="schema">스키마</button>
     <button class="page-tab" data-page="codebook">코드북</button>
   </div>
 
@@ -634,57 +729,55 @@ h1{font-size:30px;letter-spacing:-.4px}
     </section>
   </div>
 
+
+  <div id="schemaPage" class="main-page">
+    <div class="notice">연구 DB Schema를 버전별로 관리하는 페이지입니다. 각 버전은 독립된 테이블·필드 정의 스냅숏으로 저장됩니다.</div>
+
+    <div class="schema-summary">
+      <div class="schema-kpi"><div class="slabel">현재 Schema 버전</div><div class="svalue" id="schemaCurrentVersion">-</div></div>
+      <div class="schema-kpi"><div class="slabel">최종 갱신일</div><div class="svalue" id="schemaUpdatedDate">-</div></div>
+      <div class="schema-kpi"><div class="slabel">테이블 수</div><div class="svalue" id="schemaTableCount">0</div></div>
+      <div class="schema-kpi"><div class="slabel">필드 수</div><div class="svalue" id="schemaFieldCount">0</div></div>
+    </div>
+
+    <section class="panel">
+      <div class="schema-version-head">
+        <div>
+          <div class="small"><b>DB Schema Version</b></div>
+          <div class="schema-version-title" id="schemaCurrentHero">-</div>
+          <div class="small" id="schemaCurrentNote" style="margin-top:6px"></div>
+        </div>
+        <button class="btn-primary" id="addSchemaVersionBtn">+ 버전 등록</button>
+      </div>
+      <h2>Schema Version History</h2>
+      <div class="section-caption">버전·적용일·상태·변경내용을 관리합니다. 새 버전은 현재 선택한 Schema 내용을 복제해 시작합니다.</div>
+      <div class="schema-version-list" id="schemaVersionList"></div>
+    </section>
+
+    <section class="panel">
+      <h2>버전별 Schema 페이지</h2>
+      <div class="schema-version-tabs" id="schemaVersionTabs"></div>
+      <div id="schemaVersionPage"></div>
+    </section>
+  </div>
+
   <div id="codebookPage" class="main-page">
-    <div class="notice">코드북의 현재 버전과 변경이력을 확인하고, 조문 계보 판정·ID·Snapshot·Schema·Validation 규칙을 한 화면에서 참조할 수 있습니다.</div>
+    <div class="notice">Codebook은 4개의 세부 내용으로 구성되며, 각 세부 페이지에서 독립적으로 버전을 등록·수정·관리할 수 있습니다.</div>
 
     <div class="cb-summary">
-      <div class="cb-kpi"><div class="clabel">현재 Codebook 버전</div><div class="cvalue" id="cbCurrentVersion">-</div></div>
-      <div class="cb-kpi"><div class="clabel">최종 갱신일</div><div class="cvalue" id="cbUpdatedDate">-</div></div>
-      <div class="cb-kpi"><div class="clabel">Lineage 유형</div><div class="cvalue">9개</div></div>
-      <div class="cb-kpi"><div class="clabel">DB Schema</div><div class="cvalue">schema-0.1</div></div>
+      <div class="cb-kpi"><div class="clabel">세부 페이지</div><div class="cvalue">4개</div></div>
+      <div class="cb-kpi"><div class="clabel">Version</div><div class="cvalue" id="cbVersionCount">-</div></div>
+      <div class="cb-kpi"><div class="clabel">Relation Type</div><div class="cvalue" id="cbRelationCount">-</div></div>
+      <div class="cb-kpi"><div class="clabel">Lineage</div><div class="cvalue" id="cbLineageCount">-</div></div>
     </div>
 
-    <div class="cb-current">
-      <div class="cb-current-head">
-        <div>
-          <div class="small"><b>Current Codebook</b></div>
-          <div class="cb-version" id="cbCurrentHero">-</div>
-          <div class="small" id="cbCurrentNote" style="margin-top:7px"></div>
-        </div>
-        <button class="btn-primary" id="addCodebookVersionBtn">+ 버전 등록</button>
-      </div>
-    </div>
-
-    <div class="grid-2">
-      <main>
-        <section class="panel">
-          <h2>Codebook Version History</h2>
-          <div class="section-caption">버전·적용일·상태·변경내용을 기록합니다. 현재 버전은 직접 지정할 수 있습니다.</div>
-          <div class="cb-version-list" id="cbVersionList"></div>
-        </section>
-
-        <section class="panel">
-          <h2>버전별 Codebook 페이지</h2>
-          <div class="section-caption">버전을 선택하면 해당 버전에 저장된 Codebook 내용을 독립된 페이지로 확인할 수 있습니다.</div>
-          <div class="cb-page-nav" id="cbVersionTabs"></div>
-          <div class="cb-page-shell" id="cbVersionPage"></div>
-        </section>
-      </main>
-
-      <aside>
-        <section class="panel">
-          <h2>버전 페이지 안내</h2>
-          <div class="small" style="line-height:1.75">
-            · 각 버전은 독립된 Codebook 내용 스냅숏을 가집니다.<br>
-            · 새 버전을 등록하면 선택 중인 버전 내용을 복제해 새 페이지를 만듭니다.<br>
-            · 이후 버전별 내용은 서로 섞이지 않고 별도로 보존됩니다.<br>
-            · Version History의 <b>열기</b> 버튼으로 해당 페이지로 이동할 수 있습니다.
-          </div>
-        </section>
-      </aside>
-    </div>
+    <section class="panel">
+      <h2>Codebook 세부 내용</h2>
+      <div class="section-caption">세부 항목을 먼저 선택한 뒤, 해당 페이지 안에서 버전을 등록합니다.</div>
+      <div class="cb-root-tabs" id="cbRootTabs"></div>
+      <div id="cbRootPage"></div>
+    </section>
   </div>
-</div>
 
 <div class="modal-bg" id="quarterModal">
   <div class="modal">
@@ -750,75 +843,34 @@ h1{font-size:30px;letter-spacing:-.4px}
 
 <div class="modal-bg" id="codebookVersionModal">
   <div class="modal">
-    <div class="modal-head"><h3 id="cbVersionModalTitle">Codebook 버전 등록</h3><button class="btn-ghost" id="closeCbVersion">닫기</button></div>
-    <form id="cbVersionForm">
-      <div class="form-grid">
-        <div class="field"><label>버전</label><input id="cbVersionName" placeholder="예: v0.1 / codebook-1.1" required></div>
-        <div class="field"><label>적용일</label><input id="cbVersionDate" type="date" required></div>
-        <div class="field"><label>상태</label><select id="cbVersionStatus"><option value="current">현재</option><option value="draft">초안</option><option value="archived">이전</option></select></div>
-        <div class="field"><label>승인/확정자</label><input id="cbVersionOwner" placeholder="예: PI"></div>
-        <div class="field full"><label>변경내용</label><textarea id="cbVersionChanges" placeholder="이 버전에서 변경·확정된 내용을 기록하세요."></textarea></div>
+    <div class="modal-head">
+      <h3 id="cbVersionModalTitle">세부 페이지 버전 등록</h3>
+      <button class="btn-ghost" id="closeCbVersionModal">닫기</button>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>버전</label><input id="cbVersionName" placeholder="예: 1.1.0"></div>
+      <div class="field"><label>적용일</label><input id="cbVersionDate" type="date"></div>
+      <div class="field"><label>상태</label><select id="cbVersionStatus"><option value="draft">초안</option><option value="current">현재</option><option value="archived">이전</option></select></div>
+      <div class="field"><label>담당/확정자</label><input id="cbVersionOwner" placeholder="선택 입력"></div>
+      <div class="field full"><label>변경내용</label><textarea id="cbVersionChanges" placeholder="해당 세부 페이지 버전의 변경내용"></textarea>
+        <div class="small" style="margin-top:6px">새 버전은 현재 선택된 버전의 내용을 복제하여 생성됩니다.</div>
       </div>
-      <div class="modal-actions"><button type="button" class="btn-ghost" id="cancelCbVersion">취소</button><button type="submit" class="btn-primary">저장</button></div>
-    </form>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="cancelCbVersionModal">취소</button>
+      <button class="btn-primary" id="saveCbVersionBtn">저장</button>
+    </div>
   </div>
 </div>
 
-
-<div class="modal-bg cb-edit-modal" id="cbContentModal">
+<div class="modal-bg cb-detail-editor" id="cbContentModal">
   <div class="modal">
     <div class="modal-head">
-      <h3 id="cbContentModalTitle">Codebook 내용 수정</h3>
+      <h3 id="cbContentModalTitle">Codebook 세부내용 수정</h3>
       <button class="btn-ghost" id="closeCbContentModal">닫기</button>
     </div>
-
-    <div class="cb-editor-section">
-      <h4>상위 판정원칙</h4>
-      <textarea id="cbEditPriority" placeholder="상위 판정원칙"></textarea>
-    </div>
-
-    <div class="cb-editor-section">
-      <h4>조문 Lineage 관계유형</h4>
-      <div id="cbEditRelations"></div>
-      <button type="button" class="btn-soft cb-editor-add" data-add="relations">+ 관계유형 추가</button>
-      <div class="cb-editor-help">코드 · 명칭 · 판정/설명 순서로 관리합니다.</div>
-    </div>
-
-    <div class="cb-editor-section">
-      <h4>유형별 ID / Version 규칙</h4>
-      <div id="cbEditRules"></div>
-      <button type="button" class="btn-soft cb-editor-add" data-add="rules">+ 규칙 행 추가</button>
-    </div>
-
-    <div class="cb-editor-section">
-      <h4>불변 원문 Snapshot / Observation</h4>
-      <div id="cbEditSnapshots"></div>
-      <button type="button" class="btn-soft cb-editor-add" data-add="snapshots">+ 항목 추가</button>
-    </div>
-
-    <div class="cb-editor-section">
-      <h4>식별자 체계</h4>
-      <div id="cbEditIdentifiers"></div>
-      <button type="button" class="btn-soft cb-editor-add" data-add="identifiers">+ 식별자 추가</button>
-    </div>
-
-    <div class="cb-editor-section">
-      <h4>최소 DB Schema</h4>
-      <textarea id="cbEditSchema" placeholder="DB Schema 항목"></textarea>
-    </div>
-
-    <div class="cb-editor-section">
-      <h4>Validation 핵심원칙</h4>
-      <div id="cbEditValidation"></div>
-      <button type="button" class="btn-soft cb-editor-add" data-add="validation">+ 원칙 추가</button>
-    </div>
-
-    <div class="cb-editor-section">
-      <h4>설계 결정 확인 필요</h4>
-      <div id="cbEditOpenDecisions"></div>
-      <button type="button" class="btn-soft cb-editor-add" data-add="openDecisions">+ 결정사항 추가</button>
-    </div>
-
+    <div class="cb-detail-tabs" id="cbEditorDetailTabs"></div>
+    <div class="cb-detail-editor-scroll" id="cbEditorDetailBody"></div>
     <div class="modal-actions">
       <button type="button" class="btn-ghost" id="cancelCbContentModal">취소</button>
       <button type="button" class="btn-primary" id="saveCbContent">내용 저장</button>
@@ -949,6 +1001,11 @@ function makeInitial(){
     meetings:[],
     journals:[],
     references:[],
+    schema:{
+      versions:[
+        {id:"schema_initial_01",version:"schema-0.1",date:"2026-09-12",status:"current",owner:"",changes:"DB schema-0.1 초기 정의",content:{"overview":[{"no":1,"name":"source_snapshot","meaning":"원문 보존","description":"실제 수집된 불변 원문 객체 저장"},{"no":2,"name":"collection_observation","meaning":"수집 이력","description":"언제·어떤 요청으로 수집을 시도했는지 기록"},{"no":3,"name":"provision_identity","meaning":"법령 버전","description":"특정 법률의 특정 MST 법령 버전 관리"},{"no":4,"name":"provision_version","meaning":"조문 정체성","description":"시간에 걸쳐 유지되는 논리적 규제단위 관리"},{"no":5,"name":"provision_version","meaning":"조문 버전","description":"특정 시점의 조문 내용·위치·효력 상태 관리"},{"no":6,"name":"amendment_event","meaning":"개정 사건","description":"어떤 개정이 언제 발생했는지 관리"},{"no":7,"name":"provision_lineage","meaning":"조문 계보","description":"개정 전·후 Version 간 SAME/MODIFY/RENUMBER 등 관계 기록"},{"no":8,"name":"annotation","meaning":"판정·검토","description":"자동·LLM·연구자 판정 및 검토정보 기록"},{"no":9,"name":"pipeline_run","meaning":"실행 이력","description":"어느 코드·버전으로 처리했는지 기록"},{"no":10,"name":"release_manifest","meaning":"배포 단위","description":"특정 연구 데이터셋 release의 구성과 버전 고정"}],"tables":[{"no":1,"name":"source_snapshot","fields":[{"field":"snapshot_id","meaning":"불변 원문 Snapshot ID","type":"VARCHAR(32)","typeMeaning":"최대 32자의 문자(e.g. SNAP-20260903-000001)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"source_system","meaning":"국가법령정보 API 등 원천 시스템","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자(e.g. LAW_OPEN_API)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"law_id","meaning":"법령 식별자","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 001571)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"mst","meaning":"원천 법령 버전 식별자","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 276117)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"effective_date","meaning":"해당 법령 버전 시행일","type":"DATE","typeMeaning":"날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"response_sha256","meaning":"원문 bytes의 SHA-256","type":"CHAR(64)","typeMeaning":"정확히 64자리 문자(e.g. SHA-256 해시값)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"byte_count","meaning":"원문 크기","type":"BIGINT","typeMeaning":"큰 정수(e.g. 154328)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"raw_path","meaning":"원문 저장 위치","type":"TEXT","typeMeaning":"길이가 긴 문자(e.g. raw/law_open_api/...xml)","constraint":"NOT NULL, UNIQUE","constraintMeaning":"필수 + 중복 금지. 반드시 값이 존재해야 하며 그 값은 중복될 수 없음"},{"field":"content_type","meaning":"XML/JSON 등 응답 형식","type":"VARCHAR(100)","typeMeaning":"최대 100자의 문자(e.g. application/xml)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"record_count","meaning":"원문 내 수집 레코드 수","type":"INTEGER","typeMeaning":"정수(e.g. 125)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":2,"name":"collection_observation","fields":[{"field":"observation_id","meaning":"개별 수집 시도 ID","type":"VARCHAR(32)","typeMeaning":"최대 32자의 가변 문자열, 비교적 짧은 ID 저장(e.g. OBS-20260903-000001)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"snapshot_id","meaning":"성공적으로 확보된 Snapshot","type":"VARCHAR(32)","typeMeaning":"최대 32자의 가변 문자열, Snapshot ID 등 저장(e.g. SNAP-20260903-000001)","constraint":"FK, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"endpoint","meaning":"호출 API endpoint","type":"TEXT","typeMeaning":"길이 제한을 특별히 두지 않는 문자열, URL·경로·긴 문자정보(e.g. /eflawService.do)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"target","meaning":"수집 대상","type":"TEXT","typeMeaning":"길이 제한을 특별히 두지 않는 문자열, 수집 대상 등의 문자정보(e.g. 부가가치세법)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"retrieved_at","meaning":"수집 시도 시각","type":"TIMESTAMPTZ","typeMeaning":"시간대가 포함된 날짜+시간, 정확히 언제 발생했는지 기록(e.g. 2026-09-03 11:20:35+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"request_params_redacted","meaning":"민감정보 제거 후 요청 파라미터","type":"JSONB","typeMeaning":"구조화된 JSON 데이터, 여러 요청 파라미터를 묶어서 저장(e.g. {\"MST\":\"276117\",\"type\":\"XML\"})","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"request_hash","meaning":"요청 식별용 hash","type":"CHAR(64)","typeMeaning":"정확히 64자리 문자, SHA-256 Hash 저장(e.g. a3f5... 총 64자리)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"http_status","meaning":"HTTP 상태코드","type":"INTEGER","typeMeaning":"정수, HTTP 상태번호 등(e.g. 200, 404, 500)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"validation_status","meaning":"수집결과 검증 상태","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자열, 짧은 상태값(e.g. VALID, FAILED)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"error_code","meaning":"실패 원인","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자열, 오류코드·버전명 등(e.g. HTTP_TIMEOUT)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"collector_version","meaning":"수집기 버전","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자열, Collector 버전 등(e.g. collector-0.1.0)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_commit","meaning":"코드 commit","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자열, Git commit 등(e.g. 8fa31bc...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":3,"name":"law_version","fields":[{"field":"law_version_id","meaning":"연구 DB 내부 법령 버전 ID","type":"VARCHAR(40)","typeMeaning":"최대 40자의 문자(e.g. LV-000001)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"law_id","meaning":"법률 정체성","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 001571)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"mst","meaning":"원천 버전 ID","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 276117)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"effective_date","meaning":"시행일","type":"DATE","typeMeaning":"날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"promulgation_date","meaning":"공포일","type":"DATE","typeMeaning":"날짜(e.g. 2025-12-31)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"snapshot_id","meaning":"해당 버전의 근거 원문","type":"VARCHAR(32)","typeMeaning":"최대 32자의 문자(e.g. SNAP-20260903-000001)","constraint":"FK","constraintMeaning":"Foreign Key. 다른 테이블의 PK 또는 고유 ID를 참조하여 테이블 간 관계를 연결하는 키"},{"field":"valid_from","meaning":"법적 효력 시작","type":"DATE","typeMeaning":"날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"valid_to","meaning":"법적 효력 종료","type":"DATE","typeMeaning":"날짜(e.g. 2026-06-30)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":4,"name":"provision_identity","fields":[{"field":"provision_id","meaning":"논리적 규제단위 영구 ID","type":"VARCHAR(40)","typeMeaning":"최대 40자의 문자, 조문 정체성을 나타내는 문자형 ID(e.g. PRV:VAT:000010)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"law_id","meaning":"해당 규제단위가 속한 법률","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자, 법령 식별자를 저장하는 문자(e.g. 001571)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"created_at","meaning":"DB 최초 등록시각","type":"TIMESTAMPTZ","typeMeaning":"날짜 + 시각 + 시간대(Time Zone)를 함께 저장, ID가 생성된 정확한 날짜·시간(e.g. 2026-09-03 11:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"status","meaning":"ACTIVE / ENDED 등","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자, 조문 계보의 현재 상태(e.g. ACTIVE, ENDED)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"origin_type","meaning":"INITIAL / NEW / SPLIT / MERGE / TRANSFER 등","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자, 이 조문 정체성이 어떻게 시작되었는지(e.g. INITIAL, NEW, SPLIT 등)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"recorded_from","meaning":"DB 판단 유효 시작","type":"TIMESTAMPTZ","typeMeaning":"이 DB 기록이 유효하기 시작한 정확한 시각(e.g. 2026-09-03 11:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"DB 판단 유효 종료","type":"TIMESTAMPTZ","typeMeaning":"이 DB 기록이 유효하지 않게 된 정확한 시각(e.g. 2027-01-10 15:20:00+09 또는 NULL)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":5,"name":"provision_version","fields":[{"field":"provision_version_id","meaning":"조문 Version ID","type":"VARCHAR(60)","typeMeaning":"ID와 구조적 위치를 저장, , 최대 60자의 문자형 ID(e.g. PV:PRV-VAT-000010:V002)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"provision_id","meaning":"논리적 규제단위","type":"VARCHAR(40)","typeMeaning":"최대 40자의 문자형 ID(e.g. PRV:VAT:000010)","constraint":"FK","constraintMeaning":"Foreign Key. 다른 테이블의 PK 또는 고유 ID를 참조하여 테이블 간 관계를 연결하는 키"},{"field":"law_version_id","meaning":"해당 상태가 관찰된 법령 버전","type":"VARCHAR(40)","typeMeaning":"법령 Version을 식별하는 문자(e.g. LV-000001)","constraint":"FK","constraintMeaning":"Foreign Key. 다른 테이블의 PK 또는 고유 ID를 참조하여 테이블 간 관계를 연결하는 키"},{"field":"source_locator_id","meaning":"해당 MST에서의 조문 위치","type":"VARCHAR(80)","typeMeaning":"원천 법령 내 조문 위치를 나타내는 문자형 ID(e.g. LOC:001571:276117:001100)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"legacy_node_id","meaning":"Pilot A Node_ID 호환용","type":"VARCHAR(100)","typeMeaning":"기존 Pilot A Node_ID를 보존하기 위한 문자(e.g. 기존 Node_ID)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"article_no","meaning":"조","type":"VARCHAR(20)","typeMeaning":"조 번호를 문자로 저장(e.g. 10, 10의2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"paragraph_no","meaning":"항","type":"VARCHAR(20)","typeMeaning":"항 번호를 문자로 저장(e.g. 1, 2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"item_no","meaning":"호","type":"VARCHAR(20)","typeMeaning":"호 번호를 문자로 저장(e.g. 1, 2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"subitem_no","meaning":"목","type":"VARCHAR(20)","typeMeaning":"목 번호를 문자로 저장(e.g. 가, 나)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"normalized_text","meaning":"정규화된 조문 본문","type":"TEXT","typeMeaning":"길이가 길거나 일정하지 않은 문자열을 저장, 길이가 긴 조문 본문(e.g. 정규화된 법령 문장 전체)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"content_hash","meaning":"조문 내용 hash","type":"CHAR(64)","typeMeaning":"정확히 64자리의 문자를 저장하는 자료형, 64자리 SHA-256 Hash(e.g. a84c...)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"valid_from","meaning":"법적 효력 시작","type":"DATE","typeMeaning":"법적인 시간을 기록, 법적 효력 시작 날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"valid_to","meaning":"법적 효력 종료","type":"DATE","typeMeaning":"법적 효력 종료 날짜(e.g. 2026-06-30)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"recorded_from","meaning":"DB 기록 유효 시작","type":"TIMESTAMPTZ","typeMeaning":"날짜 + 시각 + 시간대를 저장, DB 기록이 유효해진 정확한 시각(e.g. 2026-09-03 12:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"DB 기록 유효 종료","type":"TIMESTAMPTZ","typeMeaning":"DB 기록의 유효성이 끝난 정확한 시각(e.g. 2027-01-15 10:20:00+09 또는 NULL)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":6,"name":"amendment_event","fields":[{"field":"amendment_id","meaning":"하나의 법령 개정 사건을 식별하는 연구 DB 내부 ID","type":"VARCHAR(40)","typeMeaning":"ID·코드·분류처럼 비교적 짧은 문자, 개정 사건 ID를 문자로 저장(e.g. AMD-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"law_id","meaning":"개정 대상 법령","type":"VARCHAR(20)","typeMeaning":"법령 식별번호를 문자로 저장(e.g. 001571)","constraint":"NOT NULL, INDEX","constraintMeaning":"빈 값 금지. 검색 속도 향상을 위한 색인. 값의 중복이나 NULL 여부를 제한하는 제약이라기보다 조회 성능을 높이는 DB 구조"},{"field":"from_mst","meaning":"개정 전 법령 버전의 MST","type":"VARCHAR(20)","typeMeaning":"개정 전 법령 버전(MST)(e.g. 276117)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"to_mst","meaning":"개정 후 법령 버전의 MST","type":"VARCHAR(20)","typeMeaning":"개정 후 법령 버전(MST)(e.g. 280350)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"promulgation_date","meaning":"개정법령 공포일","type":"DATE","typeMeaning":"개정법령 공포일(e.g. 2026-03-31)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"effective_date","meaning":"개정법령 시행일","type":"DATE","typeMeaning":"개정법령 시행일(e.g. 2026-07-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"amendment_type","meaning":"일부개정·전부개정·제정·폐지 등 개정 형태","type":"VARCHAR(30)","typeMeaning":"개정 유형을 문자로 저장(e.g. PARTIAL_AMENDMENT)","constraint":"NULL 허용, CHECK","constraintMeaning":"빈 값 허용. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"amendment_reason","meaning":"개정이유 또는 개정사건 설명","type":"TEXT","typeMeaning":"개정 이유·내용 등 긴 문장(e.g.과세체계 정비를 위하여...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"source_snapshot_id","meaning":"개정 사실을 확인한 원문 Snapshot","type":"VARCHAR(32)","typeMeaning":"개정정보의 근거가 되는 원문 Snapshot ID(e.g.SNAP-20260903-000001)","constraint":"FK → source_snapshot.snapshot_id, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"recorded_from","meaning":"해당 개정사건 정보가 DB에 기록·유효해진 시각","type":"TIMESTAMPTZ","typeMeaning":"DB에서 이 기록이 유효해진 정확한 시각(e.g.2026-09-03 12:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"해당 기록의 DB상 유효 종료시점","type":"TIMESTAMPTZ","typeMeaning":"DB에서 이 기록의 유효성이 끝난 정확한 시각(e.g.NULL 또는 특정 시각)","constraint":"NULL 허용, CHECK","constraintMeaning":"빈 값 허용. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"}]},{"no":7,"name":"provision_lineage","fields":[{"field":"lineage_id","meaning":"개별 Lineage 판정기록의 고유 ID","type":"VARCHAR(40)","typeMeaning":"Lineage 판정 자체의 ID(e.g. LIN-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"from_provision_version_id","meaning":"개정 전 선행 조문 Version. NEW에서는 NULL","type":"VARCHAR(60)","typeMeaning":"개정 전 조문 Version ID(e.g. PV:PRV-VAT-000010:V001)","constraint":"FK → provision_version, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"to_provision_version_id","meaning":"개정 후 후속 조문 Version. REPEAL에서는 NULL","type":"VARCHAR(60)","typeMeaning":"개정 후 조문 Version ID(e.g. PV:PRV-VAT-000010:V002)","constraint":"FK → provision_version, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"amendment_id","meaning":"해당 Lineage 관계가 발생한 개정 사건","type":"VARCHAR(40)","typeMeaning":"어떤 개정사건에서 발생했는지 나타내는 ID(e.g. AMD-000001)","constraint":"FK → amendment_event, NOT NULL","constraintMeaning":"다른 테이블 참조 + 빈 값 금지. 반드시 다른 테이블에 존재하는 ID를 참조해야 하며 비워둘 수 없음"},{"field":"relation_type","meaning":"SAME, MODIFY, RENUMBER, NEW, REPEAL, SPLIT, MERGE, TRANSFER, UNRESOLVED 중 하나","type":"VARCHAR(20)","typeMeaning":"Lineage 관계 유형(e.g. MODIFY, RENUMBER, SPLIT)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"text_changed","meaning":"개정 과정에서 실제 문언·내용 변경이 있었는지 표시","type":"BOOLEAN","typeMeaning":"문언·내용 변경 여부(e.g. TRUE / FALSE)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"location_changed","meaning":"조·항·호 등 구조적 위치가 변경되었는지 표시","type":"BOOLEAN","typeMeaning":"조·항·호 등의 위치 변경 여부(e.g. TRUE / FALSE)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"evidence_text","meaning":"해당 Lineage 판정의 근거. 원문 비교, 개정내용, 판단 이유 등 기록","type":"TEXT","typeMeaning":"판정 근거를 설명하는 긴 문장(e.g. 개정 전후 규율대상은 동일하나...)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"match_method","meaning":"판정방법. RULE, LLM, RESEARCHER, EXPERT 등 허용값으로 제한","type":"VARCHAR(20)","typeMeaning":"누가/어떤 방식으로 판정했는지(e.g. RULE, LLM, RESEARCHER)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"confidence","meaning":"Lineage 판정의 신뢰도. 예: 0.950","type":"NUMERIC(4,3)","typeMeaning":"판정 신뢰도(e.g. 0.950)","constraint":"CHECK (0 ≤ confidence ≤ 1)","constraintMeaning":"0 이상, 1이하의 값만 허용."},{"field":"review_status","meaning":"검토상태. AUTO, PENDING, REVIEWED, CONFIRMED 등","type":"VARCHAR(20)","typeMeaning":"검토 진행상태(e.g. PENDING, CONFIRMED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"codebook_version","meaning":"판정에 적용한 Lineage Codebook 버전","type":"VARCHAR(20)","typeMeaning":"적용한 Codebook 버전(e.g. 1.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_from","meaning":"해당 Lineage 판단이 DB에서 유효해진 시점","type":"TIMESTAMPTZ","typeMeaning":"이 판정이 DB에서 유효해진 시각(e.g. 2026-09-03 12:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"해당 판단의 DB상 유효 종료시점. 현재 판단이면 NULL","type":"TIMESTAMPTZ","typeMeaning":"이 판정의 DB상 유효성이 끝난 시각(e.g. NULL 또는 특정 시각)","constraint":"NULL 허용, CHECK","constraintMeaning":"빈 값 허용. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"supersedes_decision_id","meaning":"기존 판정을 수정·대체하는 경우 이전 Lineage 판단과 연결","type":"VARCHAR(40)","typeMeaning":"이 판정이 대체한 이전 판정의 ID(e.g. LIN-000087)","constraint":"Self-FK → lineage_id, NULL 허용","constraintMeaning":"같은 테이블의 다른 행을 참조 + 빈 값 허용. 이전 판단·기록 등을 자기 테이블 내부에서 연결"}]},{"no":8,"name":"annotation","fields":[{"field":"annotation_id","meaning":"개별 판정·검토 기록 ID","type":"VARCHAR(40)","typeMeaning":"개별 판정·검토 기록의 ID(e.g. ANN-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"target_type","meaning":"판정 대상 종류. 예: PROVISION_VERSION, LINEAGE","type":"VARCHAR(30)","typeMeaning":"무엇을 판정했는지 대상의 종류(e.g. LINEAGE)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"target_id","meaning":"실제 판정 대상 ID","type":"VARCHAR(60)","typeMeaning":"실제 판정 대상의 ID(e.g. PV:PRV-VAT-000010:V002)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"task_type","meaning":"수행한 판정 종류. 예: Lineage 검토, 개념분류, 오류검토","type":"VARCHAR(30)","typeMeaning":"어떤 종류의 판정 작업인지(e.g. LINEAGE_REVIEW)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"label","meaning":"판정 결과 또는 부여한 Label","type":"VARCHAR(50)","typeMeaning":"판정 결과·부여된 Label(e.g. RENUMBER)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"annotator_type","meaning":"RULE, LLM, RESEARCHER, EXPERT 등 판정 주체","type":"VARCHAR(20)","typeMeaning":"누가/무엇이 판정했는지(e.g. LLM, RESEARCHER)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"annotator_id","meaning":"연구자·전문가·모델 등을 구분하는 식별값","type":"VARCHAR(50)","typeMeaning":"구체적인 판정 주체의 ID(e.g. RESEARCHER_01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"confidence","meaning":"자동·LLM 등의 confidence","type":"NUMERIC(4,3)","typeMeaning":"판정 신뢰도(e.g. 0.950)","constraint":"CHECK","constraintMeaning":"값의 조건·범위를 검사. 정해진 규칙을 만족하는 값만 저장할 수 있도록 제한"},{"field":"evidence_text","meaning":"판단근거 또는 검토 메모","type":"TEXT","typeMeaning":"판정 근거·검토 메모(e.g. 조문 위치는 변경되었으나...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"review_status","meaning":"AUTO, PENDING, REVIEWED, CONFIRMED 등","type":"VARCHAR(20)","typeMeaning":"검토 진행상태(e.g. PENDING, CONFIRMED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"codebook_version","meaning":"적용한 Codebook 버전","type":"VARCHAR(20)","typeMeaning":"사용한 Codebook 버전(e.g. 1.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"model_version","meaning":"LLM 판정인 경우 사용 모델 버전","type":"VARCHAR(50)","typeMeaning":"LLM 사용 시 모델 버전(e.g. model-v1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"prompt_version","meaning":"LLM 판정에 사용한 Prompt 버전","type":"VARCHAR(50)","typeMeaning":"사용한 Prompt 버전(e.g. prompt-0.2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"pipeline_run_id","meaning":"해당 Annotation을 생성한 실행","type":"VARCHAR(40)","typeMeaning":"어떤 Pipeline 실행에서 생성됐는지(e.g. RUN-000001)","constraint":"FK → pipeline_run.pipeline_run_id, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"recorded_at","meaning":"판정 기록 시각","type":"TIMESTAMPTZ","typeMeaning":"판정을 기록한 정확한 시각(e.g. 2026-09-03 15:20:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"supersedes_annotation_id","meaning":"기존 판정을 수정·대체하는 경우 이전 기록 연결","type":"VARCHAR(40)","typeMeaning":"이 판정이 대체한 이전 Annotation ID(e.g. ANN-000087)","constraint":"Self-FK → annotation.annotation_id, NULL 허용","constraintMeaning":"같은 테이블의 다른 행을 참조 + 빈 값 허용. 이전 판단·기록 등을 자기 테이블 내부에서 연결"}]},{"no":9,"name":"pipeline_run","fields":[{"field":"pipeline_run_id","meaning":"한 번의 수집·정규화·매칭·분류 실행을 식별","type":"VARCHAR(40)","typeMeaning":"한 번의 Pipeline 실행을 식별하는 ID(e.g. RUN-20260903-001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"pipeline_stage","meaning":"COLLECT, NORMALIZE, MATCH, CLASSIFY, VALIDATE 등 실행 단계","type":"VARCHAR(30)","typeMeaning":"어떤 처리 단계를 실행했는지(e.g. COLLECT, MATCH)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"started_at","meaning":"실행 시작시각","type":"TIMESTAMPTZ","typeMeaning":"실행을 시작한 정확한 시각(e.g. 2026-09-03 14:00:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"finished_at","meaning":"실행 종료시각","type":"TIMESTAMPTZ","typeMeaning":"실행을 종료한 정확한 시각(e.g. 2026-09-03 14:25:10+09)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"run_status","meaning":"RUNNING, SUCCESS, FAILED, PARTIAL 등","type":"VARCHAR(20)","typeMeaning":"실행 결과 상태(e.g. SUCCESS, FAILED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"pipeline_version","meaning":"Pipeline 자체 버전","type":"VARCHAR(30)","typeMeaning":"사용한 Pipeline 버전(e.g. pipeline-0.1.0)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_commit","meaning":"Git commit hash 등 실행 코드 버전","type":"VARCHAR(50)","typeMeaning":"실행 당시 코드의 Git commit(e.g. 8fa31bc...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"schema_version","meaning":"실행 당시 사용한 DB Schema 버전","type":"VARCHAR(20)","typeMeaning":"사용한 DB Schema 버전(e.g. schema-0.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"codebook_version","meaning":"분류 단계에서 사용한 Codebook 버전","type":"VARCHAR(20)","typeMeaning":"사용한 Codebook 버전(e.g. 1.1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"model_version","meaning":"LLM을 사용한 경우 모델 버전","type":"VARCHAR(50)","typeMeaning":"AI/LLM을 사용한 경우 모델 버전(e.g. model-v1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"prompt_version","meaning":"사용 Prompt 버전","type":"VARCHAR(50)","typeMeaning":"사용한 Prompt 버전(e.g. prompt-0.2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"config_hash","meaning":"실행 설정값의 Hash","type":"CHAR(64)","typeMeaning":"실행 설정의 SHA-256 Hash(e.g. 64자리 Hash)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"input_reference","meaning":"처리 대상 Snapshot·MST·batch 등","type":"TEXT","typeMeaning":"어떤 데이터를 처리했는지에 대한 정보(e.g. MST 276117)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"error_message","meaning":"실패·부분실패 발생 시 오류정보","type":"TEXT","typeMeaning":"실패·부분실패 시 오류 내용(e.g. API timeout...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":10,"name":"release_manifest","fields":[{"field":"release_id","meaning":"연구 데이터 Release의 고유 ID","type":"VARCHAR(40)","typeMeaning":"하나의 연구 데이터 Release를 식별하는 내부 ID(e.g. REL-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"release_version","meaning":"외부·연구용 Release 버전. 예: TRRE-DATA-0.1.0","type":"VARCHAR(30)","typeMeaning":"외부·연구용 데이터 Release 버전(e.g. TRRE-DATA-0.1.0)","constraint":"NOT NULL, UNIQUE","constraintMeaning":"빈 값 금지. 중복 금지. 해당 값 또는 지정된 값의 조합이 다른 행과 중복될 수 없음"},{"field":"released_at","meaning":"Release 확정 시각","type":"TIMESTAMPTZ","typeMeaning":"해당 Release를 확정한 정확한 시각(e.g. 2026-09-30 15:00:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"release_status","meaning":"DRAFT, FROZEN, SUPERSEDED 등","type":"VARCHAR(20)","typeMeaning":"Release의 현재 상태(e.g. DRAFT, FROZEN, SUPERSEDED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"schema_version","meaning":"Release에 사용된 Schema 버전","type":"VARCHAR(20)","typeMeaning":"Release에 사용된 DB Schema 버전(e.g. schema-0.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"codebook_version","meaning":"Release에 사용된 Codebook 버전","type":"VARCHAR(20)","typeMeaning":"적용한 Codebook 버전(e.g. 1.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_version","meaning":"데이터 생성 Pipeline 버전","type":"VARCHAR(30)","typeMeaning":"데이터를 생성한 Pipeline 버전(e.g. pipeline-0.1.0)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_commit","meaning":"코드 commit","type":"VARCHAR(50)","typeMeaning":"실행 코드의 Git commit 정보(e.g. 8fa31bc...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"model_version","meaning":"AI/LLM 사용 시 모델 버전","type":"VARCHAR(50)","typeMeaning":"AI/LLM을 사용한 경우 모델 버전(e.g. model-v1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"prompt_version","meaning":"사용 Prompt 버전","type":"VARCHAR(50)","typeMeaning":"사용한 Prompt 버전(e.g. prompt-0.2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"formula_version","meaning":"복잡성지표 산식 버전","type":"VARCHAR(30)","typeMeaning":"복잡성 지표 계산식의 버전(e.g. TRRE-FORMULA-0.1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"data_cutoff_at","meaning":"해당 Release에 포함된 데이터 기준시점","type":"TIMESTAMPTZ","typeMeaning":"이 Release에 포함할 데이터의 기준시점(e.g. 2026-09-30 00:00:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"manifest_sha256","meaning":"Manifest 자체 또는 배포 Manifest의 Hash","type":"CHAR(64)","typeMeaning":"Release Manifest의 SHA-256 Hash(e.g. 64자리 Hash)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"record_count","meaning":"Release에 포함된 레코드 수","type":"BIGINT","typeMeaning":"Release에 포함된 전체 레코드 수(e.g. 125430)","constraint":"CHECK ≥ 0","constraintMeaning":"0 이상의 값만 허용. 음수가 될 수 없는 수량·크기 등에 사용"},{"field":"notes","meaning":"Release 설명·예외사항·변경사항 등","type":"TEXT","typeMeaning":"Release 설명·예외·변경사항(e.g. Pilot VAT Act release...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"supersedes_release_id","meaning":"이전 Release를 대체하는 경우 연결","type":"VARCHAR(40)","typeMeaning":"이 Release가 대체하는 이전 Release ID(e.g. REL-000001)","constraint":"Self-FK → release_manifest.release_id, NULL 허용","constraintMeaning":"같은 테이블의 다른 행을 참조 + 빈 값 허용. 이전 판단·기록 등을 자기 테이블 내부에서 연결"}]}]}}
+      ]
+    },
     codebook:{
       versions:[
         {id:"cb_initial_20260902",version:"CB-2026.09.02",date:"2026-09-02",status:"draft",owner:"",changes:"조문 Lineage Codebook 최초 확정 기록. SAME, MODIFY, RENUMBER, NEW, REPEAL, SPLIT, MERGE, TRANSFER, UNRESOLVED 판정기준을 정리."}
@@ -1011,8 +1068,84 @@ function defaultCodebookContent(){
     ]
   };
 }
+
+function defaultCodebookDetail(){
+  return {"version":[{"version":"0.1.0","meaning":"개발 시작"},{"version":"0.8.0","meaning":"베타 테스트 수준"},{"version":"1.0.0","meaning":"첫 공식 버전"},{"version":"1.1.0","meaning":"신규 기능 추가"},{"version":"1.5.0","meaning":"기능 확장 및 성능 개선"},{"version":"2.0.0","meaning":"대규모 개편"},{"version":"2.0.1 ~","meaning":"기능 고도화"}],"relationType":[{"type":"INC","description":"준용·인용","criterion":"다른 조문의 내용을 그대로 적용하거나 준용하는 관계","example":"「○○조를 준용한다」","edgeTable":"Edge_Legal"},{"type":"DEL","description":"위임","criterion":"하위 법령(대통령령·총리령·부령 등)에 사항을 위임하는 관계","example":"대통령령으로 정한다","edgeTable":"Edge_Legal"},{"type":"EXC","description":"예외","criterion":"원칙 규정에 대한 예외를 규정하는 관계","example":"다만, …","edgeTable":"Edge_Legal"},{"type":"REF","description":"일반 참조","criterion":"다른 조문 또는 다른 법령을 명시적으로 인용하거나 참조하는 관계","example":"제20조에 따른, 국세기본법 제13조에 따른","edgeTable":"Edge_Legal"},{"type":"DEF","description":"정의","criterion":"특정 개념을 정의하는 관계","example":"내국법인이란…, \"사업연도\"란…","edgeTable":"Edge_Concept"},{"type":"CLS","description":"개념 분류","criterion":"상위 개념과 하위 개념의 분류체계를 나타내는 관계","example":"법인 → 내국법인 / 외국법인","edgeTable":"Edge_Concept"},{"type":"CON","description":"개념 의존","criterion":"출발 개념이 도착 개념의 정의를 전제로 하거나 의미상 반드시 의존하는 관계","example":"연결모법인 → 연결지배","edgeTable":"Edge_Concept"},{"type":"REL","description":"관련 개념","criterion":"동일 제도·절차·법률효과 안에서 함께 사용되는 관련 개념 간의 관계","example":"합병법인 ↔ 피합병법인","edgeTable":"Edge_Concept"},{"type":"PAR","description":"구성 관계","criterion":"전체와 구성요소(Whole–Part)를 연결하는 관계","example":"연결집단 → 연결법인","edgeTable":"Edge_Concept"},{"type":"REQ","description":"요건","criterion":"일정한 법률효과가 발생하기 위해 충족되어야 하는 요건 관계","example":"연결납세방식 → 연결지배","edgeTable":"Edge_Concept"},{"type":"PROC","description":"절차","criterion":"신고·승인·지정·신청 등 절차적 흐름을 나타내는 관계","example":"납세지 변경 → 변경신고","edgeTable":"Edge_Concept"},{"type":"CAU","description":"원인","criterion":"특정 사실이나 법률행위가 다른 법률관계를 발생시키는 원인 관계","example":"합병 → 합병법인","edgeTable":"Edge_Concept"},{"type":"EFF","description":"법률효과","criterion":"요건 충족 또는 행위로 인해 발생하는 법률효과 관계","example":"연결지배 → 연결모법인","edgeTable":"Edge_Concept"},{"type":"JNT","description":"연대책임","criterion":"둘 이상의 주체가 동일한 조세채무에 대하여 공동으로 납세의무 또는 책임을 부담하는 관계","example":"증여자 ↔ 증여받은 자, 주된 공동사업자 ↔ 특수관계인","edgeTable":"Edge_Concept"},{"type":"CAL","description":"계산 관계","criterion":"출발 개념이 특정 금액·세액·비율·한도를 계산하기 위한 산식 또는 계산기준을 규정하는 관계","example":"감면율 계산식, 과세표준 계산, 산식, 비율 계산, 한도 계산","edgeTable":"Edge_Concept"},{"type":"ISS","description":"쟁점 연결","criterion":"판례·학설·실무 또는 연구에서 논의되는 쟁점과 관련 개념을 연결하는 관계","example":"실질과세원칙, 연결납세제도, 부당행위계산부인","edgeTable":"Edge_Issue"}],"lineage":[{"type":"SAME","change":"변화 없음","lawId":"유지 — 동일 법률이므로 동일한 law_id 사용","mst":"변경 가능 — 법 전체의 새로운 버전이 생성되면 원천데이터의 MST는 달라질 수 있음","legacyNodeId":"유지 — 조·항·호 등의 구조적 위치가 동일하므로 기존 Node_ID도 원칙적으로 동일","sourceLocatorId":"신규 생성 — source_locator_id에 MST를 포함하는 현재 설계에서는 새로운 MST의 동일 위치를 나타내는 Locator를 새로 생성","provisionId":"유지 — 개정을 넘어 동일한 논리적 조문으로 판단","provisionVersionId":"유지 — 조문 자체의 문언·위치에 변화가 없으므로 새로운 Version을 생성하지 않음","snapshotId":"해당 수집 원문에 연결 — 새로운 API 원문 객체이면 신규 Snapshot을 생성하고, 동일 원문 객체가 이미 존재하면 기존 Snapshot을 재사용"},{"type":"MODIFY","change":"내용 변경","lawId":"유지 — 동일 법률 내 개정이므로 동일 law_id 사용","mst":"변경 — 개정 전·후 서로 다른 원천 법령 버전을 식별","legacyNodeId":"원칙적으로 유지 — 조·항·호 등의 위치가 동일하고 기존 Node_ID가 위치 기반이므로 동일. 단, 구조적 위치도 함께 변경되면 변경","sourceLocatorId":"신규 생성 — 새로운 MST에서의 조문 위치를 나타내는 Locator를 생성. 위치 자체가 같더라도 현재 law_id + MST + 조문 위치 설계상 새로운 Locator가 됨","provisionId":"유지 — 개정 전·후 동일한 논리적 규제단위로 판단","provisionVersionId":"신규 생성 — 조문 문언 또는 규범적 내용이 실제로 변경되었으므로 새로운 Version 부여","snapshotId":"개정 후 원문에 해당하는 Snapshot에 연결 — 새로운 원문 객체이면 신규 Snapshot을 생성하고, 동일 원문 객체가 이미 저장되어 있으면 기존 Snapshot 재사용"},{"type":"RENUMBER","change":"위치 변경","lawId":"유지 — 동일 법률 내부의 위치 변경이므로 동일 law_id 사용","mst":"변경 — 개정 전·후의 서로 다른 원천 법령 버전을 식별","legacyNodeId":"변경 — 기존 Node_ID가 조·항·호 등의 구조적 위치를 반영하므로 위치 이동 시 변경","sourceLocatorId":"신규 생성 — 새로운 MST와 변경된 조문 위치를 반영하는 Locator 생성","provisionId":"유지 — 위치가 변경되어도 동일한 논리적 규제단위의 연속성이 인정됨","provisionVersionId":"신규 생성 — 조문의 구조적 위치가 변경되었으므로 새로운 Version 부여","snapshotId":"개정 후 원문에 해당하는 Snapshot에 연결 — 새로운 원문 객체이면 신규 Snapshot 생성, 동일 원문 객체가 이미 존재하면 기존 Snapshot 재사용"},{"type":"NEW","change":"새로운 규제단위 출현","lawId":"유지 — 동일 법률 내부에서 새로운 조문이 신설된 경우 기존 law_id 사용","mst":"신규 법령 버전의 MST 사용 — 신설 조문이 처음 나타나는 원천 법령 버전을 기록","legacyNodeId":"신규 생성 — 새 조문의 조·항·호 등 구조적 위치에 따라 기존 Node_ID 규칙으로 생성","sourceLocatorId":"신규 생성 — 새로운 MST에서 신설된 조문의 위치를 나타내는 Locator 생성","provisionId":"신규 발급 — 기존 조문의 ID를 승계하지 않음","provisionVersionId":"신규 생성 — 새 provision_id의 최초 Version(V001) 생성","snapshotId":"신설 조문을 포함하는 원문 Snapshot에 연결 — 새로운 원문 객체이면 신규 Snapshot 생성, 동일 원문이 이미 저장되어 있으면 기존 Snapshot 재사용"},{"type":"REPEAL","change":"기존 규제단위 소멸","lawId":"유지 — 동일 법률 내부에서 발생한 폐지이므로 동일 law_id 사용","mst":"변경 — 폐지가 반영된 개정 후 법령의 MST를 기록","legacyNodeId":"기존 값 보존·종료 — 폐지된 조문의 과거 Node_ID를 삭제하지 않음. 개정 후에는 대응하는 신규 Node_ID 없음","sourceLocatorId":"기존 값 보존·종료 — 폐지 전 마지막 위치정보를 보존. 개정 후 대응 조문이 없으므로 신규 Locator를 생성하지 않음","provisionId":"기존 ID 보존·종료 — 삭제하지 않고 해당 규제단위의 계보가 종료되었음을 기록","provisionVersionId":"신규 생성하지 않음 — 마지막 Version을 유지하면서 valid_to를 설정하여 효력 종료를 표현","snapshotId":"폐지를 확인할 수 있는 개정 후 원문 Snapshot과 연결 — 폐지 판정의 근거 원문을 추적 가능하게 기록"},{"type":"SPLIT","change":"하나의 규제단위가 둘 이상으로 분화","lawId":"유지 — 동일 법률 내부에서 분할된 경우 동일 law_id 사용","mst":"변경 — 분할이 반영된 개정 후 법령의 MST 사용","legacyNodeId":"기존 Node_ID는 보존·종료, 분할 후 각 신규 조문의 위치에 따라 새로운 legacy_node_id 생성","sourceLocatorId":"기존 Locator는 보존하고, 분리된 후속 조문 각각에 새로운 source_locator_id 생성","provisionId":"기존 provision_id는 종료하고, 분리된 후속 규제단위마다 새로운 provision_id 발급","provisionVersionId":"기존 Version은 종료. 각 신규 provision_id에 최초 V001을 생성","snapshotId":"분할 결과가 포함된 개정 후 원문 Snapshot과 각 후속 조문을 연결"},{"type":"MERGE","change":"둘 이상의 규제단위가 하나로 통합","lawId":"유지 — 동일 법률 내부에서 통합된 경우 동일 law_id 사용","mst":"변경 — 통합이 반영된 개정 후 법령의 MST 사용","legacyNodeId":"통합 전 기존 Node_ID들은 보존·종료. 통합 후 조문의 구조적 위치에 따라 새로운 legacy_node_id 생성","sourceLocatorId":"기존 Locator들은 보존하고, 통합된 후속 조문에 새로운 source_locator_id 생성","provisionId":"통합되는 기존 provision_id들은 종료하고, 통합된 후속 규제단위에 새로운 provision_id 발급","provisionVersionId":"기존 각 Version은 종료하고, 신규 provision_id에 최초 provision_version_id(V001) 생성","snapshotId":"통합 결과를 확인할 수 있는 개정 후 원문 Snapshot과 신규 후속 조문을 연결"},{"type":"TRANSFER","change":"규제단위가 다른 법률로 이전","lawId":"변경 — 이전 전 법률과 이전 후 법률이 서로 다른 법률이므로 서로 다른 law_id 사용","mst":"각 법률의 해당 버전별 MST 사용 — 이전 전 법률의 마지막 버전과 이전 후 법률의 최초 관련 버전을 각각 기록","legacyNodeId":"이전 법률의 기존 Node_ID는 보존·종료하고, 이전 후 법률의 구조적 위치에 따라 새로운 legacy_node_id 생성","sourceLocatorId":"이전 전 Locator는 보존하고, 새로운 law_id + MST + 조문 위치에 따라 이전 후 새로운 source_locator_id 생성","provisionId":"이전 전 기존 provision_id는 종료, 이전 후 규제단위에 원칙적으로 새로운 provision_id 발급","provisionVersionId":"이전 전 마지막 Version은 종료하고, 이전 후 신규 provision_id의 최초 provision_version_id(V001) 생성","snapshotId":"이전 전·후 각각의 법률 원문 Snapshot에 연결하여 법률 간 이동의 근거를 추적 가능하게 보존"},{"type":"UNRESOLVED","change":"계보관계 확정 불가","lawId":"개정 전·후 원천에서 실제로 확인되는 law_id를 그대로 기록. 법률 간 후보관계라면 양쪽 law_id를 각각 보존","mst":"개정 전·후 실제 원천 법령 버전의 MST를 각각 기록","legacyNodeId":"원천에서 확인되는 기존 값은 그대로 보존. Lineage 불확실성을 이유로 임의 변경하지 않음","sourceLocatorId":"개정 전·후 실제 조문 각각의 위치에 대해 독립적으로 생성·보존. Locator 생성 자체는 Lineage 판정과 분리","provisionId":"승계 여부를 임의 확정하지 않음. 최종 Lineage 검토가 완료된 후 Codebook 규칙에 따라 유지·종료·신규 발급 여부 결정","provisionVersionId":"실제로 존재하는 조문 상태는 기록하되, 불확실한 선행·후속 Version을 동일 계보라고 강제 연결하지 않음","snapshotId":"판단에 사용한 개정 전·후 원문 Snapshot을 모두 연결하여 추후 재검토가 가능하도록 보존"}],"nodesId":[{"type":"PIT","lawName":"소득세법"},{"type":"PITD","lawName":"소득세법 시행령"},{"type":"PITR","lawName":"소득세법 시행규칙"},{"type":"VAT","lawName":"부가가치세법"},{"type":"VATD","lawName":"부가가치세법 시행령"},{"type":"VATR","lawName":"부가가치세법 시행규칙"},{"type":"CIT","lawName":"법인세법"},{"type":"CITD","lawName":"법인세법 시행령"},{"type":"CITR","lawName":"법인세법 시행규칙"},{"type":"NTA","lawName":"국세기본법"},{"type":"NTAD","lawName":"국세기본법 시행령"},{"type":"NTAR","lawName":"국세기본법 시행규칙"},{"type":"TCL","lawName":"조세특례제한법"},{"type":"TCLD","lawName":"조세특례제한법 시행령"},{"type":"TCLR","lawName":"조세특례제한법 시행규칙"},{"type":"EST","lawName":"상속세 및 증여세법"},{"type":"ESTD","lawName":"상속세및증여세법 시행령"},{"type":"ESTR","lawName":"상속세및증여세법 시행규칙"},{"type":"FSC","lawName":"자본시장과 금융투자업에 관한 법률"},{"type":"TRU","lawName":"신탁법"},{"type":"COM","lawName":"상법"},{"type":"CIV","lawName":"민법"},{"type":"LWB","lawName":"근로복지기본법"},{"type":"PRI","lawName":"사립학교법"},{"type":"STA","lawName":"통계법"},{"type":"CUS","lawName":"관세법"},{"type":"IET","lawName":"개별소비세법"},{"type":"TET","lawName":"교통ㆍ에너지ㆍ환경세법"},{"type":"CTS","lawName":"국세징수법"},{"type":"TLL","lawName":"국제조세조정에 관한 법률"},{"type":"TPA","lawName":"조세범 처벌법"},{"type":"TPP","lawName":"조세범 처벌절차법"},{"type":"LTB","lawName":"지방세기본법"},{"type":"TCB","lawName":"전기통신기본법"},{"type":"DRB","lawName":"수출용 원재료에 대한 관세 등 환급에 관한 특례법"},{"type":"HOL","lawName":"공휴일에 관한 법률"},{"type":"LBD","lawName":"노동절 제정에 관한 법률"},{"type":"PST","lawName":"우편법"},{"type":"FNA","lawName":"금융실명거래 및 비밀보장에 관한 법률"},{"type":"NPA","lawName":"국민연금법"},{"type":"CPA","lawName":"공무원연금법"},{"type":"CPR","lawName":"공무원 재해보상법"},{"type":"PTP","lawName":"사립학교교직원 연금법"},{"type":"MPA","lawName":"군인연금법"},{"type":"MCR","lawName":"군인 재해보상법"},{"type":"LSA","lawName":"근로기준법"},{"type":"IAC","lawName":"산업재해보상보험법"},{"type":"MCA","lawName":"수도권정비계획법"},{"type":"RBA","lawName":"지방자치분권 및 균형성장에 관한 특별법"},{"type":"EPA","lawName":"고용정책 기본법"},{"type":"RIR","lawName":"지역 산업위기 대응 및 지역경제 회복을 위한 특별법"},{"type":"LIQ","lawName":"주세법"},{"type":"STM","lawName":"인지세법"},{"type":"STT","lawName":"증권거래세법"},{"type":"LTL","lawName":"지방세특례제한법"},{"type":"ITA","lawName":"임시수입부가세법"},{"type":"EDT","lawName":"교육세법"},{"type":"AFT","lawName":"농어촌특별세법"},{"type":"NKS","lawName":"남북교류협력에 관한 법률"},{"type":"FTZ","lawName":"자유무역지역의 지정 및 운영에 관한 법률"},{"type":"JJU","lawName":"제주특별자치도 설치 및 국제자유도시 조성을 위한 특별법"},{"type":"CPT","lawName":"종합부동산세법"},{"type":"SMI","lawName":"중소기업기술혁신 촉진법"},{"type":"TIA","lawName":"산업기술혁신 촉진법"},{"type":"TCL","lawName":"정보통신산업 진흥법"},{"type":"SSB","lawName":"중소기업창업 지원법"},{"type":"VEA","lawName":"벤처기업육성에 관한 특별법"},{"type":"AJA","lawName":"행정사법"},{"type":"ABA","lawName":"건축사법"},{"type":"ACI","lawName":"학원의 설립ㆍ운영 및 과외교습에 관한 법률"},{"type":"VTD","lawName":"국민 평생 직업능력 개발법"},{"type":"TOU","lawName":"관광진흥법"},{"type":"EWA","lawName":"노인복지법"},{"type":"EXI","lawName":"전시산업발전법"},{"type":"SBA","lawName":"중소기업기본법"},{"type":"PET","lawName":"석유 및 석유대체연료 사업법"},{"type":"KNOC","lawName":"한국석유공사법"},{"type":"WCP","lawName":"대·중소기업 상생협력 촉진에 관한 법률"},{"type":"FTA","lawName":"자유무역협정체결에 따른 농어업인 등의 지원에 관한 특별법"},{"type":"CGA","lawName":"신용보증기금법"},{"type":"TGF","lawName":"기술보증기금법"},{"type":"SCA","lawName":"중소기업협동조합법"},{"type":"PAL","lawName":"공공기관의 운영에 관한 법률"},{"type":"LPCA","lawName":"지방공기업법"}]};
+}
+function ensureCodebookDetail(content){
+  if(!content.detail) content.detail=JSON.parse(JSON.stringify(defaultCodebookDetail()));
+
+  // Migrate legacy single-snapshot detail data to per-subversion snapshots.
+  if(!content.detailVersionPages){
+    const base=content.detail;
+    const versions=(base.version||[]).map(v=>v.version).filter(Boolean);
+    const first=versions[0]||"0.1.0";
+    content.detailVersionPages={};
+    versions.forEach(v=>{
+      content.detailVersionPages[v]={
+        relationType: v===first ? JSON.parse(JSON.stringify(base.relationType||[])) : [],
+        lineage: v===first ? JSON.parse(JSON.stringify(base.lineage||[])) : [],
+        nodesId: v===first ? JSON.parse(JSON.stringify(base.nodesId||[])) : []
+      };
+    });
+    if(!content.detailVersionPages[first]){
+      content.detailVersionPages[first]={
+        relationType:JSON.parse(JSON.stringify(base.relationType||[])),
+        lineage:JSON.parse(JSON.stringify(base.lineage||[])),
+        nodesId:JSON.parse(JSON.stringify(base.nodesId||[]))
+      };
+    }
+  }
+
+  // Keep version registry synchronized with available detail pages.
+  (content.detail.version||[]).forEach(v=>{
+    if(v?.version && !content.detailVersionPages[v.version]){
+      content.detailVersionPages[v.version]={relationType:[],lineage:[],nodesId:[]};
+    }
+  });
+  return content;
+}
+
+function ensureIndependentCodebookVersions(content){
+  content=ensureCodebookDetail(content);
+  if(content.detailSectionVersions) return content;
+
+  const baseVersions=(content.detail?.version||[]).map(v=>({
+    id:"dv_"+String(v.version||"0.1.0").replace(/[^a-zA-Z0-9]+/g,"_"),
+    version:v.version||"0.1.0",
+    date:"",
+    status:(v.version==="0.1.0"?"current":"archived"),
+    owner:"",
+    changes:v.meaning||""
+  }));
+  if(!baseVersions.length){
+    baseVersions.push({id:"dv_0_1_0",version:"0.1.0",date:"",status:"current",owner:"",changes:"개발 시작"});
+  }
+
+  const firstId=baseVersions[0].id;
+  const firstVersion=baseVersions[0].version;
+  const pageFor=(kind)=>{
+    if(kind==="version") return JSON.parse(JSON.stringify(content.detail?.version||[]));
+    const legacy=content.detailVersionPages?.[firstVersion]?.[kind];
+    const fallback=content.detail?.[kind]||[];
+    return JSON.parse(JSON.stringify(legacy?.length?legacy:fallback));
+  };
+
+  content.detailSectionVersions={};
+  ["version","relationType","lineage","nodesId"].forEach(kind=>{
+    content.detailSectionVersions[kind]={
+      versions:JSON.parse(JSON.stringify(baseVersions)),
+      pages:{}
+    };
+    baseVersions.forEach((v,idx)=>{
+      content.detailSectionVersions[kind].pages[v.id]=idx===0?pageFor(kind):[];
+    });
+  });
+  return content;
+}
+
 function cloneCodebookContent(x){
-  return JSON.parse(JSON.stringify(x||defaultCodebookContent()));
+  return ensureIndependentCodebookVersions(JSON.parse(JSON.stringify(x||defaultCodebookContent())));
 }
 let selectedCodebookVersionId=null;
 
@@ -1033,9 +1166,18 @@ if(!Array.isArray(data.references)) data.references=[];
 if(!data.codebook || !Array.isArray(data.codebook.versions)) data.codebook=makeInitial().codebook;
 data.codebook.versions.forEach(v=>{
   if(!v.content) v.content=cloneCodebookContent(defaultCodebookContent());
+  else v.content=ensureIndependentCodebookVersions(v.content);
   if(v.id==="cb_initial_20260902" && !data.codebook.versionPagesMigrated && v.status==="current") v.status="draft";
 });
+
 data.codebook.versionPagesMigrated=true;
+if(!data.schema || !Array.isArray(data.schema.versions) || !data.schema.versions.length){
+  data.schema={versions:[{id:"schema_initial_01",version:"schema-0.1",date:"2026-09-12",status:"current",owner:"",changes:"DB schema-0.1 초기 정의",content:{"overview":[{"no":1,"name":"source_snapshot","meaning":"원문 보존","description":"실제 수집된 불변 원문 객체 저장"},{"no":2,"name":"collection_observation","meaning":"수집 이력","description":"언제·어떤 요청으로 수집을 시도했는지 기록"},{"no":3,"name":"provision_identity","meaning":"법령 버전","description":"특정 법률의 특정 MST 법령 버전 관리"},{"no":4,"name":"provision_version","meaning":"조문 정체성","description":"시간에 걸쳐 유지되는 논리적 규제단위 관리"},{"no":5,"name":"provision_version","meaning":"조문 버전","description":"특정 시점의 조문 내용·위치·효력 상태 관리"},{"no":6,"name":"amendment_event","meaning":"개정 사건","description":"어떤 개정이 언제 발생했는지 관리"},{"no":7,"name":"provision_lineage","meaning":"조문 계보","description":"개정 전·후 Version 간 SAME/MODIFY/RENUMBER 등 관계 기록"},{"no":8,"name":"annotation","meaning":"판정·검토","description":"자동·LLM·연구자 판정 및 검토정보 기록"},{"no":9,"name":"pipeline_run","meaning":"실행 이력","description":"어느 코드·버전으로 처리했는지 기록"},{"no":10,"name":"release_manifest","meaning":"배포 단위","description":"특정 연구 데이터셋 release의 구성과 버전 고정"}],"tables":[{"no":1,"name":"source_snapshot","fields":[{"field":"snapshot_id","meaning":"불변 원문 Snapshot ID","type":"VARCHAR(32)","typeMeaning":"최대 32자의 문자(e.g. SNAP-20260903-000001)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"source_system","meaning":"국가법령정보 API 등 원천 시스템","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자(e.g. LAW_OPEN_API)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"law_id","meaning":"법령 식별자","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 001571)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"mst","meaning":"원천 법령 버전 식별자","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 276117)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"effective_date","meaning":"해당 법령 버전 시행일","type":"DATE","typeMeaning":"날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"response_sha256","meaning":"원문 bytes의 SHA-256","type":"CHAR(64)","typeMeaning":"정확히 64자리 문자(e.g. SHA-256 해시값)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"byte_count","meaning":"원문 크기","type":"BIGINT","typeMeaning":"큰 정수(e.g. 154328)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"raw_path","meaning":"원문 저장 위치","type":"TEXT","typeMeaning":"길이가 긴 문자(e.g. raw/law_open_api/...xml)","constraint":"NOT NULL, UNIQUE","constraintMeaning":"필수 + 중복 금지. 반드시 값이 존재해야 하며 그 값은 중복될 수 없음"},{"field":"content_type","meaning":"XML/JSON 등 응답 형식","type":"VARCHAR(100)","typeMeaning":"최대 100자의 문자(e.g. application/xml)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"record_count","meaning":"원문 내 수집 레코드 수","type":"INTEGER","typeMeaning":"정수(e.g. 125)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":2,"name":"collection_observation","fields":[{"field":"observation_id","meaning":"개별 수집 시도 ID","type":"VARCHAR(32)","typeMeaning":"최대 32자의 가변 문자열, 비교적 짧은 ID 저장(e.g. OBS-20260903-000001)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"snapshot_id","meaning":"성공적으로 확보된 Snapshot","type":"VARCHAR(32)","typeMeaning":"최대 32자의 가변 문자열, Snapshot ID 등 저장(e.g. SNAP-20260903-000001)","constraint":"FK, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"endpoint","meaning":"호출 API endpoint","type":"TEXT","typeMeaning":"길이 제한을 특별히 두지 않는 문자열, URL·경로·긴 문자정보(e.g. /eflawService.do)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"target","meaning":"수집 대상","type":"TEXT","typeMeaning":"길이 제한을 특별히 두지 않는 문자열, 수집 대상 등의 문자정보(e.g. 부가가치세법)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"retrieved_at","meaning":"수집 시도 시각","type":"TIMESTAMPTZ","typeMeaning":"시간대가 포함된 날짜+시간, 정확히 언제 발생했는지 기록(e.g. 2026-09-03 11:20:35+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"request_params_redacted","meaning":"민감정보 제거 후 요청 파라미터","type":"JSONB","typeMeaning":"구조화된 JSON 데이터, 여러 요청 파라미터를 묶어서 저장(e.g. {\"MST\":\"276117\",\"type\":\"XML\"})","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"request_hash","meaning":"요청 식별용 hash","type":"CHAR(64)","typeMeaning":"정확히 64자리 문자, SHA-256 Hash 저장(e.g. a3f5... 총 64자리)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"http_status","meaning":"HTTP 상태코드","type":"INTEGER","typeMeaning":"정수, HTTP 상태번호 등(e.g. 200, 404, 500)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"validation_status","meaning":"수집결과 검증 상태","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자열, 짧은 상태값(e.g. VALID, FAILED)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"error_code","meaning":"실패 원인","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자열, 오류코드·버전명 등(e.g. HTTP_TIMEOUT)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"collector_version","meaning":"수집기 버전","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자열, Collector 버전 등(e.g. collector-0.1.0)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_commit","meaning":"코드 commit","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자열, Git commit 등(e.g. 8fa31bc...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":3,"name":"law_version","fields":[{"field":"law_version_id","meaning":"연구 DB 내부 법령 버전 ID","type":"VARCHAR(40)","typeMeaning":"최대 40자의 문자(e.g. LV-000001)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"law_id","meaning":"법률 정체성","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 001571)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"mst","meaning":"원천 버전 ID","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 276117)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"effective_date","meaning":"시행일","type":"DATE","typeMeaning":"날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"promulgation_date","meaning":"공포일","type":"DATE","typeMeaning":"날짜(e.g. 2025-12-31)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"snapshot_id","meaning":"해당 버전의 근거 원문","type":"VARCHAR(32)","typeMeaning":"최대 32자의 문자(e.g. SNAP-20260903-000001)","constraint":"FK","constraintMeaning":"Foreign Key. 다른 테이블의 PK 또는 고유 ID를 참조하여 테이블 간 관계를 연결하는 키"},{"field":"valid_from","meaning":"법적 효력 시작","type":"DATE","typeMeaning":"날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"valid_to","meaning":"법적 효력 종료","type":"DATE","typeMeaning":"날짜(e.g. 2026-06-30)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":4,"name":"provision_identity","fields":[{"field":"provision_id","meaning":"논리적 규제단위 영구 ID","type":"VARCHAR(40)","typeMeaning":"최대 40자의 문자, 조문 정체성을 나타내는 문자형 ID(e.g. PRV:VAT:000010)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"law_id","meaning":"해당 규제단위가 속한 법률","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자, 법령 식별자를 저장하는 문자(e.g. 001571)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"created_at","meaning":"DB 최초 등록시각","type":"TIMESTAMPTZ","typeMeaning":"날짜 + 시각 + 시간대(Time Zone)를 함께 저장, ID가 생성된 정확한 날짜·시간(e.g. 2026-09-03 11:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"status","meaning":"ACTIVE / ENDED 등","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자, 조문 계보의 현재 상태(e.g. ACTIVE, ENDED)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"origin_type","meaning":"INITIAL / NEW / SPLIT / MERGE / TRANSFER 등","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자, 이 조문 정체성이 어떻게 시작되었는지(e.g. INITIAL, NEW, SPLIT 등)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"recorded_from","meaning":"DB 판단 유효 시작","type":"TIMESTAMPTZ","typeMeaning":"이 DB 기록이 유효하기 시작한 정확한 시각(e.g. 2026-09-03 11:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"DB 판단 유효 종료","type":"TIMESTAMPTZ","typeMeaning":"이 DB 기록이 유효하지 않게 된 정확한 시각(e.g. 2027-01-10 15:20:00+09 또는 NULL)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":5,"name":"provision_version","fields":[{"field":"provision_version_id","meaning":"조문 Version ID","type":"VARCHAR(60)","typeMeaning":"ID와 구조적 위치를 저장, , 최대 60자의 문자형 ID(e.g. PV:PRV-VAT-000010:V002)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"provision_id","meaning":"논리적 규제단위","type":"VARCHAR(40)","typeMeaning":"최대 40자의 문자형 ID(e.g. PRV:VAT:000010)","constraint":"FK","constraintMeaning":"Foreign Key. 다른 테이블의 PK 또는 고유 ID를 참조하여 테이블 간 관계를 연결하는 키"},{"field":"law_version_id","meaning":"해당 상태가 관찰된 법령 버전","type":"VARCHAR(40)","typeMeaning":"법령 Version을 식별하는 문자(e.g. LV-000001)","constraint":"FK","constraintMeaning":"Foreign Key. 다른 테이블의 PK 또는 고유 ID를 참조하여 테이블 간 관계를 연결하는 키"},{"field":"source_locator_id","meaning":"해당 MST에서의 조문 위치","type":"VARCHAR(80)","typeMeaning":"원천 법령 내 조문 위치를 나타내는 문자형 ID(e.g. LOC:001571:276117:001100)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"legacy_node_id","meaning":"Pilot A Node_ID 호환용","type":"VARCHAR(100)","typeMeaning":"기존 Pilot A Node_ID를 보존하기 위한 문자(e.g. 기존 Node_ID)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"article_no","meaning":"조","type":"VARCHAR(20)","typeMeaning":"조 번호를 문자로 저장(e.g. 10, 10의2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"paragraph_no","meaning":"항","type":"VARCHAR(20)","typeMeaning":"항 번호를 문자로 저장(e.g. 1, 2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"item_no","meaning":"호","type":"VARCHAR(20)","typeMeaning":"호 번호를 문자로 저장(e.g. 1, 2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"subitem_no","meaning":"목","type":"VARCHAR(20)","typeMeaning":"목 번호를 문자로 저장(e.g. 가, 나)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"normalized_text","meaning":"정규화된 조문 본문","type":"TEXT","typeMeaning":"길이가 길거나 일정하지 않은 문자열을 저장, 길이가 긴 조문 본문(e.g. 정규화된 법령 문장 전체)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"content_hash","meaning":"조문 내용 hash","type":"CHAR(64)","typeMeaning":"정확히 64자리의 문자를 저장하는 자료형, 64자리 SHA-256 Hash(e.g. a84c...)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"valid_from","meaning":"법적 효력 시작","type":"DATE","typeMeaning":"법적인 시간을 기록, 법적 효력 시작 날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"valid_to","meaning":"법적 효력 종료","type":"DATE","typeMeaning":"법적 효력 종료 날짜(e.g. 2026-06-30)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"recorded_from","meaning":"DB 기록 유효 시작","type":"TIMESTAMPTZ","typeMeaning":"날짜 + 시각 + 시간대를 저장, DB 기록이 유효해진 정확한 시각(e.g. 2026-09-03 12:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"DB 기록 유효 종료","type":"TIMESTAMPTZ","typeMeaning":"DB 기록의 유효성이 끝난 정확한 시각(e.g. 2027-01-15 10:20:00+09 또는 NULL)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":6,"name":"amendment_event","fields":[{"field":"amendment_id","meaning":"하나의 법령 개정 사건을 식별하는 연구 DB 내부 ID","type":"VARCHAR(40)","typeMeaning":"ID·코드·분류처럼 비교적 짧은 문자, 개정 사건 ID를 문자로 저장(e.g. AMD-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"law_id","meaning":"개정 대상 법령","type":"VARCHAR(20)","typeMeaning":"법령 식별번호를 문자로 저장(e.g. 001571)","constraint":"NOT NULL, INDEX","constraintMeaning":"빈 값 금지. 검색 속도 향상을 위한 색인. 값의 중복이나 NULL 여부를 제한하는 제약이라기보다 조회 성능을 높이는 DB 구조"},{"field":"from_mst","meaning":"개정 전 법령 버전의 MST","type":"VARCHAR(20)","typeMeaning":"개정 전 법령 버전(MST)(e.g. 276117)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"to_mst","meaning":"개정 후 법령 버전의 MST","type":"VARCHAR(20)","typeMeaning":"개정 후 법령 버전(MST)(e.g. 280350)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"promulgation_date","meaning":"개정법령 공포일","type":"DATE","typeMeaning":"개정법령 공포일(e.g. 2026-03-31)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"effective_date","meaning":"개정법령 시행일","type":"DATE","typeMeaning":"개정법령 시행일(e.g. 2026-07-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"amendment_type","meaning":"일부개정·전부개정·제정·폐지 등 개정 형태","type":"VARCHAR(30)","typeMeaning":"개정 유형을 문자로 저장(e.g. PARTIAL_AMENDMENT)","constraint":"NULL 허용, CHECK","constraintMeaning":"빈 값 허용. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"amendment_reason","meaning":"개정이유 또는 개정사건 설명","type":"TEXT","typeMeaning":"개정 이유·내용 등 긴 문장(e.g.과세체계 정비를 위하여...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"source_snapshot_id","meaning":"개정 사실을 확인한 원문 Snapshot","type":"VARCHAR(32)","typeMeaning":"개정정보의 근거가 되는 원문 Snapshot ID(e.g.SNAP-20260903-000001)","constraint":"FK → source_snapshot.snapshot_id, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"recorded_from","meaning":"해당 개정사건 정보가 DB에 기록·유효해진 시각","type":"TIMESTAMPTZ","typeMeaning":"DB에서 이 기록이 유효해진 정확한 시각(e.g.2026-09-03 12:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"해당 기록의 DB상 유효 종료시점","type":"TIMESTAMPTZ","typeMeaning":"DB에서 이 기록의 유효성이 끝난 정확한 시각(e.g.NULL 또는 특정 시각)","constraint":"NULL 허용, CHECK","constraintMeaning":"빈 값 허용. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"}]},{"no":7,"name":"provision_lineage","fields":[{"field":"lineage_id","meaning":"개별 Lineage 판정기록의 고유 ID","type":"VARCHAR(40)","typeMeaning":"Lineage 판정 자체의 ID(e.g. LIN-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"from_provision_version_id","meaning":"개정 전 선행 조문 Version. NEW에서는 NULL","type":"VARCHAR(60)","typeMeaning":"개정 전 조문 Version ID(e.g. PV:PRV-VAT-000010:V001)","constraint":"FK → provision_version, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"to_provision_version_id","meaning":"개정 후 후속 조문 Version. REPEAL에서는 NULL","type":"VARCHAR(60)","typeMeaning":"개정 후 조문 Version ID(e.g. PV:PRV-VAT-000010:V002)","constraint":"FK → provision_version, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"amendment_id","meaning":"해당 Lineage 관계가 발생한 개정 사건","type":"VARCHAR(40)","typeMeaning":"어떤 개정사건에서 발생했는지 나타내는 ID(e.g. AMD-000001)","constraint":"FK → amendment_event, NOT NULL","constraintMeaning":"다른 테이블 참조 + 빈 값 금지. 반드시 다른 테이블에 존재하는 ID를 참조해야 하며 비워둘 수 없음"},{"field":"relation_type","meaning":"SAME, MODIFY, RENUMBER, NEW, REPEAL, SPLIT, MERGE, TRANSFER, UNRESOLVED 중 하나","type":"VARCHAR(20)","typeMeaning":"Lineage 관계 유형(e.g. MODIFY, RENUMBER, SPLIT)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"text_changed","meaning":"개정 과정에서 실제 문언·내용 변경이 있었는지 표시","type":"BOOLEAN","typeMeaning":"문언·내용 변경 여부(e.g. TRUE / FALSE)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"location_changed","meaning":"조·항·호 등 구조적 위치가 변경되었는지 표시","type":"BOOLEAN","typeMeaning":"조·항·호 등의 위치 변경 여부(e.g. TRUE / FALSE)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"evidence_text","meaning":"해당 Lineage 판정의 근거. 원문 비교, 개정내용, 판단 이유 등 기록","type":"TEXT","typeMeaning":"판정 근거를 설명하는 긴 문장(e.g. 개정 전후 규율대상은 동일하나...)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"match_method","meaning":"판정방법. RULE, LLM, RESEARCHER, EXPERT 등 허용값으로 제한","type":"VARCHAR(20)","typeMeaning":"누가/어떤 방식으로 판정했는지(e.g. RULE, LLM, RESEARCHER)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"confidence","meaning":"Lineage 판정의 신뢰도. 예: 0.950","type":"NUMERIC(4,3)","typeMeaning":"판정 신뢰도(e.g. 0.950)","constraint":"CHECK (0 ≤ confidence ≤ 1)","constraintMeaning":"0 이상, 1이하의 값만 허용."},{"field":"review_status","meaning":"검토상태. AUTO, PENDING, REVIEWED, CONFIRMED 등","type":"VARCHAR(20)","typeMeaning":"검토 진행상태(e.g. PENDING, CONFIRMED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"codebook_version","meaning":"판정에 적용한 Lineage Codebook 버전","type":"VARCHAR(20)","typeMeaning":"적용한 Codebook 버전(e.g. 1.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_from","meaning":"해당 Lineage 판단이 DB에서 유효해진 시점","type":"TIMESTAMPTZ","typeMeaning":"이 판정이 DB에서 유효해진 시각(e.g. 2026-09-03 12:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"해당 판단의 DB상 유효 종료시점. 현재 판단이면 NULL","type":"TIMESTAMPTZ","typeMeaning":"이 판정의 DB상 유효성이 끝난 시각(e.g. NULL 또는 특정 시각)","constraint":"NULL 허용, CHECK","constraintMeaning":"빈 값 허용. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"supersedes_decision_id","meaning":"기존 판정을 수정·대체하는 경우 이전 Lineage 판단과 연결","type":"VARCHAR(40)","typeMeaning":"이 판정이 대체한 이전 판정의 ID(e.g. LIN-000087)","constraint":"Self-FK → lineage_id, NULL 허용","constraintMeaning":"같은 테이블의 다른 행을 참조 + 빈 값 허용. 이전 판단·기록 등을 자기 테이블 내부에서 연결"}]},{"no":8,"name":"annotation","fields":[{"field":"annotation_id","meaning":"개별 판정·검토 기록 ID","type":"VARCHAR(40)","typeMeaning":"개별 판정·검토 기록의 ID(e.g. ANN-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"target_type","meaning":"판정 대상 종류. 예: PROVISION_VERSION, LINEAGE","type":"VARCHAR(30)","typeMeaning":"무엇을 판정했는지 대상의 종류(e.g. LINEAGE)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"target_id","meaning":"실제 판정 대상 ID","type":"VARCHAR(60)","typeMeaning":"실제 판정 대상의 ID(e.g. PV:PRV-VAT-000010:V002)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"task_type","meaning":"수행한 판정 종류. 예: Lineage 검토, 개념분류, 오류검토","type":"VARCHAR(30)","typeMeaning":"어떤 종류의 판정 작업인지(e.g. LINEAGE_REVIEW)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"label","meaning":"판정 결과 또는 부여한 Label","type":"VARCHAR(50)","typeMeaning":"판정 결과·부여된 Label(e.g. RENUMBER)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"annotator_type","meaning":"RULE, LLM, RESEARCHER, EXPERT 등 판정 주체","type":"VARCHAR(20)","typeMeaning":"누가/무엇이 판정했는지(e.g. LLM, RESEARCHER)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"annotator_id","meaning":"연구자·전문가·모델 등을 구분하는 식별값","type":"VARCHAR(50)","typeMeaning":"구체적인 판정 주체의 ID(e.g. RESEARCHER_01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"confidence","meaning":"자동·LLM 등의 confidence","type":"NUMERIC(4,3)","typeMeaning":"판정 신뢰도(e.g. 0.950)","constraint":"CHECK","constraintMeaning":"값의 조건·범위를 검사. 정해진 규칙을 만족하는 값만 저장할 수 있도록 제한"},{"field":"evidence_text","meaning":"판단근거 또는 검토 메모","type":"TEXT","typeMeaning":"판정 근거·검토 메모(e.g. 조문 위치는 변경되었으나...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"review_status","meaning":"AUTO, PENDING, REVIEWED, CONFIRMED 등","type":"VARCHAR(20)","typeMeaning":"검토 진행상태(e.g. PENDING, CONFIRMED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"codebook_version","meaning":"적용한 Codebook 버전","type":"VARCHAR(20)","typeMeaning":"사용한 Codebook 버전(e.g. 1.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"model_version","meaning":"LLM 판정인 경우 사용 모델 버전","type":"VARCHAR(50)","typeMeaning":"LLM 사용 시 모델 버전(e.g. model-v1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"prompt_version","meaning":"LLM 판정에 사용한 Prompt 버전","type":"VARCHAR(50)","typeMeaning":"사용한 Prompt 버전(e.g. prompt-0.2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"pipeline_run_id","meaning":"해당 Annotation을 생성한 실행","type":"VARCHAR(40)","typeMeaning":"어떤 Pipeline 실행에서 생성됐는지(e.g. RUN-000001)","constraint":"FK → pipeline_run.pipeline_run_id, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"recorded_at","meaning":"판정 기록 시각","type":"TIMESTAMPTZ","typeMeaning":"판정을 기록한 정확한 시각(e.g. 2026-09-03 15:20:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"supersedes_annotation_id","meaning":"기존 판정을 수정·대체하는 경우 이전 기록 연결","type":"VARCHAR(40)","typeMeaning":"이 판정이 대체한 이전 Annotation ID(e.g. ANN-000087)","constraint":"Self-FK → annotation.annotation_id, NULL 허용","constraintMeaning":"같은 테이블의 다른 행을 참조 + 빈 값 허용. 이전 판단·기록 등을 자기 테이블 내부에서 연결"}]},{"no":9,"name":"pipeline_run","fields":[{"field":"pipeline_run_id","meaning":"한 번의 수집·정규화·매칭·분류 실행을 식별","type":"VARCHAR(40)","typeMeaning":"한 번의 Pipeline 실행을 식별하는 ID(e.g. RUN-20260903-001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"pipeline_stage","meaning":"COLLECT, NORMALIZE, MATCH, CLASSIFY, VALIDATE 등 실행 단계","type":"VARCHAR(30)","typeMeaning":"어떤 처리 단계를 실행했는지(e.g. COLLECT, MATCH)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"started_at","meaning":"실행 시작시각","type":"TIMESTAMPTZ","typeMeaning":"실행을 시작한 정확한 시각(e.g. 2026-09-03 14:00:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"finished_at","meaning":"실행 종료시각","type":"TIMESTAMPTZ","typeMeaning":"실행을 종료한 정확한 시각(e.g. 2026-09-03 14:25:10+09)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"run_status","meaning":"RUNNING, SUCCESS, FAILED, PARTIAL 등","type":"VARCHAR(20)","typeMeaning":"실행 결과 상태(e.g. SUCCESS, FAILED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"pipeline_version","meaning":"Pipeline 자체 버전","type":"VARCHAR(30)","typeMeaning":"사용한 Pipeline 버전(e.g. pipeline-0.1.0)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_commit","meaning":"Git commit hash 등 실행 코드 버전","type":"VARCHAR(50)","typeMeaning":"실행 당시 코드의 Git commit(e.g. 8fa31bc...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"schema_version","meaning":"실행 당시 사용한 DB Schema 버전","type":"VARCHAR(20)","typeMeaning":"사용한 DB Schema 버전(e.g. schema-0.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"codebook_version","meaning":"분류 단계에서 사용한 Codebook 버전","type":"VARCHAR(20)","typeMeaning":"사용한 Codebook 버전(e.g. 1.1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"model_version","meaning":"LLM을 사용한 경우 모델 버전","type":"VARCHAR(50)","typeMeaning":"AI/LLM을 사용한 경우 모델 버전(e.g. model-v1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"prompt_version","meaning":"사용 Prompt 버전","type":"VARCHAR(50)","typeMeaning":"사용한 Prompt 버전(e.g. prompt-0.2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"config_hash","meaning":"실행 설정값의 Hash","type":"CHAR(64)","typeMeaning":"실행 설정의 SHA-256 Hash(e.g. 64자리 Hash)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"input_reference","meaning":"처리 대상 Snapshot·MST·batch 등","type":"TEXT","typeMeaning":"어떤 데이터를 처리했는지에 대한 정보(e.g. MST 276117)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"error_message","meaning":"실패·부분실패 발생 시 오류정보","type":"TEXT","typeMeaning":"실패·부분실패 시 오류 내용(e.g. API timeout...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":10,"name":"release_manifest","fields":[{"field":"release_id","meaning":"연구 데이터 Release의 고유 ID","type":"VARCHAR(40)","typeMeaning":"하나의 연구 데이터 Release를 식별하는 내부 ID(e.g. REL-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"release_version","meaning":"외부·연구용 Release 버전. 예: TRRE-DATA-0.1.0","type":"VARCHAR(30)","typeMeaning":"외부·연구용 데이터 Release 버전(e.g. TRRE-DATA-0.1.0)","constraint":"NOT NULL, UNIQUE","constraintMeaning":"빈 값 금지. 중복 금지. 해당 값 또는 지정된 값의 조합이 다른 행과 중복될 수 없음"},{"field":"released_at","meaning":"Release 확정 시각","type":"TIMESTAMPTZ","typeMeaning":"해당 Release를 확정한 정확한 시각(e.g. 2026-09-30 15:00:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"release_status","meaning":"DRAFT, FROZEN, SUPERSEDED 등","type":"VARCHAR(20)","typeMeaning":"Release의 현재 상태(e.g. DRAFT, FROZEN, SUPERSEDED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"schema_version","meaning":"Release에 사용된 Schema 버전","type":"VARCHAR(20)","typeMeaning":"Release에 사용된 DB Schema 버전(e.g. schema-0.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"codebook_version","meaning":"Release에 사용된 Codebook 버전","type":"VARCHAR(20)","typeMeaning":"적용한 Codebook 버전(e.g. 1.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_version","meaning":"데이터 생성 Pipeline 버전","type":"VARCHAR(30)","typeMeaning":"데이터를 생성한 Pipeline 버전(e.g. pipeline-0.1.0)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_commit","meaning":"코드 commit","type":"VARCHAR(50)","typeMeaning":"실행 코드의 Git commit 정보(e.g. 8fa31bc...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"model_version","meaning":"AI/LLM 사용 시 모델 버전","type":"VARCHAR(50)","typeMeaning":"AI/LLM을 사용한 경우 모델 버전(e.g. model-v1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"prompt_version","meaning":"사용 Prompt 버전","type":"VARCHAR(50)","typeMeaning":"사용한 Prompt 버전(e.g. prompt-0.2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"formula_version","meaning":"복잡성지표 산식 버전","type":"VARCHAR(30)","typeMeaning":"복잡성 지표 계산식의 버전(e.g. TRRE-FORMULA-0.1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"data_cutoff_at","meaning":"해당 Release에 포함된 데이터 기준시점","type":"TIMESTAMPTZ","typeMeaning":"이 Release에 포함할 데이터의 기준시점(e.g. 2026-09-30 00:00:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"manifest_sha256","meaning":"Manifest 자체 또는 배포 Manifest의 Hash","type":"CHAR(64)","typeMeaning":"Release Manifest의 SHA-256 Hash(e.g. 64자리 Hash)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"record_count","meaning":"Release에 포함된 레코드 수","type":"BIGINT","typeMeaning":"Release에 포함된 전체 레코드 수(e.g. 125430)","constraint":"CHECK ≥ 0","constraintMeaning":"0 이상의 값만 허용. 음수가 될 수 없는 수량·크기 등에 사용"},{"field":"notes","meaning":"Release 설명·예외사항·변경사항 등","type":"TEXT","typeMeaning":"Release 설명·예외·변경사항(e.g. Pilot VAT Act release...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"supersedes_release_id","meaning":"이전 Release를 대체하는 경우 연결","type":"VARCHAR(40)","typeMeaning":"이 Release가 대체하는 이전 Release ID(e.g. REL-000001)","constraint":"Self-FK → release_manifest.release_id, NULL 허용","constraintMeaning":"같은 테이블의 다른 행을 참조 + 빈 값 허용. 이전 판단·기록 등을 자기 테이블 내부에서 연결"}]}]}}]};
+}
+data.schema.versions.forEach(v=>{
+  if(!v.content) v.content=JSON.parse(JSON.stringify({"overview":[{"no":1,"name":"source_snapshot","meaning":"원문 보존","description":"실제 수집된 불변 원문 객체 저장"},{"no":2,"name":"collection_observation","meaning":"수집 이력","description":"언제·어떤 요청으로 수집을 시도했는지 기록"},{"no":3,"name":"provision_identity","meaning":"법령 버전","description":"특정 법률의 특정 MST 법령 버전 관리"},{"no":4,"name":"provision_version","meaning":"조문 정체성","description":"시간에 걸쳐 유지되는 논리적 규제단위 관리"},{"no":5,"name":"provision_version","meaning":"조문 버전","description":"특정 시점의 조문 내용·위치·효력 상태 관리"},{"no":6,"name":"amendment_event","meaning":"개정 사건","description":"어떤 개정이 언제 발생했는지 관리"},{"no":7,"name":"provision_lineage","meaning":"조문 계보","description":"개정 전·후 Version 간 SAME/MODIFY/RENUMBER 등 관계 기록"},{"no":8,"name":"annotation","meaning":"판정·검토","description":"자동·LLM·연구자 판정 및 검토정보 기록"},{"no":9,"name":"pipeline_run","meaning":"실행 이력","description":"어느 코드·버전으로 처리했는지 기록"},{"no":10,"name":"release_manifest","meaning":"배포 단위","description":"특정 연구 데이터셋 release의 구성과 버전 고정"}],"tables":[{"no":1,"name":"source_snapshot","fields":[{"field":"snapshot_id","meaning":"불변 원문 Snapshot ID","type":"VARCHAR(32)","typeMeaning":"최대 32자의 문자(e.g. SNAP-20260903-000001)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"source_system","meaning":"국가법령정보 API 등 원천 시스템","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자(e.g. LAW_OPEN_API)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"law_id","meaning":"법령 식별자","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 001571)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"mst","meaning":"원천 법령 버전 식별자","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 276117)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"effective_date","meaning":"해당 법령 버전 시행일","type":"DATE","typeMeaning":"날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"response_sha256","meaning":"원문 bytes의 SHA-256","type":"CHAR(64)","typeMeaning":"정확히 64자리 문자(e.g. SHA-256 해시값)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"byte_count","meaning":"원문 크기","type":"BIGINT","typeMeaning":"큰 정수(e.g. 154328)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"raw_path","meaning":"원문 저장 위치","type":"TEXT","typeMeaning":"길이가 긴 문자(e.g. raw/law_open_api/...xml)","constraint":"NOT NULL, UNIQUE","constraintMeaning":"필수 + 중복 금지. 반드시 값이 존재해야 하며 그 값은 중복될 수 없음"},{"field":"content_type","meaning":"XML/JSON 등 응답 형식","type":"VARCHAR(100)","typeMeaning":"최대 100자의 문자(e.g. application/xml)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"record_count","meaning":"원문 내 수집 레코드 수","type":"INTEGER","typeMeaning":"정수(e.g. 125)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":2,"name":"collection_observation","fields":[{"field":"observation_id","meaning":"개별 수집 시도 ID","type":"VARCHAR(32)","typeMeaning":"최대 32자의 가변 문자열, 비교적 짧은 ID 저장(e.g. OBS-20260903-000001)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"snapshot_id","meaning":"성공적으로 확보된 Snapshot","type":"VARCHAR(32)","typeMeaning":"최대 32자의 가변 문자열, Snapshot ID 등 저장(e.g. SNAP-20260903-000001)","constraint":"FK, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"endpoint","meaning":"호출 API endpoint","type":"TEXT","typeMeaning":"길이 제한을 특별히 두지 않는 문자열, URL·경로·긴 문자정보(e.g. /eflawService.do)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"target","meaning":"수집 대상","type":"TEXT","typeMeaning":"길이 제한을 특별히 두지 않는 문자열, 수집 대상 등의 문자정보(e.g. 부가가치세법)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"retrieved_at","meaning":"수집 시도 시각","type":"TIMESTAMPTZ","typeMeaning":"시간대가 포함된 날짜+시간, 정확히 언제 발생했는지 기록(e.g. 2026-09-03 11:20:35+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"request_params_redacted","meaning":"민감정보 제거 후 요청 파라미터","type":"JSONB","typeMeaning":"구조화된 JSON 데이터, 여러 요청 파라미터를 묶어서 저장(e.g. {\"MST\":\"276117\",\"type\":\"XML\"})","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"request_hash","meaning":"요청 식별용 hash","type":"CHAR(64)","typeMeaning":"정확히 64자리 문자, SHA-256 Hash 저장(e.g. a3f5... 총 64자리)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"http_status","meaning":"HTTP 상태코드","type":"INTEGER","typeMeaning":"정수, HTTP 상태번호 등(e.g. 200, 404, 500)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"validation_status","meaning":"수집결과 검증 상태","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자열, 짧은 상태값(e.g. VALID, FAILED)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"error_code","meaning":"실패 원인","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자열, 오류코드·버전명 등(e.g. HTTP_TIMEOUT)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"collector_version","meaning":"수집기 버전","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자열, Collector 버전 등(e.g. collector-0.1.0)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_commit","meaning":"코드 commit","type":"VARCHAR(50)","typeMeaning":"최대 50자의 문자열, Git commit 등(e.g. 8fa31bc...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":3,"name":"law_version","fields":[{"field":"law_version_id","meaning":"연구 DB 내부 법령 버전 ID","type":"VARCHAR(40)","typeMeaning":"최대 40자의 문자(e.g. LV-000001)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"law_id","meaning":"법률 정체성","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 001571)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"mst","meaning":"원천 버전 ID","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자(e.g. 276117)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"effective_date","meaning":"시행일","type":"DATE","typeMeaning":"날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"promulgation_date","meaning":"공포일","type":"DATE","typeMeaning":"날짜(e.g. 2025-12-31)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"snapshot_id","meaning":"해당 버전의 근거 원문","type":"VARCHAR(32)","typeMeaning":"최대 32자의 문자(e.g. SNAP-20260903-000001)","constraint":"FK","constraintMeaning":"Foreign Key. 다른 테이블의 PK 또는 고유 ID를 참조하여 테이블 간 관계를 연결하는 키"},{"field":"valid_from","meaning":"법적 효력 시작","type":"DATE","typeMeaning":"날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"valid_to","meaning":"법적 효력 종료","type":"DATE","typeMeaning":"날짜(e.g. 2026-06-30)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":4,"name":"provision_identity","fields":[{"field":"provision_id","meaning":"논리적 규제단위 영구 ID","type":"VARCHAR(40)","typeMeaning":"최대 40자의 문자, 조문 정체성을 나타내는 문자형 ID(e.g. PRV:VAT:000010)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"law_id","meaning":"해당 규제단위가 속한 법률","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자, 법령 식별자를 저장하는 문자(e.g. 001571)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"created_at","meaning":"DB 최초 등록시각","type":"TIMESTAMPTZ","typeMeaning":"날짜 + 시각 + 시간대(Time Zone)를 함께 저장, ID가 생성된 정확한 날짜·시간(e.g. 2026-09-03 11:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"status","meaning":"ACTIVE / ENDED 등","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자, 조문 계보의 현재 상태(e.g. ACTIVE, ENDED)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"origin_type","meaning":"INITIAL / NEW / SPLIT / MERGE / TRANSFER 등","type":"VARCHAR(20)","typeMeaning":"최대 20자의 문자, 이 조문 정체성이 어떻게 시작되었는지(e.g. INITIAL, NEW, SPLIT 등)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"recorded_from","meaning":"DB 판단 유효 시작","type":"TIMESTAMPTZ","typeMeaning":"이 DB 기록이 유효하기 시작한 정확한 시각(e.g. 2026-09-03 11:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"DB 판단 유효 종료","type":"TIMESTAMPTZ","typeMeaning":"이 DB 기록이 유효하지 않게 된 정확한 시각(e.g. 2027-01-10 15:20:00+09 또는 NULL)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":5,"name":"provision_version","fields":[{"field":"provision_version_id","meaning":"조문 Version ID","type":"VARCHAR(60)","typeMeaning":"ID와 구조적 위치를 저장, , 최대 60자의 문자형 ID(e.g. PV:PRV-VAT-000010:V002)","constraint":"PK","constraintMeaning":"Primary Key. 각 행을 유일하게 구분하는 대표 ID"},{"field":"provision_id","meaning":"논리적 규제단위","type":"VARCHAR(40)","typeMeaning":"최대 40자의 문자형 ID(e.g. PRV:VAT:000010)","constraint":"FK","constraintMeaning":"Foreign Key. 다른 테이블의 PK 또는 고유 ID를 참조하여 테이블 간 관계를 연결하는 키"},{"field":"law_version_id","meaning":"해당 상태가 관찰된 법령 버전","type":"VARCHAR(40)","typeMeaning":"법령 Version을 식별하는 문자(e.g. LV-000001)","constraint":"FK","constraintMeaning":"Foreign Key. 다른 테이블의 PK 또는 고유 ID를 참조하여 테이블 간 관계를 연결하는 키"},{"field":"source_locator_id","meaning":"해당 MST에서의 조문 위치","type":"VARCHAR(80)","typeMeaning":"원천 법령 내 조문 위치를 나타내는 문자형 ID(e.g. LOC:001571:276117:001100)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"legacy_node_id","meaning":"Pilot A Node_ID 호환용","type":"VARCHAR(100)","typeMeaning":"기존 Pilot A Node_ID를 보존하기 위한 문자(e.g. 기존 Node_ID)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"article_no","meaning":"조","type":"VARCHAR(20)","typeMeaning":"조 번호를 문자로 저장(e.g. 10, 10의2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"paragraph_no","meaning":"항","type":"VARCHAR(20)","typeMeaning":"항 번호를 문자로 저장(e.g. 1, 2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"item_no","meaning":"호","type":"VARCHAR(20)","typeMeaning":"호 번호를 문자로 저장(e.g. 1, 2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"subitem_no","meaning":"목","type":"VARCHAR(20)","typeMeaning":"목 번호를 문자로 저장(e.g. 가, 나)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"normalized_text","meaning":"정규화된 조문 본문","type":"TEXT","typeMeaning":"길이가 길거나 일정하지 않은 문자열을 저장, 길이가 긴 조문 본문(e.g. 정규화된 법령 문장 전체)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"content_hash","meaning":"조문 내용 hash","type":"CHAR(64)","typeMeaning":"정확히 64자리의 문자를 저장하는 자료형, 64자리 SHA-256 Hash(e.g. a84c...)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"valid_from","meaning":"법적 효력 시작","type":"DATE","typeMeaning":"법적인 시간을 기록, 법적 효력 시작 날짜(e.g. 2026-01-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"valid_to","meaning":"법적 효력 종료","type":"DATE","typeMeaning":"법적 효력 종료 날짜(e.g. 2026-06-30)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"recorded_from","meaning":"DB 기록 유효 시작","type":"TIMESTAMPTZ","typeMeaning":"날짜 + 시각 + 시간대를 저장, DB 기록이 유효해진 정확한 시각(e.g. 2026-09-03 12:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"DB 기록 유효 종료","type":"TIMESTAMPTZ","typeMeaning":"DB 기록의 유효성이 끝난 정확한 시각(e.g. 2027-01-15 10:20:00+09 또는 NULL)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":6,"name":"amendment_event","fields":[{"field":"amendment_id","meaning":"하나의 법령 개정 사건을 식별하는 연구 DB 내부 ID","type":"VARCHAR(40)","typeMeaning":"ID·코드·분류처럼 비교적 짧은 문자, 개정 사건 ID를 문자로 저장(e.g. AMD-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"law_id","meaning":"개정 대상 법령","type":"VARCHAR(20)","typeMeaning":"법령 식별번호를 문자로 저장(e.g. 001571)","constraint":"NOT NULL, INDEX","constraintMeaning":"빈 값 금지. 검색 속도 향상을 위한 색인. 값의 중복이나 NULL 여부를 제한하는 제약이라기보다 조회 성능을 높이는 DB 구조"},{"field":"from_mst","meaning":"개정 전 법령 버전의 MST","type":"VARCHAR(20)","typeMeaning":"개정 전 법령 버전(MST)(e.g. 276117)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"to_mst","meaning":"개정 후 법령 버전의 MST","type":"VARCHAR(20)","typeMeaning":"개정 후 법령 버전(MST)(e.g. 280350)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"promulgation_date","meaning":"개정법령 공포일","type":"DATE","typeMeaning":"개정법령 공포일(e.g. 2026-03-31)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"effective_date","meaning":"개정법령 시행일","type":"DATE","typeMeaning":"개정법령 시행일(e.g. 2026-07-01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"amendment_type","meaning":"일부개정·전부개정·제정·폐지 등 개정 형태","type":"VARCHAR(30)","typeMeaning":"개정 유형을 문자로 저장(e.g. PARTIAL_AMENDMENT)","constraint":"NULL 허용, CHECK","constraintMeaning":"빈 값 허용. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"amendment_reason","meaning":"개정이유 또는 개정사건 설명","type":"TEXT","typeMeaning":"개정 이유·내용 등 긴 문장(e.g.과세체계 정비를 위하여...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"source_snapshot_id","meaning":"개정 사실을 확인한 원문 Snapshot","type":"VARCHAR(32)","typeMeaning":"개정정보의 근거가 되는 원문 Snapshot ID(e.g.SNAP-20260903-000001)","constraint":"FK → source_snapshot.snapshot_id, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"recorded_from","meaning":"해당 개정사건 정보가 DB에 기록·유효해진 시각","type":"TIMESTAMPTZ","typeMeaning":"DB에서 이 기록이 유효해진 정확한 시각(e.g.2026-09-03 12:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"해당 기록의 DB상 유효 종료시점","type":"TIMESTAMPTZ","typeMeaning":"DB에서 이 기록의 유효성이 끝난 정확한 시각(e.g.NULL 또는 특정 시각)","constraint":"NULL 허용, CHECK","constraintMeaning":"빈 값 허용. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"}]},{"no":7,"name":"provision_lineage","fields":[{"field":"lineage_id","meaning":"개별 Lineage 판정기록의 고유 ID","type":"VARCHAR(40)","typeMeaning":"Lineage 판정 자체의 ID(e.g. LIN-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"from_provision_version_id","meaning":"개정 전 선행 조문 Version. NEW에서는 NULL","type":"VARCHAR(60)","typeMeaning":"개정 전 조문 Version ID(e.g. PV:PRV-VAT-000010:V001)","constraint":"FK → provision_version, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"to_provision_version_id","meaning":"개정 후 후속 조문 Version. REPEAL에서는 NULL","type":"VARCHAR(60)","typeMeaning":"개정 후 조문 Version ID(e.g. PV:PRV-VAT-000010:V002)","constraint":"FK → provision_version, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"amendment_id","meaning":"해당 Lineage 관계가 발생한 개정 사건","type":"VARCHAR(40)","typeMeaning":"어떤 개정사건에서 발생했는지 나타내는 ID(e.g. AMD-000001)","constraint":"FK → amendment_event, NOT NULL","constraintMeaning":"다른 테이블 참조 + 빈 값 금지. 반드시 다른 테이블에 존재하는 ID를 참조해야 하며 비워둘 수 없음"},{"field":"relation_type","meaning":"SAME, MODIFY, RENUMBER, NEW, REPEAL, SPLIT, MERGE, TRANSFER, UNRESOLVED 중 하나","type":"VARCHAR(20)","typeMeaning":"Lineage 관계 유형(e.g. MODIFY, RENUMBER, SPLIT)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"text_changed","meaning":"개정 과정에서 실제 문언·내용 변경이 있었는지 표시","type":"BOOLEAN","typeMeaning":"문언·내용 변경 여부(e.g. TRUE / FALSE)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"location_changed","meaning":"조·항·호 등 구조적 위치가 변경되었는지 표시","type":"BOOLEAN","typeMeaning":"조·항·호 등의 위치 변경 여부(e.g. TRUE / FALSE)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"evidence_text","meaning":"해당 Lineage 판정의 근거. 원문 비교, 개정내용, 판단 이유 등 기록","type":"TEXT","typeMeaning":"판정 근거를 설명하는 긴 문장(e.g. 개정 전후 규율대상은 동일하나...)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"match_method","meaning":"판정방법. RULE, LLM, RESEARCHER, EXPERT 등 허용값으로 제한","type":"VARCHAR(20)","typeMeaning":"누가/어떤 방식으로 판정했는지(e.g. RULE, LLM, RESEARCHER)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"confidence","meaning":"Lineage 판정의 신뢰도. 예: 0.950","type":"NUMERIC(4,3)","typeMeaning":"판정 신뢰도(e.g. 0.950)","constraint":"CHECK (0 ≤ confidence ≤ 1)","constraintMeaning":"0 이상, 1이하의 값만 허용."},{"field":"review_status","meaning":"검토상태. AUTO, PENDING, REVIEWED, CONFIRMED 등","type":"VARCHAR(20)","typeMeaning":"검토 진행상태(e.g. PENDING, CONFIRMED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"codebook_version","meaning":"판정에 적용한 Lineage Codebook 버전","type":"VARCHAR(20)","typeMeaning":"적용한 Codebook 버전(e.g. 1.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_from","meaning":"해당 Lineage 판단이 DB에서 유효해진 시점","type":"TIMESTAMPTZ","typeMeaning":"이 판정이 DB에서 유효해진 시각(e.g. 2026-09-03 12:30:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"recorded_to","meaning":"해당 판단의 DB상 유효 종료시점. 현재 판단이면 NULL","type":"TIMESTAMPTZ","typeMeaning":"이 판정의 DB상 유효성이 끝난 시각(e.g. NULL 또는 특정 시각)","constraint":"NULL 허용, CHECK","constraintMeaning":"빈 값 허용. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"supersedes_decision_id","meaning":"기존 판정을 수정·대체하는 경우 이전 Lineage 판단과 연결","type":"VARCHAR(40)","typeMeaning":"이 판정이 대체한 이전 판정의 ID(e.g. LIN-000087)","constraint":"Self-FK → lineage_id, NULL 허용","constraintMeaning":"같은 테이블의 다른 행을 참조 + 빈 값 허용. 이전 판단·기록 등을 자기 테이블 내부에서 연결"}]},{"no":8,"name":"annotation","fields":[{"field":"annotation_id","meaning":"개별 판정·검토 기록 ID","type":"VARCHAR(40)","typeMeaning":"개별 판정·검토 기록의 ID(e.g. ANN-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"target_type","meaning":"판정 대상 종류. 예: PROVISION_VERSION, LINEAGE","type":"VARCHAR(30)","typeMeaning":"무엇을 판정했는지 대상의 종류(e.g. LINEAGE)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"target_id","meaning":"실제 판정 대상 ID","type":"VARCHAR(60)","typeMeaning":"실제 판정 대상의 ID(e.g. PV:PRV-VAT-000010:V002)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"task_type","meaning":"수행한 판정 종류. 예: Lineage 검토, 개념분류, 오류검토","type":"VARCHAR(30)","typeMeaning":"어떤 종류의 판정 작업인지(e.g. LINEAGE_REVIEW)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"label","meaning":"판정 결과 또는 부여한 Label","type":"VARCHAR(50)","typeMeaning":"판정 결과·부여된 Label(e.g. RENUMBER)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"annotator_type","meaning":"RULE, LLM, RESEARCHER, EXPERT 등 판정 주체","type":"VARCHAR(20)","typeMeaning":"누가/무엇이 판정했는지(e.g. LLM, RESEARCHER)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"annotator_id","meaning":"연구자·전문가·모델 등을 구분하는 식별값","type":"VARCHAR(50)","typeMeaning":"구체적인 판정 주체의 ID(e.g. RESEARCHER_01)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"confidence","meaning":"자동·LLM 등의 confidence","type":"NUMERIC(4,3)","typeMeaning":"판정 신뢰도(e.g. 0.950)","constraint":"CHECK","constraintMeaning":"값의 조건·범위를 검사. 정해진 규칙을 만족하는 값만 저장할 수 있도록 제한"},{"field":"evidence_text","meaning":"판단근거 또는 검토 메모","type":"TEXT","typeMeaning":"판정 근거·검토 메모(e.g. 조문 위치는 변경되었으나...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"review_status","meaning":"AUTO, PENDING, REVIEWED, CONFIRMED 등","type":"VARCHAR(20)","typeMeaning":"검토 진행상태(e.g. PENDING, CONFIRMED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"codebook_version","meaning":"적용한 Codebook 버전","type":"VARCHAR(20)","typeMeaning":"사용한 Codebook 버전(e.g. 1.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"model_version","meaning":"LLM 판정인 경우 사용 모델 버전","type":"VARCHAR(50)","typeMeaning":"LLM 사용 시 모델 버전(e.g. model-v1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"prompt_version","meaning":"LLM 판정에 사용한 Prompt 버전","type":"VARCHAR(50)","typeMeaning":"사용한 Prompt 버전(e.g. prompt-0.2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"pipeline_run_id","meaning":"해당 Annotation을 생성한 실행","type":"VARCHAR(40)","typeMeaning":"어떤 Pipeline 실행에서 생성됐는지(e.g. RUN-000001)","constraint":"FK → pipeline_run.pipeline_run_id, NULL 허용","constraintMeaning":"다른 테이블 참조 + 빈 값 허용. 값이 있다면 반드시 참조 대상이 존재해야 하지만, 특정 상황에서는 값 자체가 없어도 됨"},{"field":"recorded_at","meaning":"판정 기록 시각","type":"TIMESTAMPTZ","typeMeaning":"판정을 기록한 정확한 시각(e.g. 2026-09-03 15:20:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"supersedes_annotation_id","meaning":"기존 판정을 수정·대체하는 경우 이전 기록 연결","type":"VARCHAR(40)","typeMeaning":"이 판정이 대체한 이전 Annotation ID(e.g. ANN-000087)","constraint":"Self-FK → annotation.annotation_id, NULL 허용","constraintMeaning":"같은 테이블의 다른 행을 참조 + 빈 값 허용. 이전 판단·기록 등을 자기 테이블 내부에서 연결"}]},{"no":9,"name":"pipeline_run","fields":[{"field":"pipeline_run_id","meaning":"한 번의 수집·정규화·매칭·분류 실행을 식별","type":"VARCHAR(40)","typeMeaning":"한 번의 Pipeline 실행을 식별하는 ID(e.g. RUN-20260903-001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"pipeline_stage","meaning":"COLLECT, NORMALIZE, MATCH, CLASSIFY, VALIDATE 등 실행 단계","type":"VARCHAR(30)","typeMeaning":"어떤 처리 단계를 실행했는지(e.g. COLLECT, MATCH)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"started_at","meaning":"실행 시작시각","type":"TIMESTAMPTZ","typeMeaning":"실행을 시작한 정확한 시각(e.g. 2026-09-03 14:00:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"finished_at","meaning":"실행 종료시각","type":"TIMESTAMPTZ","typeMeaning":"실행을 종료한 정확한 시각(e.g. 2026-09-03 14:25:10+09)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"run_status","meaning":"RUNNING, SUCCESS, FAILED, PARTIAL 등","type":"VARCHAR(20)","typeMeaning":"실행 결과 상태(e.g. SUCCESS, FAILED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"pipeline_version","meaning":"Pipeline 자체 버전","type":"VARCHAR(30)","typeMeaning":"사용한 Pipeline 버전(e.g. pipeline-0.1.0)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_commit","meaning":"Git commit hash 등 실행 코드 버전","type":"VARCHAR(50)","typeMeaning":"실행 당시 코드의 Git commit(e.g. 8fa31bc...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"schema_version","meaning":"실행 당시 사용한 DB Schema 버전","type":"VARCHAR(20)","typeMeaning":"사용한 DB Schema 버전(e.g. schema-0.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"codebook_version","meaning":"분류 단계에서 사용한 Codebook 버전","type":"VARCHAR(20)","typeMeaning":"사용한 Codebook 버전(e.g. 1.1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"model_version","meaning":"LLM을 사용한 경우 모델 버전","type":"VARCHAR(50)","typeMeaning":"AI/LLM을 사용한 경우 모델 버전(e.g. model-v1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"prompt_version","meaning":"사용 Prompt 버전","type":"VARCHAR(50)","typeMeaning":"사용한 Prompt 버전(e.g. prompt-0.2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"config_hash","meaning":"실행 설정값의 Hash","type":"CHAR(64)","typeMeaning":"실행 설정의 SHA-256 Hash(e.g. 64자리 Hash)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"input_reference","meaning":"처리 대상 Snapshot·MST·batch 등","type":"TEXT","typeMeaning":"어떤 데이터를 처리했는지에 대한 정보(e.g. MST 276117)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"error_message","meaning":"실패·부분실패 발생 시 오류정보","type":"TEXT","typeMeaning":"실패·부분실패 시 오류 내용(e.g. API timeout...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"}]},{"no":10,"name":"release_manifest","fields":[{"field":"release_id","meaning":"연구 데이터 Release의 고유 ID","type":"VARCHAR(40)","typeMeaning":"하나의 연구 데이터 Release를 식별하는 내부 ID(e.g. REL-000001)","constraint":"PK, NOT NULL","constraintMeaning":"대표 ID + 빈 값 금지. 각 행을 유일하게 식별하며 반드시 값이 있어야 함. 일반적으로 PK 자체가 NOT NULL을 포함하므로 NOT NULL은 의미를 명시적으로 강조한 표현"},{"field":"release_version","meaning":"외부·연구용 Release 버전. 예: TRRE-DATA-0.1.0","type":"VARCHAR(30)","typeMeaning":"외부·연구용 데이터 Release 버전(e.g. TRRE-DATA-0.1.0)","constraint":"NOT NULL, UNIQUE","constraintMeaning":"빈 값 금지. 중복 금지. 해당 값 또는 지정된 값의 조합이 다른 행과 중복될 수 없음"},{"field":"released_at","meaning":"Release 확정 시각","type":"TIMESTAMPTZ","typeMeaning":"해당 Release를 확정한 정확한 시각(e.g. 2026-09-30 15:00:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"release_status","meaning":"DRAFT, FROZEN, SUPERSEDED 등","type":"VARCHAR(20)","typeMeaning":"Release의 현재 상태(e.g. DRAFT, FROZEN, SUPERSEDED)","constraint":"NOT NULL, CHECK","constraintMeaning":"빈 값 금지. 허용값/조건 제한. 반드시 값이 있어야 하며 미리 정한 범위나 목록 안의 값이어야 함"},{"field":"schema_version","meaning":"Release에 사용된 Schema 버전","type":"VARCHAR(20)","typeMeaning":"Release에 사용된 DB Schema 버전(e.g. schema-0.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"codebook_version","meaning":"Release에 사용된 Codebook 버전","type":"VARCHAR(20)","typeMeaning":"적용한 Codebook 버전(e.g. 1.1)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_version","meaning":"데이터 생성 Pipeline 버전","type":"VARCHAR(30)","typeMeaning":"데이터를 생성한 Pipeline 버전(e.g. pipeline-0.1.0)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"pipeline_commit","meaning":"코드 commit","type":"VARCHAR(50)","typeMeaning":"실행 코드의 Git commit 정보(e.g. 8fa31bc...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"model_version","meaning":"AI/LLM 사용 시 모델 버전","type":"VARCHAR(50)","typeMeaning":"AI/LLM을 사용한 경우 모델 버전(e.g. model-v1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"prompt_version","meaning":"사용 Prompt 버전","type":"VARCHAR(50)","typeMeaning":"사용한 Prompt 버전(e.g. prompt-0.2)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"formula_version","meaning":"복잡성지표 산식 버전","type":"VARCHAR(30)","typeMeaning":"복잡성 지표 계산식의 버전(e.g. TRRE-FORMULA-0.1)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"data_cutoff_at","meaning":"해당 Release에 포함된 데이터 기준시점","type":"TIMESTAMPTZ","typeMeaning":"이 Release에 포함할 데이터의 기준시점(e.g. 2026-09-30 00:00:00+09)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"manifest_sha256","meaning":"Manifest 자체 또는 배포 Manifest의 Hash","type":"CHAR(64)","typeMeaning":"Release Manifest의 SHA-256 Hash(e.g. 64자리 Hash)","constraint":"NOT NULL","constraintMeaning":"빈 값 금지. 해당 필드는 반드시 값이 있어야 함"},{"field":"record_count","meaning":"Release에 포함된 레코드 수","type":"BIGINT","typeMeaning":"Release에 포함된 전체 레코드 수(e.g. 125430)","constraint":"CHECK ≥ 0","constraintMeaning":"0 이상의 값만 허용. 음수가 될 수 없는 수량·크기 등에 사용"},{"field":"notes","meaning":"Release 설명·예외사항·변경사항 등","type":"TEXT","typeMeaning":"Release 설명·예외·변경사항(e.g. Pilot VAT Act release...)","constraint":"NULL 허용","constraintMeaning":"빈 값 허용. 값이 없거나 아직 확인되지 않은 경우에도 저장 가능"},{"field":"supersedes_release_id","meaning":"이전 Release를 대체하는 경우 연결","type":"VARCHAR(40)","typeMeaning":"이 Release가 대체하는 이전 Release ID(e.g. REL-000001)","constraint":"Self-FK → release_manifest.release_id, NULL 허용","constraintMeaning":"같은 테이블의 다른 행을 참조 + 빈 값 허용. 이전 판단·기록 등을 자기 테이블 내부에서 연결"}]}]}));
+});
+
 
 if(!data.pilot){
   data.pilot=makeInitial().pilot;
@@ -1165,7 +1307,7 @@ window.addEventListener("firebase-audit-state",e=>{
 });
 
 function render(){
-  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs(); renderMeetings(); renderJournals(); renderPilotPage(); renderCodebook(); renderReferences(); renderPageNav(); renderCollabMeta();
+  renderMetrics(); renderYear(); renderRisks(); renderCheckpoint(); renderTabs(); renderMeetings(); renderJournals(); renderPilotPage(); renderSchema(); renderCodebook(); renderReferences(); renderPageNav(); renderCollabMeta();
 }
 
 function renderPageNav(){
@@ -1174,6 +1316,7 @@ function renderPageNav(){
   document.getElementById("meetingsPage").classList.toggle("active",data.selectedPage==="meetings");
   document.getElementById("journalPage").classList.toggle("active",data.selectedPage==="journal");
   document.getElementById("pilotPage").classList.toggle("active",data.selectedPage==="pilot");
+  document.getElementById("schemaPage").classList.toggle("active",data.selectedPage==="schema");
   document.getElementById("codebookPage").classList.toggle("active",data.selectedPage==="codebook");
   document.getElementById("referencePage").classList.toggle("active",data.selectedPage==="reference");
 }
@@ -1509,307 +1652,363 @@ function openReference(id=null){
 }
 function closeReference(){document.getElementById("referenceModal").classList.remove("show");}
 
-function renderCodebook(){
-  const vs=[...(data.codebook?.versions||[])].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+
+let selectedSchemaVersionId=null;
+let editingSchemaVersionId=null;
+let editingSchemaContentVersionId=null;
+let schemaEditorDraft=null;
+
+function cloneSchemaContent(x){return JSON.parse(JSON.stringify(x||{overview:[],tables:[]}));}
+function schemaStatusName(s){return ({current:"현재",draft:"초안",archived:"이전"})[s]||s;}
+
+function renderSchema(){
+  const vs=[...(data.schema?.versions||[])].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
   const current=vs.find(v=>v.status==="current")||vs[0];
-  if(!selectedCodebookVersionId || !vs.some(v=>String(v.id)===String(selectedCodebookVersionId))){
-    selectedCodebookVersionId=current?.id||vs[0]?.id||null;
+  if(!selectedSchemaVersionId || !vs.some(v=>String(v.id)===String(selectedSchemaVersionId))){
+    selectedSchemaVersionId=current?.id||vs[0]?.id||null;
   }
-  const selected=vs.find(v=>String(v.id)===String(selectedCodebookVersionId))||current||vs[0];
+  const selected=vs.find(v=>String(v.id)===String(selectedSchemaVersionId))||current||vs[0];
+  const content=selected?.content||{overview:[],tables:[]};
+  const fieldCount=(content.tables||[]).reduce((n,t)=>n+(t.fields||[]).length,0);
 
-  document.getElementById("cbCurrentVersion").textContent=current?.version||"미지정";
-  document.getElementById("cbUpdatedDate").textContent=current?.date?prettyDate(current.date):"-";
-  document.getElementById("cbCurrentHero").textContent=current?.version||"미지정";
-  document.getElementById("cbCurrentNote").textContent=current?`${prettyDate(current.date)} · ${current.changes||"변경내용 미입력"}`:"등록된 버전이 없습니다.";
+  document.getElementById("schemaCurrentVersion").textContent=current?.version||"미지정";
+  document.getElementById("schemaUpdatedDate").textContent=current?.date?prettyDate(current.date):"-";
+  document.getElementById("schemaTableCount").textContent=(content.tables||[]).length;
+  document.getElementById("schemaFieldCount").textContent=fieldCount;
+  document.getElementById("schemaCurrentHero").textContent=current?.version||"미지정";
+  document.getElementById("schemaCurrentNote").textContent=current?`${prettyDate(current.date)} · ${current.changes||"변경내용 미입력"}`:"등록된 버전이 없습니다.";
 
-  const statusName={current:"현재",draft:"초안",archived:"이전"};
-  const list=document.getElementById("cbVersionList");
-  if(!vs.length){
-    list.innerHTML='<div class="empty">등록된 Codebook 버전이 없습니다.</div>';
-  }else{
-    list.innerHTML=vs.map(v=>`<div class="cb-version-row ${String(v.id)===String(selectedCodebookVersionId)?"selected":""}">
-      <div><b>${esc(v.version)}</b></div>
-      <div class="small">${prettyDate(v.date)}</div>
-      <div><span class="cb-status ${v.status}">${statusName[v.status]||v.status}</span></div>
-      <div class="small">${esc(v.changes||"")}${v.owner?`<br><b>확정:</b> ${esc(v.owner)}`:""}</div>
-      <div>
-        <button class="btn-soft open-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">열기</button>
-        <button class="btn-soft edit-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">수정</button>
-        <button class="btn-danger delete-cb-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">삭제</button>
-      </div>
-    </div>`).join("");
-  }
+  const list=document.getElementById("schemaVersionList");
+  list.innerHTML=vs.length?vs.map(v=>`<div class="schema-version-row ${String(v.id)===String(selectedSchemaVersionId)?"selected":""}">
+    <div><b>${esc(v.version)}</b></div>
+    <div class="small">${prettyDate(v.date)}</div>
+    <div><span class="schema-status ${v.status}">${schemaStatusName(v.status)}</span></div>
+    <div class="small">${esc(v.changes||"")}${v.owner?`<br><b>담당:</b> ${esc(v.owner)}`:""}</div>
+    <div>
+      <button class="btn-soft open-schema-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">열기</button>
+      <button class="btn-soft edit-schema-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">수정</button>
+      <button class="btn-danger delete-schema-version" data-id="${esc(v.id)}" style="padding:6px 8px;font-size:11px">삭제</button>
+    </div>
+  </div>`).join(""):'<div class="empty">등록된 Schema 버전이 없습니다.</div>';
 
-  const tabs=document.getElementById("cbVersionTabs");
-  tabs.innerHTML=vs.map(v=>`<button class="cb-page-tab ${String(v.id)===String(selectedCodebookVersionId)?"active":""}" data-id="${esc(v.id)}">${esc(v.version)} · ${statusName[v.status]||v.status}</button>`).join("");
+  const tabs=document.getElementById("schemaVersionTabs");
+  tabs.innerHTML=vs.map(v=>`<button class="schema-version-tab ${String(v.id)===String(selectedSchemaVersionId)?"active":""}" data-id="${esc(v.id)}">${esc(v.version)} · ${schemaStatusName(v.status)}</button>`).join("");
 
-  const page=document.getElementById("cbVersionPage");
+  const page=document.getElementById("schemaVersionPage");
   if(!selected){
-    page.innerHTML='<div class="empty">표시할 Codebook 버전이 없습니다.</div>';
+    page.innerHTML='<div class="empty">표시할 Schema 버전이 없습니다.</div>';
   }else{
-    const c=selected.content||defaultCodebookContent();
     page.innerHTML=`
-      <div class="cb-page-head">
+      <div class="schema-version-head">
         <div>
-          <div class="version-title">${esc(selected.version)}</div>
-          <div class="version-meta">${prettyDate(selected.date)}${selected.owner?` · 담당/확정: ${esc(selected.owner)}`:""}<br>${esc(selected.changes||"변경내용 미입력")}</div>
+          <div class="schema-version-title">${esc(selected.version)}</div>
+          <div class="small" style="margin-top:5px">${prettyDate(selected.date)}${selected.owner?` · 담당/확정: ${esc(selected.owner)}`:""}<br>${esc(selected.changes||"변경내용 미입력")}</div>
         </div>
         <div class="cb-content-actions">
-          <span class="cb-page-badge ${selected.status}">${statusName[selected.status]||selected.status}</span>
-          <button class="btn-primary edit-cb-content" data-id="${esc(selected.id)}">내용 수정</button>
+          <span class="schema-status ${selected.status}">${schemaStatusName(selected.status)}</span>
+          <button class="btn-primary edit-schema-content" data-id="${esc(selected.id)}">내용 수정</button>
         </div>
       </div>
 
       <section class="panel">
-        <h2>조문 Lineage Codebook</h2>
-        <div class="section-caption">이 내용은 <b>${esc(selected.version)}</b> 버전에 귀속된 독립 스냅숏입니다.</div>
-        <div class="cb-priority"><b>상위 판정원칙</b><br>${esc(c.priority||"")}</div>
-        <div class="cb-relations" style="margin-top:12px">${(c.relations||[]).map(r=>`<div class="cb-rel"><b>${esc(r[0])}</b><div><strong>${esc(r[1])}</strong><br>${esc(r[2])}</div></div>`).join("")}</div>
+        <h2>Schema 구성 개요</h2>
+        <div class="schema-overview-grid">${(content.overview||[]).map(o=>`
+          <div class="schema-overview-item">
+            <b>${esc(o.no)}. ${esc(o.name)}</b>
+            <div class="sm"><strong>${esc(o.meaning||"")}</strong><br>${esc(o.description||"")}</div>
+          </div>`).join("")}</div>
       </section>
 
-      <section class="panel">
-        <h2>유형별 ID / Version 규칙</h2>
-        <div class="table-wrap cb-rule-table"><table>
-          <thead><tr><th>관계</th><th>실제 변화</th><th>provision_id</th><th>provision_version_id</th><th>source_locator_id</th></tr></thead>
-          <tbody>${(c.rules||[]).map(r=>`<tr>${r.map((x,i)=>`<td>${i===0?`<b>${esc(x)}</b>`:esc(x)}</td>`).join("")}</tr>`).join("")}</tbody>
-        </table></div>
-      </section>
-
-      <section class="panel">
-        <h2>불변 원문 Snapshot / Observation</h2>
-        <div class="cb-grid">${(c.snapshots||[]).map(x=>`<div class="cb-card"><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p></div>`).join("")}</div>
-      </section>
-
-      <div class="grid-2">
-        <div>
-          <section class="panel">
-            <h2>식별자 체계</h2>
-            <div class="workstreams">${(c.identifiers||[]).map(x=>`<div class="ws"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join("")}</div>
-          </section>
-          <section class="panel">
-            <h2>최소 DB Schema · schema-0.1</h2>
-            <div class="small" style="line-height:1.75">${esc(c.schema||"")}</div>
-          </section>
-        </div>
-        <div>
-          <section class="panel">
-            <h2>Validation 핵심원칙</h2>
-            <div class="small" style="line-height:1.75">${(c.validation||[]).map(x=>`· ${esc(x)}`).join("<br>")}</div>
-          </section>
-          <section class="panel">
-            <h2>설계 결정 확인 필요</h2>
-            ${(c.openDecisions||[]).map(x=>`<div class="cb-open-item">${esc(x)}</div>`).join("")}
-          </section>
-        </div>
-      </div>`;
+      ${(content.tables||[]).map(t=>`
+        <section class="schema-table-block">
+          <div class="schema-table-head"><h3>${esc(t.no)}. ${esc(t.name)}</h3><span class="small">${(t.fields||[]).length} fields</span></div>
+          <div class="schema-fields"><table>
+            <thead><tr><th>Field</th><th>Field 의미</th><th>Data Type</th><th>Data Type 의미</th><th>제약</th><th>제약 의미</th></tr></thead>
+            <tbody>${(t.fields||[]).map(f=>`<tr>
+              <td><b>${esc(f.field||"")}</b></td><td>${esc(f.meaning||"")}</td><td>${esc(f.type||"")}</td>
+              <td>${esc(f.typeMeaning||"")}</td><td>${esc(f.constraint||"")}</td><td>${esc(f.constraintMeaning||"")}</td>
+            </tr>`).join("")}</tbody>
+          </table></div>
+        </section>`).join("")}`;
   }
 
-  document.querySelectorAll(".cb-page-tab,.open-cb-version").forEach(b=>b.addEventListener("click",()=>{
-    selectedCodebookVersionId=b.dataset.id;
-    renderCodebook();
-  }));
-  document.querySelectorAll(".edit-cb-version").forEach(b=>b.addEventListener("click",()=>openCbVersion(b.dataset.id)));
-  document.querySelectorAll(".edit-cb-content").forEach(b=>b.addEventListener("click",()=>openCbContentEditor(b.dataset.id)));
-  document.querySelectorAll(".delete-cb-version").forEach(b=>b.addEventListener("click",()=>{
-    if(confirm("이 Codebook 버전 기록과 해당 버전 페이지를 삭제할까요?")){
-      data.codebook.versions=data.codebook.versions.filter(v=>String(v.id)!==String(b.dataset.id));
-      if(String(selectedCodebookVersionId)===String(b.dataset.id)) selectedCodebookVersionId=null;
-      save(); render();
+  document.querySelectorAll(".schema-version-tab,.open-schema-version").forEach(b=>b.onclick=()=>{selectedSchemaVersionId=b.dataset.id;renderSchema();});
+  document.querySelectorAll(".edit-schema-version").forEach(b=>b.onclick=()=>openSchemaVersion(b.dataset.id));
+  document.querySelectorAll(".edit-schema-content").forEach(b=>b.onclick=()=>openSchemaContentEditor(b.dataset.id));
+  document.querySelectorAll(".delete-schema-version").forEach(b=>b.onclick=()=>{
+    if(confirm("이 Schema 버전과 해당 버전 페이지를 삭제할까요?")){
+      data.schema.versions=data.schema.versions.filter(v=>String(v.id)!==String(b.dataset.id));
+      if(String(selectedSchemaVersionId)===String(b.dataset.id)) selectedSchemaVersionId=null;
+      save();render();
     }
+  });
+}
+
+function openSchemaVersion(id=null){
+  editingSchemaVersionId=id;
+  const v=id?data.schema.versions.find(x=>String(x.id)===String(id)):null;
+  document.getElementById("schemaVersionModalTitle").textContent=v?"Schema 버전 수정":"Schema 버전 등록";
+  document.getElementById("schemaVersionName").value=v?.version||"";
+  document.getElementById("schemaVersionDate").value=v?.date||localDateKey();
+  document.getElementById("schemaVersionStatus").value=v?.status||"draft";
+  document.getElementById("schemaVersionOwner").value=v?.owner||"";
+  document.getElementById("schemaVersionChanges").value=v?.changes||"";
+  document.getElementById("schemaVersionModal").classList.add("show");
+}
+function closeSchemaVersion(){document.getElementById("schemaVersionModal").classList.remove("show");editingSchemaVersionId=null;}
+
+function openSchemaContentEditor(id){
+  const v=data.schema.versions.find(x=>String(x.id)===String(id)); if(!v)return;
+  editingSchemaContentVersionId=v.id;
+  schemaEditorDraft=cloneSchemaContent(v.content);
+  document.getElementById("schemaContentModalTitle").textContent=`Schema 내용 수정 · ${v.version}`;
+  renderSchemaContentEditor();
+  document.getElementById("schemaContentModal").classList.add("show");
+}
+function closeSchemaContentEditor(){
+  document.getElementById("schemaContentModal").classList.remove("show");
+  editingSchemaContentVersionId=null; schemaEditorDraft=null;
+}
+function renderSchemaContentEditor(){
+  if(!schemaEditorDraft)return;
+  const ob=document.getElementById("schemaEditOverview");
+  ob.innerHTML=(schemaEditorDraft.overview||[]).map((o,i)=>`<div class="schema-editor-row" data-schema-overview="${i}">
+    <input data-k="no" value="${esc(o.no)}" placeholder="No.">
+    <input data-k="name" value="${esc(o.name||"")}" placeholder="구성">
+    <input data-k="meaning" value="${esc(o.meaning||"")}" placeholder="의미">
+    <textarea data-k="description" placeholder="내용">${esc(o.description||"")}</textarea>
+    <button class="btn-danger remove-schema-overview" type="button">삭제</button>
+  </div>`).join("");
+
+  const tb=document.getElementById("schemaEditTables");
+  tb.innerHTML=(schemaEditorDraft.tables||[]).map((t,ti)=>`<div class="schema-editor-table" data-schema-table="${ti}">
+    <div class="schema-editor-table-head">
+      <input data-table-k="no" value="${esc(t.no)}" placeholder="No.">
+      <input data-table-k="name" value="${esc(t.name||"")}" placeholder="테이블명">
+      <button class="btn-danger remove-schema-table" type="button">테이블 삭제</button>
+    </div>
+    <div class="schema-editor-fields">${(t.fields||[]).map((f,fi)=>`<div class="schema-field-row" data-schema-field="${fi}">
+      <input data-fk="field" value="${esc(f.field||"")}" placeholder="Field">
+      <textarea data-fk="meaning" placeholder="Field 의미">${esc(f.meaning||"")}</textarea>
+      <input data-fk="type" value="${esc(f.type||"")}" placeholder="Data Type">
+      <textarea data-fk="typeMeaning" placeholder="Data Type 의미">${esc(f.typeMeaning||"")}</textarea>
+      <input data-fk="constraint" value="${esc(f.constraint||"")}" placeholder="제약">
+      <textarea data-fk="constraintMeaning" placeholder="제약 의미">${esc(f.constraintMeaning||"")}</textarea>
+      <button class="btn-danger remove-schema-field" type="button">삭제</button>
+    </div>`).join("")}</div>
+    <button class="btn-soft add-schema-field" data-ti="${ti}" type="button">+ 필드 추가</button>
+  </div>`).join("");
+  bindSchemaEditor();
+}
+function syncSchemaEditor(){
+  if(!schemaEditorDraft)return;
+  schemaEditorDraft.overview=[...document.querySelectorAll("[data-schema-overview]")].map(row=>({
+    no:Number(row.querySelector('[data-k="no"]').value)||row.querySelector('[data-k="no"]').value,
+    name:row.querySelector('[data-k="name"]').value,
+    meaning:row.querySelector('[data-k="meaning"]').value,
+    description:row.querySelector('[data-k="description"]').value
   }));
+  schemaEditorDraft.tables=[...document.querySelectorAll("[data-schema-table]")].map(row=>({
+    no:Number(row.querySelector('[data-table-k="no"]').value)||row.querySelector('[data-table-k="no"]').value,
+    name:row.querySelector('[data-table-k="name"]').value,
+    fields:[...row.querySelectorAll("[data-schema-field]")].map(fr=>({
+      field:fr.querySelector('[data-fk="field"]').value,
+      meaning:fr.querySelector('[data-fk="meaning"]').value,
+      type:fr.querySelector('[data-fk="type"]').value,
+      typeMeaning:fr.querySelector('[data-fk="typeMeaning"]').value,
+      constraint:fr.querySelector('[data-fk="constraint"]').value,
+      constraintMeaning:fr.querySelector('[data-fk="constraintMeaning"]').value
+    }))
+  }));
+}
+function bindSchemaEditor(){
+  document.querySelectorAll(".remove-schema-overview").forEach(btn=>btn.onclick=()=>{
+    syncSchemaEditor(); const i=Number(btn.closest("[data-schema-overview]").dataset.schemaOverview); schemaEditorDraft.overview.splice(i,1); renderSchemaContentEditor();
+  });
+  document.querySelectorAll(".remove-schema-table").forEach(btn=>btn.onclick=()=>{
+    syncSchemaEditor(); const i=Number(btn.closest("[data-schema-table]").dataset.schemaTable); schemaEditorDraft.tables.splice(i,1); renderSchemaContentEditor();
+  });
+  document.querySelectorAll(".remove-schema-field").forEach(btn=>btn.onclick=()=>{
+    syncSchemaEditor(); const tr=btn.closest("[data-schema-table]"); const ti=Number(tr.dataset.schemaTable); const fi=Number(btn.closest("[data-schema-field]").dataset.schemaField);
+    schemaEditorDraft.tables[ti].fields.splice(fi,1); renderSchemaContentEditor();
+  });
+  document.querySelectorAll(".add-schema-field").forEach(btn=>btn.onclick=()=>{
+    syncSchemaEditor(); const ti=Number(btn.dataset.ti);
+    schemaEditorDraft.tables[ti].fields.push({field:"",meaning:"",type:"",typeMeaning:"",constraint:"",constraintMeaning:""});
+    renderSchemaContentEditor();
+  });
 }
 
 
+let selectedCodebookDetailTab="version";
+let selectedCodebookSectionVersionId={version:null,relationType:null,lineage:null,nodesId:null};
 let editingCbContentVersionId=null;
-let cbEditorDraft=null;
-
-function cbSafeArray(v){return Array.isArray(v)?v:[];}
-function cbEscAttr(v){return esc(v==null?"":String(v));}
-
-function openCbContentEditor(id){
-  const version=data.codebook.versions.find(v=>String(v.id)===String(id));
-  if(!version) return;
-  editingCbContentVersionId=version.id;
-  cbEditorDraft=cloneCodebookContent(version.content||defaultCodebookContent());
-  document.getElementById("cbContentModalTitle").textContent=`Codebook 내용 수정 · ${version.version}`;
-  renderCbContentEditor();
-  document.getElementById("cbContentModal").classList.add("show");
-}
-
-function closeCbContentEditor(){
-  document.getElementById("cbContentModal").classList.remove("show");
-  editingCbContentVersionId=null;
-  cbEditorDraft=null;
-}
-
-function renderCbContentEditor(){
-  if(!cbEditorDraft) return;
-  document.getElementById("cbEditPriority").value=cbEditorDraft.priority||"";
-  document.getElementById("cbEditSchema").value=cbEditorDraft.schema||"";
-
-  const relations=document.getElementById("cbEditRelations");
-  relations.innerHTML=cbSafeArray(cbEditorDraft.relations).length
-    ? cbEditorDraft.relations.map((r,i)=>`
-      <div class="cb-editor-row cols-3" data-kind="relations" data-index="${i}">
-        <input data-field="0" value="${cbEscAttr(r[0])}" placeholder="코드">
-        <input data-field="1" value="${cbEscAttr(r[1])}" placeholder="명칭">
-        <textarea data-field="2" placeholder="설명">${esc(r[2]||"")}</textarea>
-        <button type="button" class="btn-danger cb-remove-row">삭제</button>
-      </div>`).join("")
-    : '<div class="cb-editor-empty">등록된 관계유형이 없습니다.</div>';
-
-  const rules=document.getElementById("cbEditRules");
-  rules.innerHTML=cbSafeArray(cbEditorDraft.rules).length
-    ? cbEditorDraft.rules.map((r,i)=>`
-      <div class="cb-editor-row cols-5" data-kind="rules" data-index="${i}">
-        <input data-field="0" value="${cbEscAttr(r[0])}" placeholder="관계">
-        <input data-field="1" value="${cbEscAttr(r[1])}" placeholder="실제 변화">
-        <input data-field="2" value="${cbEscAttr(r[2])}" placeholder="provision_id">
-        <input data-field="3" value="${cbEscAttr(r[3])}" placeholder="provision_version_id">
-        <input data-field="4" value="${cbEscAttr(r[4])}" placeholder="source_locator_id">
-        <button type="button" class="btn-danger cb-remove-row">삭제</button>
-      </div>`).join("")
-    : '<div class="cb-editor-empty">등록된 규칙이 없습니다.</div>';
-
-  const snapshots=document.getElementById("cbEditSnapshots");
-  snapshots.innerHTML=cbSafeArray(cbEditorDraft.snapshots).length
-    ? cbEditorDraft.snapshots.map((r,i)=>`
-      <div class="cb-editor-row cols-2" data-kind="snapshots" data-index="${i}">
-        <input data-field="title" value="${cbEscAttr(r.title)}" placeholder="항목명">
-        <textarea data-field="text" placeholder="설명">${esc(r.text||"")}</textarea>
-        <button type="button" class="btn-danger cb-remove-row">삭제</button>
-      </div>`).join("")
-    : '<div class="cb-editor-empty">등록된 Snapshot/Observation 항목이 없습니다.</div>';
-
-  const identifiers=document.getElementById("cbEditIdentifiers");
-  identifiers.innerHTML=cbSafeArray(cbEditorDraft.identifiers).length
-    ? cbEditorDraft.identifiers.map((r,i)=>`
-      <div class="cb-editor-row cols-2" data-kind="identifiers" data-index="${i}">
-        <input data-field="0" value="${cbEscAttr(r[0])}" placeholder="식별자">
-        <textarea data-field="1" placeholder="설명">${esc(r[1]||"")}</textarea>
-        <button type="button" class="btn-danger cb-remove-row">삭제</button>
-      </div>`).join("")
-    : '<div class="cb-editor-empty">등록된 식별자가 없습니다.</div>';
-
-  const validation=document.getElementById("cbEditValidation");
-  validation.innerHTML=cbSafeArray(cbEditorDraft.validation).length
-    ? cbEditorDraft.validation.map((r,i)=>`
-      <div class="cb-editor-row single" data-kind="validation" data-index="${i}">
-        <textarea data-field="value" placeholder="Validation 원칙">${esc(r||"")}</textarea>
-        <button type="button" class="btn-danger cb-remove-row">삭제</button>
-      </div>`).join("")
-    : '<div class="cb-editor-empty">등록된 Validation 원칙이 없습니다.</div>';
-
-  const decisions=document.getElementById("cbEditOpenDecisions");
-  decisions.innerHTML=cbSafeArray(cbEditorDraft.openDecisions).length
-    ? cbEditorDraft.openDecisions.map((r,i)=>`
-      <div class="cb-editor-row single" data-kind="openDecisions" data-index="${i}">
-        <textarea data-field="value" placeholder="설계 결정사항">${esc(r||"")}</textarea>
-        <button type="button" class="btn-danger cb-remove-row">삭제</button>
-      </div>`).join("")
-    : '<div class="cb-editor-empty">등록된 설계 결정사항이 없습니다.</div>';
-
-  bindCbEditorRows();
-}
-
-function syncCbEditorDraftFromDom(){
-  if(!cbEditorDraft) return;
-  cbEditorDraft.priority=document.getElementById("cbEditPriority").value;
-  cbEditorDraft.schema=document.getElementById("cbEditSchema").value;
-
-  const arrayKinds=["relations","rules","identifiers"];
-  arrayKinds.forEach(kind=>{
-    const rows=[...document.querySelectorAll(`[data-kind="${kind}"]`)];
-    cbEditorDraft[kind]=rows.map(row=>{
-      const inputs=[...row.querySelectorAll("[data-field]")];
-      const max=Math.max(...inputs.map(el=>Number(el.dataset.field)));
-      const a=Array(max+1).fill("");
-      inputs.forEach(el=>a[Number(el.dataset.field)]=el.value);
-      return a;
-    });
-  });
-
-  cbEditorDraft.snapshots=[...document.querySelectorAll('[data-kind="snapshots"]')].map(row=>({
-    title:row.querySelector('[data-field="title"]').value,
-    text:row.querySelector('[data-field="text"]').value
-  }));
-
-  ["validation","openDecisions"].forEach(kind=>{
-    cbEditorDraft[kind]=[...document.querySelectorAll(`[data-kind="${kind}"]`)]
-      .map(row=>row.querySelector('[data-field="value"]').value);
-  });
-}
-
-function bindCbEditorRows(){
-  document.querySelectorAll("#cbContentModal .cb-remove-row").forEach(btn=>{
-    btn.onclick=()=>{
-      syncCbEditorDraftFromDom();
-      const row=btn.closest("[data-kind]");
-      const kind=row.dataset.kind;
-      const idx=Number(row.dataset.index);
-      cbEditorDraft[kind].splice(idx,1);
-      renderCbContentEditor();
-    };
-  });
-}
-
-function addCbEditorItem(kind){
-  syncCbEditorDraftFromDom();
-  if(!cbEditorDraft[kind]) cbEditorDraft[kind]=[];
-  const defaults={
-    relations:["","",""],
-    rules:["","","","",""],
-    snapshots:{title:"",text:""},
-    identifiers:["",""],
-    validation:"",
-    openDecisions:""
-  };
-  cbEditorDraft[kind].push(JSON.parse(JSON.stringify(defaults[kind])));
-  renderCbContentEditor();
-  const boxMap={
-    relations:"cbEditRelations",
-    rules:"cbEditRules",
-    snapshots:"cbEditSnapshots",
-    identifiers:"cbEditIdentifiers",
-    validation:"cbEditValidation",
-    openDecisions:"cbEditOpenDecisions"
-  };
-  document.getElementById(boxMap[kind])?.lastElementChild?.scrollIntoView({behavior:"smooth",block:"nearest"});
-}
-
-document.querySelectorAll("#cbContentModal [data-add]").forEach(btn=>{
-  btn.addEventListener("click",()=>addCbEditorItem(btn.dataset.add));
-});
-document.getElementById("closeCbContentModal").onclick=closeCbContentEditor;
-document.getElementById("cancelCbContentModal").onclick=closeCbContentEditor;
-document.getElementById("saveCbContent").onclick=()=>{
-  if(!editingCbContentVersionId || !cbEditorDraft) return;
-  syncCbEditorDraftFromDom();
-
-  const version=data.codebook.versions.find(v=>String(v.id)===String(editingCbContentVersionId));
-  if(!version) return;
-  version.content=cloneCodebookContent(cbEditorDraft);
-
-  selectedCodebookVersionId=version.id;
-  save();
-  closeCbContentEditor();
-  render();
-};
-
-
 let editingCbVersionId=null;
-function openCbVersion(id=null){
+let editingCbSectionKind=null;
+let cbEditorDraftRows=null;
+
+function codebookDetailLabels(){
+  return {version:"Version",relationType:"Relation Type",lineage:"Lineage",nodesId:"Nodes_ID"};
+}
+function getActiveCodebookContainer(){
+  const vs=[...(data.codebook?.versions||[])];
+  let v=vs.find(x=>x.status==="current")||vs[0];
+  if(!v){
+    v={id:"cb_internal",version:"Codebook",date:"",status:"current",owner:"",changes:"",content:defaultCodebookContent()};
+    data.codebook={versions:[v]};
+  }
+  v.content=ensureIndependentCodebookVersions(v.content||defaultCodebookContent());
+  return v;
+}
+function getCbSection(kind){
+  const holder=getActiveCodebookContainer();
+  return holder.content.detailSectionVersions[kind];
+}
+function getSelectedCbSectionVersion(kind){
+  const sec=getCbSection(kind);
+  let id=selectedCodebookSectionVersionId[kind];
+  if(!id || !sec.versions.some(v=>String(v.id)===String(id))){
+    id=(sec.versions.find(v=>v.status==="current")||sec.versions[0])?.id||null;
+    selectedCodebookSectionVersionId[kind]=id;
+  }
+  return sec.versions.find(v=>String(v.id)===String(id))||null;
+}
+
+function renderCodebook(){
+  const labels=codebookDetailLabels();
+  if(!labels[selectedCodebookDetailTab]) selectedCodebookDetailTab="version";
+
+  const rootTabs=document.getElementById("cbRootTabs");
+  const rootPage=document.getElementById("cbRootPage");
+  if(!rootTabs||!rootPage) return;
+
+  rootTabs.innerHTML=Object.entries(labels).map(([k,v])=>`<button class="cb-root-tab ${selectedCodebookDetailTab===k?"active":""}" data-kind="${k}">${v}</button>`).join("");
+  rootTabs.querySelectorAll("button").forEach(b=>b.onclick=()=>{selectedCodebookDetailTab=b.dataset.kind;renderCodebook();});
+
+  const sec=getCbSection(selectedCodebookDetailTab);
+  const selected=getSelectedCbSectionVersion(selectedCodebookDetailTab);
+  const rows=selected?sec.pages[selected.id]||[]:[];
+  const statusName={current:"현재",draft:"초안",archived:"이전"};
+
+  document.getElementById("cbVersionCount").textContent=(getCbSection("version").versions||[]).length+"개";
+  document.getElementById("cbRelationCount").textContent=(getCbSection("relationType").versions||[]).length+"개";
+  document.getElementById("cbLineageCount").textContent=(getCbSection("lineage").versions||[]).length+"개";
+
+  const versionTabs=(sec.versions||[]).map(v=>`<button class="cb-section-version-tab ${String(v.id)===String(selected?.id)?"active":""}" data-id="${esc(v.id)}">${esc(v.version)} · ${statusName[v.status]||v.status}</button>`).join("");
+
+  let tableHtml="";
+  if(selectedCodebookDetailTab==="version"){
+    tableHtml=rows.length?`<div class="cb-detail-table"><table><thead><tr><th>버전</th><th>의미</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.version||"")}</b></td><td>${esc(x.meaning||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 Version 내용이 없습니다.</div>`;
+  }else if(selectedCodebookDetailTab==="relationType"){
+    tableHtml=rows.length?`<div class="cb-detail-table"><table><thead><tr><th>유형</th><th>설명</th><th>기준</th><th>예시</th><th>Edge Table</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.type||"")}</b></td><td>${esc(x.description||"")}</td><td>${esc(x.criterion||"")}</td><td>${esc(x.example||"")}</td><td>${esc(x.edgeTable||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 Relation Type 내용이 없습니다.</div>`;
+  }else if(selectedCodebookDetailTab==="lineage"){
+    tableHtml=rows.length?`<div class="cb-detail-table lineage"><table><thead><tr><th>유형</th><th>실제 변화</th><th>law_id</th><th>MST</th><th>legacy_node_id</th><th>source_locator_id</th><th>provision_id</th><th>provision_version_id</th><th>snapshot_id</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.type||"")}</b></td><td>${esc(x.change||"")}</td><td>${esc(x.lawId||"")}</td><td>${esc(x.mst||"")}</td><td>${esc(x.legacyNodeId||"")}</td><td>${esc(x.sourceLocatorId||"")}</td><td>${esc(x.provisionId||"")}</td><td>${esc(x.provisionVersionId||"")}</td><td>${esc(x.snapshotId||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 Lineage 내용이 없습니다.</div>`;
+  }else{
+    tableHtml=rows.length?`<div class="cb-detail-table nodes"><table><thead><tr><th>유형</th><th>법령명</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.type||"")}</b></td><td>${esc(x.lawName||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 Nodes_ID 내용이 없습니다.</div>`;
+  }
+
+  rootPage.innerHTML=`
+    <div class="cb-section-version-head">
+      <div>
+        <div class="version-title">${labels[selectedCodebookDetailTab]}</div>
+        <div class="cb-section-version-meta">${selected?`${esc(selected.version)} · ${statusName[selected.status]||selected.status}${selected.date?` · ${prettyDate(selected.date)}`:""}<br>${esc(selected.changes||"")}`:"등록된 버전이 없습니다."}</div>
+      </div>
+      <div class="cb-section-version-actions">
+        <button class="btn-primary" id="addCbSectionVersion">+ 버전 등록</button>
+        ${selected?`<button class="btn-soft" id="editCbSectionVersion">버전정보 수정</button><button class="btn-soft" id="editCbSectionContent">내용 수정</button>`:""}
+      </div>
+    </div>
+    <div class="cb-section-version-list">${versionTabs}</div>
+    ${tableHtml}`;
+
+  rootPage.querySelectorAll(".cb-section-version-tab").forEach(b=>b.onclick=()=>{
+    selectedCodebookSectionVersionId[selectedCodebookDetailTab]=b.dataset.id;
+    renderCodebook();
+  });
+  document.getElementById("addCbSectionVersion").onclick=()=>openCbVersion(null,selectedCodebookDetailTab);
+  if(selected){
+    document.getElementById("editCbSectionVersion").onclick=()=>openCbVersion(selected.id,selectedCodebookDetailTab);
+    document.getElementById("editCbSectionContent").onclick=()=>openCbContentEditor(selected.id,selectedCodebookDetailTab);
+  }
+}
+
+function openCbVersion(id=null,kind=selectedCodebookDetailTab){
   editingCbVersionId=id;
-  const v=id?data.codebook.versions.find(x=>String(x.id)===String(id)):null;
-  document.getElementById("cbVersionModalTitle").textContent=v?"Codebook 버전 수정":"Codebook 버전 등록";
+  editingCbSectionKind=kind;
+  const sec=getCbSection(kind);
+  const v=id?sec.versions.find(x=>String(x.id)===String(id)):null;
+  document.getElementById("cbVersionModalTitle").textContent=v?`${codebookDetailLabels()[kind]} 버전 수정`:`${codebookDetailLabels()[kind]} 버전 등록`;
   document.getElementById("cbVersionName").value=v?.version||"";
-  document.getElementById("cbVersionDate").value=v?.date||"";
+  document.getElementById("cbVersionDate").value=v?.date||localDateKey();
   document.getElementById("cbVersionStatus").value=v?.status||"draft";
   document.getElementById("cbVersionOwner").value=v?.owner||"";
   document.getElementById("cbVersionChanges").value=v?.changes||"";
   document.getElementById("codebookVersionModal").classList.add("show");
 }
-function closeCbVersion(){document.getElementById("codebookVersionModal").classList.remove("show");}
+function closeCbVersion(){
+  document.getElementById("codebookVersionModal").classList.remove("show");
+  editingCbVersionId=null; editingCbSectionKind=null;
+}
+
+function openCbContentEditor(versionId,kind=selectedCodebookDetailTab){
+  editingCbContentVersionId=versionId;
+  editingCbSectionKind=kind;
+  const sec=getCbSection(kind);
+  const v=sec.versions.find(x=>String(x.id)===String(versionId));
+  cbEditorDraftRows=JSON.parse(JSON.stringify(sec.pages[versionId]||[]));
+  document.getElementById("cbContentModalTitle").textContent=`${codebookDetailLabels()[kind]} 내용 수정 · ${v?.version||""}`;
+  renderCbContentEditor();
+  document.getElementById("cbContentModal").classList.add("show");
+}
+function closeCbContentEditor(){
+  document.getElementById("cbContentModal").classList.remove("show");
+  editingCbContentVersionId=null; editingCbSectionKind=null; cbEditorDraftRows=null;
+}
+
+function renderCbContentEditor(){
+  const body=document.getElementById("cbEditorDetailBody");
+  const tabs=document.getElementById("cbEditorDetailTabs");
+  tabs.innerHTML=`<button class="cb-detail-tab active" type="button">${codebookDetailLabels()[editingCbSectionKind]}</button>`;
+  let html="";
+  if(editingCbSectionKind==="version"){
+    html=(cbEditorDraftRows||[]).map((x,i)=>`<div class="cb-detail-edit-row version" data-edit-row="${i}"><input data-k="version" value="${esc(x.version||"")}" placeholder="버전"><input data-k="meaning" value="${esc(x.meaning||"")}" placeholder="의미"><button type="button" class="btn-danger cb-detail-remove">삭제</button></div>`).join("");
+  }else if(editingCbSectionKind==="relationType"){
+    html=(cbEditorDraftRows||[]).map((x,i)=>`<div class="cb-detail-edit-row relation" data-edit-row="${i}"><input data-k="type" value="${esc(x.type||"")}" placeholder="유형"><input data-k="description" value="${esc(x.description||"")}" placeholder="설명"><textarea data-k="criterion" placeholder="기준">${esc(x.criterion||"")}</textarea><textarea data-k="example" placeholder="예시">${esc(x.example||"")}</textarea><input data-k="edgeTable" value="${esc(x.edgeTable||"")}" placeholder="Edge Table"><button type="button" class="btn-danger cb-detail-remove">삭제</button></div>`).join("");
+  }else if(editingCbSectionKind==="lineage"){
+    html=(cbEditorDraftRows||[]).map((x,i)=>`<div class="cb-detail-edit-row lineage" data-edit-row="${i}"><input data-k="type" value="${esc(x.type||"")}" placeholder="유형"><textarea data-k="change">${esc(x.change||"")}</textarea><textarea data-k="lawId">${esc(x.lawId||"")}</textarea><textarea data-k="mst">${esc(x.mst||"")}</textarea><textarea data-k="legacyNodeId">${esc(x.legacyNodeId||"")}</textarea><textarea data-k="sourceLocatorId">${esc(x.sourceLocatorId||"")}</textarea><textarea data-k="provisionId">${esc(x.provisionId||"")}</textarea><textarea data-k="provisionVersionId">${esc(x.provisionVersionId||"")}</textarea><textarea data-k="snapshotId">${esc(x.snapshotId||"")}</textarea><button type="button" class="btn-danger cb-detail-remove">삭제</button></div>`).join("");
+  }else{
+    html=(cbEditorDraftRows||[]).map((x,i)=>`<div class="cb-detail-edit-row nodes" data-edit-row="${i}"><input data-k="type" value="${esc(x.type||"")}" placeholder="유형"><input data-k="lawName" value="${esc(x.lawName||"")}" placeholder="법령명"><button type="button" class="btn-danger cb-detail-remove">삭제</button></div>`).join("");
+  }
+  body.innerHTML=html+`<button type="button" class="btn-soft" id="cbDetailAddRow">+ 항목 추가</button>`;
+  body.querySelectorAll(".cb-detail-remove").forEach(btn=>btn.onclick=()=>{
+    syncCbContentEditor();
+    const idx=Number(btn.closest("[data-edit-row]").dataset.editRow);
+    cbEditorDraftRows.splice(idx,1); renderCbContentEditor();
+  });
+  document.getElementById("cbDetailAddRow").onclick=()=>{
+    syncCbContentEditor();
+    const blank={
+      version:{version:"",meaning:""},
+      relationType:{type:"",description:"",criterion:"",example:"",edgeTable:""},
+      lineage:{type:"",change:"",lawId:"",mst:"",legacyNodeId:"",sourceLocatorId:"",provisionId:"",provisionVersionId:"",snapshotId:""},
+      nodesId:{type:"",lawName:""}
+    }[editingCbSectionKind];
+    cbEditorDraftRows.push(blank); renderCbContentEditor();
+  };
+}
+function syncCbContentEditor(){
+  if(!editingCbSectionKind) return;
+  const rows=[...document.querySelectorAll("#cbEditorDetailBody [data-edit-row]")];
+  if(editingCbSectionKind==="version"){
+    cbEditorDraftRows=rows.map(r=>({version:r.querySelector('[data-k="version"]').value,meaning:r.querySelector('[data-k="meaning"]').value}));
+  }else if(editingCbSectionKind==="relationType"){
+    cbEditorDraftRows=rows.map(r=>({type:r.querySelector('[data-k="type"]').value,description:r.querySelector('[data-k="description"]').value,criterion:r.querySelector('[data-k="criterion"]').value,example:r.querySelector('[data-k="example"]').value,edgeTable:r.querySelector('[data-k="edgeTable"]').value}));
+  }else if(editingCbSectionKind==="lineage"){
+    cbEditorDraftRows=rows.map(r=>({type:r.querySelector('[data-k="type"]').value,change:r.querySelector('[data-k="change"]').value,lawId:r.querySelector('[data-k="lawId"]').value,mst:r.querySelector('[data-k="mst"]').value,legacyNodeId:r.querySelector('[data-k="legacyNodeId"]').value,sourceLocatorId:r.querySelector('[data-k="sourceLocatorId"]').value,provisionId:r.querySelector('[data-k="provisionId"]').value,provisionVersionId:r.querySelector('[data-k="provisionVersionId"]').value,snapshotId:r.querySelector('[data-k="snapshotId"]').value}));
+  }else{
+    cbEditorDraftRows=rows.map(r=>({type:r.querySelector('[data-k="type"]').value,lawName:r.querySelector('[data-k="lawName"]').value}));
+  }
+}
 
 function renderPilotPage(){
   const el=document.getElementById("pilotPageView");
@@ -2126,7 +2325,6 @@ document.getElementById("referenceForm").addEventListener("submit",e=>{
   save();closeReference();renderReferences();
 });
 
-document.getElementById("addCodebookVersionBtn").onclick=()=>openCbVersion();
 document.getElementById("closeCbVersion").onclick=closeCbVersion;
 document.getElementById("cancelCbVersion").onclick=closeCbVersion;
 document.getElementById("cbVersionForm").addEventListener("submit",e=>{
@@ -2159,6 +2357,82 @@ document.getElementById("cbVersionForm").addEventListener("submit",e=>{
 });
 
 
+
+
+document.getElementById("addSchemaVersionBtn").onclick=()=>openSchemaVersion();
+document.getElementById("closeSchemaVersionModal").onclick=closeSchemaVersion;
+document.getElementById("saveSchemaVersion").onclick=()=>{
+  const version=document.getElementById("schemaVersionName").value.trim();
+  const date=document.getElementById("schemaVersionDate").value;
+  const status=document.getElementById("schemaVersionStatus").value;
+  if(!version||!date){alert("버전과 적용일을 입력해주세요.");return;}
+  const existing=editingSchemaVersionId?data.schema.versions.find(v=>String(v.id)===String(editingSchemaVersionId)):null;
+  const source=data.schema.versions.find(v=>String(v.id)===String(selectedSchemaVersionId))||data.schema.versions.find(v=>v.status==="current")||data.schema.versions[0];
+  const payload={
+    id:editingSchemaVersionId||("schema_"+Date.now()),
+    version,date,status,
+    owner:document.getElementById("schemaVersionOwner").value.trim(),
+    changes:document.getElementById("schemaVersionChanges").value.trim(),
+    content:existing?.content?cloneSchemaContent(existing.content):cloneSchemaContent(source?.content)
+  };
+  if(status==="current") data.schema.versions.forEach(v=>{if(String(v.id)!==String(payload.id)&&v.status==="current")v.status="archived";});
+  if(existing) Object.assign(existing,payload); else data.schema.versions.push(payload);
+  selectedSchemaVersionId=payload.id;
+  save();closeSchemaVersion();render();
+};
+document.getElementById("closeSchemaContentModal").onclick=closeSchemaContentEditor;
+document.getElementById("cancelSchemaContentModal").onclick=closeSchemaContentEditor;
+document.getElementById("addSchemaOverviewItem").onclick=()=>{
+  syncSchemaEditor(); schemaEditorDraft.overview.push({no:(schemaEditorDraft.overview.length+1),name:"",meaning:"",description:""}); renderSchemaContentEditor();
+};
+document.getElementById("addSchemaTable").onclick=()=>{
+  syncSchemaEditor(); schemaEditorDraft.tables.push({no:(schemaEditorDraft.tables.length+1),name:"",fields:[]}); renderSchemaContentEditor();
+};
+document.getElementById("saveSchemaContent").onclick=()=>{
+  if(!editingSchemaContentVersionId||!schemaEditorDraft)return;
+  syncSchemaEditor();
+  const v=data.schema.versions.find(x=>String(x.id)===String(editingSchemaContentVersionId)); if(!v)return;
+  v.content=cloneSchemaContent(schemaEditorDraft); selectedSchemaVersionId=v.id;
+  save();closeSchemaContentEditor();render();
+};
+
+
+document.getElementById("closeCbVersionModal").onclick=closeCbVersion;
+document.getElementById("cancelCbVersionModal").onclick=closeCbVersion;
+document.getElementById("saveCbVersionBtn").onclick=()=>{
+  const kind=editingCbSectionKind||selectedCodebookDetailTab;
+  const sec=getCbSection(kind);
+  const version=document.getElementById("cbVersionName").value.trim();
+  const date=document.getElementById("cbVersionDate").value;
+  const status=document.getElementById("cbVersionStatus").value;
+  if(!version){alert("버전을 입력해주세요.");return;}
+  const existing=editingCbVersionId?sec.versions.find(v=>String(v.id)===String(editingCbVersionId)):null;
+  const selected=getSelectedCbSectionVersion(kind);
+  const id=editingCbVersionId||("cbsv_"+Date.now());
+  const payload={
+    id,version,date,status,
+    owner:document.getElementById("cbVersionOwner").value.trim(),
+    changes:document.getElementById("cbVersionChanges").value.trim()
+  };
+  if(status==="current") sec.versions.forEach(v=>{if(String(v.id)!==String(id)&&v.status==="current")v.status="archived";});
+  if(existing) Object.assign(existing,payload);
+  else{
+    sec.versions.push(payload);
+    sec.pages[id]=JSON.parse(JSON.stringify(selected?sec.pages[selected.id]||[]:[]));
+  }
+  selectedCodebookSectionVersionId[kind]=id;
+  save();closeCbVersion();render();
+};
+document.getElementById("closeCbContentModal").onclick=closeCbContentEditor;
+document.getElementById("cancelCbContentModal").onclick=closeCbContentEditor;
+document.getElementById("saveCbContent").onclick=()=>{
+  if(!editingCbContentVersionId||!editingCbSectionKind)return;
+  syncCbContentEditor();
+  const sec=getCbSection(editingCbSectionKind);
+  sec.pages[editingCbContentVersionId]=JSON.parse(JSON.stringify(cbEditorDraftRows||[]));
+  selectedCodebookSectionVersionId[editingCbSectionKind]=editingCbContentVersionId;
+  save();closeCbContentEditor();render();
+};
 
 document.getElementById("workerNameBtn").onclick=()=>{
   document.getElementById("workerNameInput").value=getWorkerName();

@@ -1202,6 +1202,21 @@ function sharedPayload(){
   const payload=JSON.parse(JSON.stringify(data));
   delete payload.selectedPage;
   delete payload.selectedYear;
+
+  // Firestore does not accept arrays that directly contain other arrays.
+  // Older Codebook snapshots used array-of-arrays for relations/rules/identifiers.
+  // The current UI uses detailSectionVersions instead, so strip only those
+  // legacy transport fields before Firebase sync while keeping local data intact.
+  if(payload.codebook && Array.isArray(payload.codebook.versions)){
+    payload.codebook.versions.forEach(v=>{
+      const c=v && v.content;
+      if(!c) return;
+      delete c.relations;
+      delete c.rules;
+      delete c.identifiers;
+    });
+  }
+
   return payload;
 }
 function save(){
@@ -2655,6 +2670,7 @@ if(!configured){
             journals:"연구일지",
             pilot:"파일럿 테스트",
             codebook:"코드북",
+            schema:"스키마",
             references:"레퍼런스",
             risks:"이슈·리스크"
           }[k]||k)).join(", ")+" 수정"

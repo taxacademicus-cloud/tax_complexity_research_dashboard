@@ -2062,12 +2062,7 @@ function renderCodebook(){
       <div class="cvalue">${esc(v)}</div>
       <div class="cb-nav-hint">${esc(desc)}</div>
     </button>`;
-  }).join("")+`
-    <button type="button" class="cb-kpi cb-kpi-nav add-detail" id="addCbDetailPageBtn">
-      <div class="clabel">Codebook Detail</div>
-      <div class="cvalue">+ 상세페이지 추가</div>
-      <div class="cb-nav-hint">새로운 Codebook 세부 페이지 만들기</div>
-    </button>`;
+  }).join("");
 
   nav.querySelectorAll("[data-cb-detail]").forEach(b=>{
     b.onclick=()=>{
@@ -2076,11 +2071,6 @@ function renderCodebook(){
       document.getElementById("cbRootPage")?.scrollIntoView({behavior:"smooth",block:"start"});
     };
   });
-  document.getElementById("addCbDetailPageBtn").onclick=()=>{
-    document.getElementById("cbDetailPageName").value="";
-    document.getElementById("cbDetailPageDescription").value="";
-    document.getElementById("cbDetailPageModal").classList.add("show");
-  };
 
   const sec=getCbSection(selectedCodebookDetailTab);
   const selected=getSelectedCbSectionVersion(selectedCodebookDetailTab);

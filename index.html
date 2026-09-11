@@ -504,6 +504,46 @@ h1{font-size:30px;letter-spacing:-.4px}
 .cb-section-version-meta{font-size:10px;color:#6f7d8d;line-height:1.55;margin-top:5px}
 .cb-section-version-empty{padding:20px;border:1px dashed #cfd9e4;border-radius:12px;color:#7d8996;text-align:center;background:#fbfcfe;font-size:11px}
 
+
+/* ===== Codebook large detail navigation cards ===== */
+.cb-summary-nav{align-items:stretch}
+.cb-kpi-nav{
+  width:100%;
+  text-align:left;
+  cursor:pointer;
+  font-family:inherit;
+  transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease,background .15s ease;
+}
+.cb-kpi-nav:hover{
+  transform:translateY(-2px);
+  border-color:#9bb4d4;
+  box-shadow:0 8px 18px rgba(36,79,135,.10);
+  background:#f8fbff;
+}
+.cb-kpi-nav.active{
+  border-color:#31578f;
+  box-shadow:0 0 0 2px rgba(49,87,143,.10);
+  background:#f4f8fd;
+}
+.cb-kpi-nav .cvalue{font-size:18px;margin-top:6px}
+.cb-nav-hint{font-size:10px;color:#7a8796;margin-top:8px}
+
+
+/* ===== Dynamic Codebook detail pages ===== */
+.cb-kpi-nav.add-detail{
+  border-style:dashed;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:112px;
+}
+.cb-kpi-nav.add-detail .cvalue{font-size:16px}
+.cb-custom-row{display:grid;grid-template-columns:1fr 2fr auto;gap:7px;align-items:start;margin-bottom:7px}
+.cb-custom-row input,.cb-custom-row textarea{width:100%;box-sizing:border-box;font-size:10px}
+.cb-custom-row textarea{min-height:62px}
+.cb-custom-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+@media(max-width:800px){.cb-custom-row{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -764,19 +804,8 @@ h1{font-size:30px;letter-spacing:-.4px}
   <div id="codebookPage" class="main-page">
     <div class="notice">Codebook은 4개의 세부 내용으로 구성되며, 각 세부 페이지에서 독립적으로 버전을 등록·수정·관리할 수 있습니다.</div>
 
-    <div class="cb-summary">
-      <div class="cb-kpi"><div class="clabel">세부 페이지</div><div class="cvalue">4개</div></div>
-      <div class="cb-kpi"><div class="clabel">Version</div><div class="cvalue" id="cbVersionCount">-</div></div>
-      <div class="cb-kpi"><div class="clabel">Relation Type</div><div class="cvalue" id="cbRelationCount">-</div></div>
-      <div class="cb-kpi"><div class="clabel">Lineage</div><div class="cvalue" id="cbLineageCount">-</div></div>
-    </div>
-
-    <section class="panel">
-      <h2>Codebook 세부 내용</h2>
-      <div class="section-caption">세부 항목을 먼저 선택한 뒤, 해당 페이지 안에서 버전을 등록합니다.</div>
-      <div class="cb-root-tabs" id="cbRootTabs"></div>
-      <div id="cbRootPage"></div>
-    </section>
+    <div class="cb-summary cb-summary-nav" id="cbDetailNav"></div>
+    <div id="cbRootPage"></div>
   </div>
 
 <div class="modal-bg" id="quarterModal">
@@ -841,11 +870,71 @@ h1{font-size:30px;letter-spacing:-.4px}
   </div>
 </div>
 
+
+<div class="modal-bg" id="schemaVersionModal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="schemaVersionModalTitle">Schema 버전 등록</h3><button class="btn-ghost" type="button" id="closeSchemaVersionModal">닫기</button></div>
+    <div class="form-grid">
+      <div class="field"><label>버전</label><input id="schemaVersionName" placeholder="예: schema-0.2"></div>
+      <div class="field"><label>적용일</label><input id="schemaVersionDate" type="date"></div>
+      <div class="field"><label>상태</label><select id="schemaVersionStatus"><option value="draft">초안</option><option value="current">현재</option><option value="archived">이전</option></select></div>
+      <div class="field"><label>담당/확정자</label><input id="schemaVersionOwner" placeholder="선택 입력"></div>
+      <div class="field full"><label>변경내용</label><textarea id="schemaVersionChanges" placeholder="이 버전의 핵심 변경내용"></textarea></div>
+    </div>
+    <div class="modal-actions"><button class="btn-ghost" type="button" id="cancelSchemaVersionModal">취소</button><button class="btn-primary" type="button" id="saveSchemaVersion">저장</button></div>
+  </div>
+</div>
+
+<div class="modal-bg schema-edit-modal" id="schemaContentModal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="schemaContentModalTitle">Schema 내용 수정</h3><button class="btn-ghost" id="closeSchemaContentModal">닫기</button></div>
+    <div class="schema-editor-section">
+      <h4>Schema 구성 개요</h4>
+      <div id="schemaEditOverview"></div>
+      <button type="button" class="btn-soft" id="addSchemaOverviewItem">+ 구성 항목 추가</button>
+    </div>
+    <div class="schema-editor-section">
+      <h4>테이블 및 필드 정의</h4>
+      <div id="schemaEditTables"></div>
+      <button type="button" class="btn-soft" id="addSchemaTable">+ 테이블 추가</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="cancelSchemaContentModal">취소</button>
+      <button class="btn-primary" id="saveSchemaContent">내용 저장</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-bg" id="cbDetailPageModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Codebook 상세페이지 추가</h3>
+      <button type="button" class="btn-ghost" id="closeCbDetailPageModal">닫기</button>
+    </div>
+    <div class="form-grid">
+      <div class="field full">
+        <label>상세페이지 이름</label>
+        <input id="cbDetailPageName" placeholder="예: Validation Rule">
+      </div>
+      <div class="field full">
+        <label>설명</label>
+        <textarea id="cbDetailPageDescription" placeholder="이 상세페이지에서 관리할 내용을 간단히 입력하세요."></textarea>
+      </div>
+    </div>
+    <div class="small" style="margin-top:8px">새 상세페이지는 기본 버전 0.1.0으로 생성되며, 이후 해당 페이지 안에서 별도로 버전을 등록할 수 있습니다.</div>
+    <div class="modal-actions">
+      <button type="button" class="btn-ghost" id="cancelCbDetailPageModal">취소</button>
+      <button type="button" class="btn-primary" id="saveCbDetailPage">추가</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-bg" id="codebookVersionModal">
   <div class="modal">
     <div class="modal-head">
       <h3 id="cbVersionModalTitle">세부 페이지 버전 등록</h3>
-      <button class="btn-ghost" id="closeCbVersionModal">닫기</button>
+      <button class="btn-ghost" type="button" id="closeCbVersionModal">닫기</button>
     </div>
     <div class="form-grid">
       <div class="field"><label>버전</label><input id="cbVersionName" placeholder="예: 1.1.0"></div>
@@ -857,8 +946,8 @@ h1{font-size:30px;letter-spacing:-.4px}
       </div>
     </div>
     <div class="modal-actions">
-      <button class="btn-ghost" id="cancelCbVersionModal">취소</button>
-      <button class="btn-primary" id="saveCbVersionBtn">저장</button>
+      <button class="btn-ghost" type="button" id="cancelCbVersionModal">취소</button>
+      <button class="btn-primary" type="button" id="saveCbVersionBtn">저장</button>
     </div>
   </div>
 </div>
@@ -1894,8 +1983,37 @@ let editingCbVersionId=null;
 let editingCbSectionKind=null;
 let cbEditorDraftRows=null;
 
-function codebookDetailLabels(){
+function codebookBaseDetailLabels(){
   return {version:"Version",relationType:"Relation Type",lineage:"Lineage",nodesId:"Nodes_ID"};
+}
+function ensureCustomCodebookPages(content){
+  if(!Array.isArray(content.customDetailPages)) content.customDetailPages=[];
+  if(!content.detailSectionVersions) content.detailSectionVersions={};
+  content.customDetailPages.forEach(p=>{
+    if(!p?.key) return;
+    if(!content.detailSectionVersions[p.key]){
+      const id="cbsv_"+Date.now()+"_"+Math.random().toString(36).slice(2,7);
+      content.detailSectionVersions[p.key]={
+        versions:[{id,version:"0.1.0",date:"",status:"current",owner:"",changes:"초기 버전"}],
+        pages:{[id]:[]}
+      };
+    }
+  });
+  return content;
+}
+function codebookDetailLabels(){
+  const holder=getActiveCodebookContainer();
+  const labels={...codebookBaseDetailLabels()};
+  (holder.content.customDetailPages||[]).forEach(p=>{if(p?.key) labels[p.key]=p.label||p.key;});
+  return labels;
+}
+function getCodebookDetailDefinition(kind){
+  const holder=getActiveCodebookContainer();
+  if(codebookBaseDetailLabels()[kind]) return {key:kind,label:codebookBaseDetailLabels()[kind],description:""};
+  return (holder.content.customDetailPages||[]).find(p=>p.key===kind)||{key:kind,label:kind,description:""};
+}
+function isCustomCodebookDetail(kind){
+  return !Object.prototype.hasOwnProperty.call(codebookBaseDetailLabels(),kind);
 }
 function getActiveCodebookContainer(){
   const vs=[...(data.codebook?.versions||[])];
@@ -1904,11 +2022,18 @@ function getActiveCodebookContainer(){
     v={id:"cb_internal",version:"Codebook",date:"",status:"current",owner:"",changes:"",content:defaultCodebookContent()};
     data.codebook={versions:[v]};
   }
-  v.content=cleanAutoGeneratedCodebookSectionVersions(v.content||defaultCodebookContent());
+  v.content=ensureCustomCodebookPages(cleanAutoGeneratedCodebookSectionVersions(v.content||defaultCodebookContent()));
   return v;
 }
 function getCbSection(kind){
   const holder=getActiveCodebookContainer();
+  if(!holder.content.detailSectionVersions[kind]){
+    const id="cbsv_"+Date.now()+"_"+Math.random().toString(36).slice(2,7);
+    holder.content.detailSectionVersions[kind]={
+      versions:[{id,version:"0.1.0",date:"",status:"current",owner:"",changes:"초기 버전"}],
+      pages:{[id]:[]}
+    };
+  }
   return holder.content.detailSectionVersions[kind];
 }
 function getSelectedCbSectionVersion(kind){
@@ -1923,23 +2048,45 @@ function getSelectedCbSectionVersion(kind){
 
 function renderCodebook(){
   const labels=codebookDetailLabels();
-  if(!labels[selectedCodebookDetailTab]) selectedCodebookDetailTab="version";
+  if(!labels[selectedCodebookDetailTab]) selectedCodebookDetailTab=Object.keys(labels)[0]||"version";
 
-  const rootTabs=document.getElementById("cbRootTabs");
+  const nav=document.getElementById("cbDetailNav");
   const rootPage=document.getElementById("cbRootPage");
-  if(!rootTabs||!rootPage) return;
+  if(!nav||!rootPage) return;
 
-  rootTabs.innerHTML=Object.entries(labels).map(([k,v])=>`<button class="cb-root-tab ${selectedCodebookDetailTab===k?"active":""}" data-kind="${k}">${v}</button>`).join("");
-  rootTabs.querySelectorAll("button").forEach(b=>b.onclick=()=>{selectedCodebookDetailTab=b.dataset.kind;renderCodebook();});
+  const holder=getActiveCodebookContainer();
+  nav.innerHTML=Object.entries(labels).map(([k,v])=>{
+    const desc=getCodebookDetailDefinition(k).description||`${v} 상세페이지로 이동`;
+    return `<button type="button" class="cb-kpi cb-kpi-nav ${selectedCodebookDetailTab===k?"active":""}" data-cb-detail="${esc(k)}">
+      <div class="clabel">Codebook Detail</div>
+      <div class="cvalue">${esc(v)}</div>
+      <div class="cb-nav-hint">${esc(desc)}</div>
+    </button>`;
+  }).join("")+`
+    <button type="button" class="cb-kpi cb-kpi-nav add-detail" id="addCbDetailPageBtn">
+      <div class="clabel">Codebook Detail</div>
+      <div class="cvalue">+ 상세페이지 추가</div>
+      <div class="cb-nav-hint">새로운 Codebook 세부 페이지 만들기</div>
+    </button>`;
+
+  nav.querySelectorAll("[data-cb-detail]").forEach(b=>{
+    b.onclick=()=>{
+      selectedCodebookDetailTab=b.dataset.cbDetail;
+      renderCodebook();
+      document.getElementById("cbRootPage")?.scrollIntoView({behavior:"smooth",block:"start"});
+    };
+  });
+  document.getElementById("addCbDetailPageBtn").onclick=()=>{
+    document.getElementById("cbDetailPageName").value="";
+    document.getElementById("cbDetailPageDescription").value="";
+    document.getElementById("cbDetailPageModal").classList.add("show");
+  };
 
   const sec=getCbSection(selectedCodebookDetailTab);
   const selected=getSelectedCbSectionVersion(selectedCodebookDetailTab);
   const rows=selected?sec.pages[selected.id]||[]:[];
   const statusName={current:"현재",draft:"초안",archived:"이전"};
-
-  document.getElementById("cbVersionCount").textContent=(getCbSection("version").versions||[]).length+"개";
-  document.getElementById("cbRelationCount").textContent=(getCbSection("relationType").versions||[]).length+"개";
-  document.getElementById("cbLineageCount").textContent=(getCbSection("lineage").versions||[]).length+"개";
+  const def=getCodebookDetailDefinition(selectedCodebookDetailTab);
 
   const versionTabs=(sec.versions||[]).map(v=>`<button class="cb-section-version-tab ${String(v.id)===String(selected?.id)?"active":""}" data-id="${esc(v.id)}">${esc(v.version)} · ${statusName[v.status]||v.status}</button>`).join("");
 
@@ -1950,23 +2097,28 @@ function renderCodebook(){
     tableHtml=rows.length?`<div class="cb-detail-table"><table><thead><tr><th>유형</th><th>설명</th><th>기준</th><th>예시</th><th>Edge Table</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.type||"")}</b></td><td>${esc(x.description||"")}</td><td>${esc(x.criterion||"")}</td><td>${esc(x.example||"")}</td><td>${esc(x.edgeTable||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 Relation Type 내용이 없습니다.</div>`;
   }else if(selectedCodebookDetailTab==="lineage"){
     tableHtml=rows.length?`<div class="cb-detail-table lineage"><table><thead><tr><th>유형</th><th>실제 변화</th><th>law_id</th><th>MST</th><th>legacy_node_id</th><th>source_locator_id</th><th>provision_id</th><th>provision_version_id</th><th>snapshot_id</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.type||"")}</b></td><td>${esc(x.change||"")}</td><td>${esc(x.lawId||"")}</td><td>${esc(x.mst||"")}</td><td>${esc(x.legacyNodeId||"")}</td><td>${esc(x.sourceLocatorId||"")}</td><td>${esc(x.provisionId||"")}</td><td>${esc(x.provisionVersionId||"")}</td><td>${esc(x.snapshotId||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 Lineage 내용이 없습니다.</div>`;
-  }else{
+  }else if(selectedCodebookDetailTab==="nodesId"){
     tableHtml=rows.length?`<div class="cb-detail-table nodes"><table><thead><tr><th>유형</th><th>법령명</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.type||"")}</b></td><td>${esc(x.lawName||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 Nodes_ID 내용이 없습니다.</div>`;
+  }else{
+    tableHtml=rows.length?`<div class="cb-detail-table"><table><thead><tr><th>항목</th><th>내용</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.item||"")}</b></td><td>${esc(x.value||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 ${esc(def.label)} 내용이 없습니다.</div>`;
   }
 
   rootPage.innerHTML=`
-    <div class="cb-section-version-head">
-      <div>
-        <div class="version-title">${labels[selectedCodebookDetailTab]}</div>
-        <div class="cb-section-version-meta">${selected?`${esc(selected.version)} · ${statusName[selected.status]||selected.status}${selected.date?` · ${prettyDate(selected.date)}`:""}<br>${esc(selected.changes||"")}`:"등록된 버전이 없습니다."}</div>
+    <section class="panel">
+      <div class="cb-section-version-head">
+        <div>
+          <div class="version-title">${esc(def.label)}</div>
+          <div class="cb-section-version-meta">${selected?`${esc(selected.version)} · ${statusName[selected.status]||selected.status}${selected.date?` · ${prettyDate(selected.date)}`:""}<br>${esc(selected.changes||"")}`:"등록된 버전이 없습니다."}</div>
+        </div>
+        <div class="cb-section-version-actions">
+          <button class="btn-primary" id="addCbSectionVersion">+ 버전 등록</button>
+          ${selected?`<button class="btn-soft" id="editCbSectionVersion">버전정보 수정</button><button class="btn-soft" id="editCbSectionContent">내용 수정</button>`:""}
+          ${isCustomCodebookDetail(selectedCodebookDetailTab)?`<button class="btn-danger" id="deleteCbDetailPage">상세페이지 삭제</button>`:""}
+        </div>
       </div>
-      <div class="cb-section-version-actions">
-        <button class="btn-primary" id="addCbSectionVersion">+ 버전 등록</button>
-        ${selected?`<button class="btn-soft" id="editCbSectionVersion">버전정보 수정</button><button class="btn-soft" id="editCbSectionContent">내용 수정</button>`:""}
-      </div>
-    </div>
-    <div class="cb-section-version-list">${versionTabs}</div>
-    ${tableHtml}`;
+      <div class="cb-section-version-list">${versionTabs}</div>
+      ${tableHtml}
+    </section>`;
 
   rootPage.querySelectorAll(".cb-section-version-tab").forEach(b=>b.onclick=()=>{
     selectedCodebookSectionVersionId[selectedCodebookDetailTab]=b.dataset.id;
@@ -1977,8 +2129,16 @@ function renderCodebook(){
     document.getElementById("editCbSectionVersion").onclick=()=>openCbVersion(selected.id,selectedCodebookDetailTab);
     document.getElementById("editCbSectionContent").onclick=()=>openCbContentEditor(selected.id,selectedCodebookDetailTab);
   }
+  const del=document.getElementById("deleteCbDetailPage");
+  if(del) del.onclick=()=>{
+    if(!confirm(`"${def.label}" 상세페이지와 모든 버전 내용을 삭제할까요?`)) return;
+    holder.content.customDetailPages=(holder.content.customDetailPages||[]).filter(p=>p.key!==selectedCodebookDetailTab);
+    delete holder.content.detailSectionVersions[selectedCodebookDetailTab];
+    delete selectedCodebookSectionVersionId[selectedCodebookDetailTab];
+    selectedCodebookDetailTab="version";
+    save();render();
+  };
 }
-
 function openCbVersion(id=null,kind=selectedCodebookDetailTab){
   editingCbVersionId=id;
   editingCbSectionKind=kind;
@@ -2023,8 +2183,10 @@ function renderCbContentEditor(){
     html=(cbEditorDraftRows||[]).map((x,i)=>`<div class="cb-detail-edit-row relation" data-edit-row="${i}"><input data-k="type" value="${esc(x.type||"")}" placeholder="유형"><input data-k="description" value="${esc(x.description||"")}" placeholder="설명"><textarea data-k="criterion" placeholder="기준">${esc(x.criterion||"")}</textarea><textarea data-k="example" placeholder="예시">${esc(x.example||"")}</textarea><input data-k="edgeTable" value="${esc(x.edgeTable||"")}" placeholder="Edge Table"><button type="button" class="btn-danger cb-detail-remove">삭제</button></div>`).join("");
   }else if(editingCbSectionKind==="lineage"){
     html=(cbEditorDraftRows||[]).map((x,i)=>`<div class="cb-detail-edit-row lineage" data-edit-row="${i}"><input data-k="type" value="${esc(x.type||"")}" placeholder="유형"><textarea data-k="change">${esc(x.change||"")}</textarea><textarea data-k="lawId">${esc(x.lawId||"")}</textarea><textarea data-k="mst">${esc(x.mst||"")}</textarea><textarea data-k="legacyNodeId">${esc(x.legacyNodeId||"")}</textarea><textarea data-k="sourceLocatorId">${esc(x.sourceLocatorId||"")}</textarea><textarea data-k="provisionId">${esc(x.provisionId||"")}</textarea><textarea data-k="provisionVersionId">${esc(x.provisionVersionId||"")}</textarea><textarea data-k="snapshotId">${esc(x.snapshotId||"")}</textarea><button type="button" class="btn-danger cb-detail-remove">삭제</button></div>`).join("");
-  }else{
+  }else if(editingCbSectionKind==="nodesId"){
     html=(cbEditorDraftRows||[]).map((x,i)=>`<div class="cb-detail-edit-row nodes" data-edit-row="${i}"><input data-k="type" value="${esc(x.type||"")}" placeholder="유형"><input data-k="lawName" value="${esc(x.lawName||"")}" placeholder="법령명"><button type="button" class="btn-danger cb-detail-remove">삭제</button></div>`).join("");
+  }else{
+    html=(cbEditorDraftRows||[]).map((x,i)=>`<div class="cb-custom-row" data-edit-row="${i}"><input data-k="item" value="${esc(x.item||"")}" placeholder="항목"><textarea data-k="value" placeholder="내용">${esc(x.value||"")}</textarea><button type="button" class="btn-danger cb-detail-remove">삭제</button></div>`).join("");
   }
   body.innerHTML=html+`<button type="button" class="btn-soft" id="cbDetailAddRow">+ 항목 추가</button>`;
   body.querySelectorAll(".cb-detail-remove").forEach(btn=>btn.onclick=()=>{
@@ -2039,7 +2201,7 @@ function renderCbContentEditor(){
       relationType:{type:"",description:"",criterion:"",example:"",edgeTable:""},
       lineage:{type:"",change:"",lawId:"",mst:"",legacyNodeId:"",sourceLocatorId:"",provisionId:"",provisionVersionId:"",snapshotId:""},
       nodesId:{type:"",lawName:""}
-    }[editingCbSectionKind];
+    }[editingCbSectionKind] || {item:"",value:""};
     cbEditorDraftRows.push(blank); renderCbContentEditor();
   };
 }
@@ -2052,8 +2214,10 @@ function syncCbContentEditor(){
     cbEditorDraftRows=rows.map(r=>({type:r.querySelector('[data-k="type"]').value,description:r.querySelector('[data-k="description"]').value,criterion:r.querySelector('[data-k="criterion"]').value,example:r.querySelector('[data-k="example"]').value,edgeTable:r.querySelector('[data-k="edgeTable"]').value}));
   }else if(editingCbSectionKind==="lineage"){
     cbEditorDraftRows=rows.map(r=>({type:r.querySelector('[data-k="type"]').value,change:r.querySelector('[data-k="change"]').value,lawId:r.querySelector('[data-k="lawId"]').value,mst:r.querySelector('[data-k="mst"]').value,legacyNodeId:r.querySelector('[data-k="legacyNodeId"]').value,sourceLocatorId:r.querySelector('[data-k="sourceLocatorId"]').value,provisionId:r.querySelector('[data-k="provisionId"]').value,provisionVersionId:r.querySelector('[data-k="provisionVersionId"]').value,snapshotId:r.querySelector('[data-k="snapshotId"]').value}));
-  }else{
+  }else if(editingCbSectionKind==="nodesId"){
     cbEditorDraftRows=rows.map(r=>({type:r.querySelector('[data-k="type"]').value,lawName:r.querySelector('[data-k="lawName"]').value}));
+  }else{
+    cbEditorDraftRows=rows.map(r=>({item:r.querySelector('[data-k="item"]').value,value:r.querySelector('[data-k="value"]').value}));
   }
 }
 
@@ -2372,42 +2536,13 @@ document.getElementById("referenceForm").addEventListener("submit",e=>{
   save();closeReference();renderReferences();
 });
 
-document.getElementById("closeCbVersion").onclick=closeCbVersion;
-document.getElementById("cancelCbVersion").onclick=closeCbVersion;
-document.getElementById("cbVersionForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  const status=document.getElementById("cbVersionStatus").value;
-  const existing=editingCbVersionId?data.codebook.versions.find(v=>String(v.id)===String(editingCbVersionId)):null;
-  const sourceVersion=data.codebook.versions.find(v=>String(v.id)===String(selectedCodebookVersionId))
-    || data.codebook.versions.find(v=>v.status==="current")
-    || data.codebook.versions[0];
-  const payload={
-    id:editingCbVersionId||("cb_"+Date.now()),
-    version:document.getElementById("cbVersionName").value.trim(),
-    date:document.getElementById("cbVersionDate").value,
-    status,
-    owner:document.getElementById("cbVersionOwner").value.trim(),
-    changes:document.getElementById("cbVersionChanges").value.trim(),
-    content:existing?.content?cloneCodebookContent(existing.content):cloneCodebookContent(sourceVersion?.content||defaultCodebookContent())
-  };
-  if(status==="current"){
-    data.codebook.versions.forEach(v=>{if(String(v.id)!==String(editingCbVersionId))v.status="archived";});
-  }
-  if(editingCbVersionId){
-    const idx=data.codebook.versions.findIndex(v=>String(v.id)===String(editingCbVersionId));
-    if(idx>=0)data.codebook.versions[idx]=payload;
-  }else{
-    data.codebook.versions.push(payload);
-  }
-  selectedCodebookVersionId=payload.id;
-  save();closeCbVersion();render();
-});
 
 
 
 
 document.getElementById("addSchemaVersionBtn").onclick=()=>openSchemaVersion();
 document.getElementById("closeSchemaVersionModal").onclick=closeSchemaVersion;
+document.getElementById("cancelSchemaVersionModal").onclick=closeSchemaVersion;
 document.getElementById("saveSchemaVersion").onclick=()=>{
   const version=document.getElementById("schemaVersionName").value.trim();
   const date=document.getElementById("schemaVersionDate").value;
@@ -2444,7 +2579,35 @@ document.getElementById("saveSchemaContent").onclick=()=>{
 };
 
 
+
+function closeCbDetailPageModal(){
+  document.getElementById("cbDetailPageModal").classList.remove("show");
+}
+document.getElementById("closeCbDetailPageModal").onclick=closeCbDetailPageModal;
+document.getElementById("cancelCbDetailPageModal").onclick=closeCbDetailPageModal;
+document.getElementById("saveCbDetailPage").onclick=()=>{
+  const name=document.getElementById("cbDetailPageName").value.trim();
+  const description=document.getElementById("cbDetailPageDescription").value.trim();
+  if(!name){alert("상세페이지 이름을 입력해주세요.");return;}
+  const holder=getActiveCodebookContainer();
+  const key="custom_"+Date.now();
+  const id="cbsv_"+Date.now()+"_"+Math.random().toString(36).slice(2,7);
+  holder.content.customDetailPages.push({key,label:name,description});
+  holder.content.detailSectionVersions[key]={
+    versions:[{id,version:"0.1.0",date:localDateKey(),status:"current",owner:"",changes:"초기 버전"}],
+    pages:{[id]:[]}
+  };
+  selectedCodebookDetailTab=key;
+  selectedCodebookSectionVersionId[key]=id;
+  save();closeCbDetailPageModal();render();
+};
+document.getElementById("cbDetailPageModal").addEventListener("click",e=>{if(e.target===e.currentTarget)closeCbDetailPageModal();});
+
 document.getElementById("closeCbVersionModal").onclick=closeCbVersion;
+
+document.getElementById("codebookVersionModal").addEventListener("click",e=>{if(e.target===e.currentTarget)closeCbVersion();});
+document.getElementById("cbContentModal").addEventListener("click",e=>{if(e.target===e.currentTarget)closeCbContentEditor();});
+
 document.getElementById("cancelCbVersionModal").onclick=closeCbVersion;
 document.getElementById("saveCbVersionBtn").onclick=()=>{
   const kind=editingCbSectionKind||selectedCodebookDetailTab;

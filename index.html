@@ -675,6 +675,28 @@ h1{font-size:30px;letter-spacing:-.4px}
 .validation-rule-table td:first-child{font-weight:800;color:#244f87}
 .validation-rule-table td:last-child{text-align:center;font-weight:800}
 
+
+/* Pilot 실제 수행 내용: 입력한 공백/줄바꿈을 화면에 그대로 반영 */
+.pilot-card .actual,
+.pilot-week-card .actual,
+.pilot-card .actual-content,
+.pilot-week-card .actual-content,
+.pilot-card .actual-text,
+.pilot-week-card .actual-text,
+.pilot-card .tblock,
+.pilot-week-card .tblock{
+  white-space:pre-wrap!important;
+  overflow-wrap:anywhere;
+}
+
+
+/* 실제 수행 내용 textarea의 줄바꿈/연속 공백을 카드에서도 그대로 표시 */
+.pilot-actual-text{
+  white-space:pre-wrap!important;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
 </style>
 </head>
 <body>
@@ -2599,8 +2621,8 @@ function renderPilotHtml(){
               <div class="tgrid">
                 <div class="tblock">
                   <b>실제 수행 내용</b>
-                  ${w.actual ? esc(w.actual) : "아직 입력된 수행내용이 없습니다."}
-                  ${w.memo?`<div style="margin-top:8px"><b>다음 할 일 / 메모</b>${esc(w.memo)}</div>`:""}
+                  <div class="pilot-actual-text">${w.actual ? esc(w.actual) : "아직 입력된 수행내용이 없습니다."}</div>
+                  ${w.memo?`<div style="margin-top:8px"><b>다음 할 일 / 메모</b><div class="pilot-actual-text">${esc(w.memo)}</div></div>`:""}
                 </div>
                 <div class="tblock">
                   <b>통과기준</b>

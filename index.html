@@ -979,6 +979,50 @@ h1{font-size:30px;letter-spacing:-.4px}
 .week2-release-table th:nth-child(13){min-width:560px}.week2-release-table th:nth-child(14){min-width:140px}
 .week2-release-table th:nth-child(15){min-width:950px}.week2-release-table th:nth-child(16){min-width:220px}
 
+
+/* ===== Manual page ===== */
+.manual-panel{padding:24px}
+.manual-page-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:22px}
+.manual-page-title{font-size:24px;font-weight:900;letter-spacing:-.03em;color:#10233f}
+.manual-page-desc{margin-top:6px;color:#63758d;line-height:1.6}
+.manual-status{flex:0 0 auto;border:1px solid #bfd0e6;background:#eef5ff;color:#244f87;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:800}
+.manual-document{max-width:1180px}
+.manual-kicker{font-size:13px;font-weight:800;color:#47709f;margin-bottom:5px}
+.manual-main-title{font-size:28px;font-weight:900;color:#10233f;margin-bottom:8px}
+.manual-subtitle{font-size:17px;font-weight:800;color:#314a67;margin-bottom:10px}
+.manual-protocol{border:1px solid #d7e2ef;background:#f6f9fd;border-radius:10px;padding:11px 13px;margin:10px 0 20px;font-size:12px;font-weight:700;color:#425d7d;overflow-wrap:anywhere}
+.manual-section-title{font-size:18px;font-weight:900;color:#173b68;margin:26px 0 10px;padding-bottom:7px;border-bottom:1px solid #e4eaf1}
+.manual-body,.manual-check{font-size:14px;line-height:1.78;color:#25384d;margin:7px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.manual-prompt-label{margin:12px 0 8px;padding:10px 12px;border-left:4px solid #547caf;background:#f5f8fc;font-weight:900;color:#244f87}
+.manual-table-wrap{overflow:auto;border:1px solid #dce5ef;border-radius:10px;margin:10px 0 18px;background:#fff}
+.manual-table{border-collapse:collapse;width:100%;min-width:760px;font-size:12px}
+.manual-table th,.manual-table td{border-bottom:1px solid #e7edf4;border-right:1px solid #e7edf4;padding:9px 10px;text-align:left;vertical-align:top;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+.manual-table th{background:#f3f7fb;color:#244f87;font-weight:900}
+.manual-table tr:last-child td{border-bottom:0}
+.manual-table th:last-child,.manual-table td:last-child{border-right:0}
+@media(max-width:760px){.manual-page-head{flex-direction:column}.manual-main-title{font-size:23px}}
+
+
+/* ===== Manual detail/version management ===== */
+.manual-detail-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:16px 0 20px}
+.manual-detail-card{appearance:none;border:1px solid #dce3ec;background:#fff;border-radius:17px;padding:18px;text-align:left;min-height:110px;cursor:pointer;box-shadow:0 8px 20px rgba(38,58,84,.04)}
+.manual-detail-card.active{border-color:#315c9c;box-shadow:0 0 0 2px rgba(49,92,156,.08)}
+.manual-detail-card .manual-detail-kicker{display:block;font-family:Georgia,serif;font-weight:700;color:#53657b;font-size:13px;margin-bottom:8px}
+.manual-detail-card strong{display:block;font-size:17px;line-height:1.25;color:#050505;overflow-wrap:anywhere}
+.manual-detail-card>span:last-child{display:block;margin-top:10px;color:#64758d;font-size:12px}
+.manual-version-panel{padding:20px}
+.manual-version-head{display:flex;justify-content:space-between;align-items:center;gap:18px;border:1px solid #d9e3ef;background:#f8fbff;border-radius:14px;padding:15px}
+.manual-version-title{font-size:17px;color:#173b68}
+.manual-version-meta,.manual-version-note{font-size:11px;color:#657991;margin-top:5px}
+.manual-version-actions{display:flex;gap:9px;flex-wrap:wrap}
+.manual-version-chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.manual-version-chip{border:1px solid #d7e0eb;background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:800;color:#425b79;cursor:pointer}
+.manual-version-chip.active{background:#315a94;color:#fff;border-color:#315a94}
+.manual-content-host{margin-top:10px}
+.manual-content-host .manual-document{max-width:1180px}
+@media(max-width:900px){.manual-detail-nav{grid-template-columns:1fr 1fr}.manual-version-head{align-items:flex-start;flex-direction:column}}
+@media(max-width:600px){.manual-detail-nav{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -1037,6 +1081,7 @@ h1{font-size:30px;letter-spacing:-.4px}
     <button class="page-tab" data-page="pilot">Pilot Test</button>
     <button class="page-tab" data-page="schema">Schema</button>
     <button class="page-tab" data-page="codebook">Codebook</button>
+    <button class="page-tab" data-page="manual">Manual</button>
   </div>
 
   <div id="overviewPage" class="main-page active">
@@ -1243,6 +1288,60 @@ h1{font-size:30px;letter-spacing:-.4px}
     <div id="cbRootPage"></div>
   </div>
 
+
+  
+<div id="manualPage" class="main-page">
+  <div class="notice">Manual은 상세 내용별로 구성되며, 각 상세 페이지에서 독립적으로 버전을 등록·수정·관리할 수 있습니다.</div>
+
+  <div class="manual-detail-nav">
+    <button type="button" class="manual-detail-card active" data-manual-detail="blindCoding">
+      <span class="manual-detail-kicker">Manual Detail</span>
+      <strong>PilotTest_5Way_Blind_Double_Coding_Manual</strong>
+      <span>PilotTest_5Way_Blind_Double_Coding_Manual 상세페이지로 이동</span>
+    </button>
+  </div>
+
+  <section class="panel manual-version-panel">
+    <div class="manual-version-head">
+      <div>
+        <div class="manual-version-title">PilotTest_5Way_Blind_Double_Coding_Manual</div>
+        <div class="manual-version-meta" id="manualVersionMeta">v1.1 · 현재 · 2026.09.19</div>
+        <div class="manual-version-note" id="manualVersionNote">FROZEN BEFORE CODING</div>
+      </div>
+      <div class="manual-version-actions">
+        <button type="button" class="btn primary" id="manualAddVersionBtn">+ 버전 등록</button>
+        <button type="button" class="btn soft" id="manualEditVersionBtn">버전정보 수정</button>
+        <button type="button" class="btn soft" id="manualEditContentBtn">내용 수정</button>
+      </div>
+    </div>
+    <div class="manual-version-chips" id="manualVersionChips"></div>
+    <div class="manual-content-host" id="manualContentHost"></div>
+  </section>
+</div>
+
+<div class="modal-bg" id="manualVersionModal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="manualVersionModalTitle">Manual 버전 등록</h3><button type="button" class="icon-btn" data-manual-close>×</button></div>
+    <div class="modal-body">
+      <label>버전<input id="manualVersionInput" placeholder="예: v1.2"></label>
+      <label>날짜<input id="manualVersionDate" type="date"></label>
+      <label>상태<select id="manualVersionStatus"><option value="current">현재</option><option value="archived">보관</option><option value="draft">초안</option></select></label>
+      <label>변경사항<textarea id="manualVersionChanges" rows="4"></textarea></label>
+    </div>
+    <div class="modal-actions"><button type="button" class="btn soft" data-manual-close>취소</button><button type="button" class="btn primary" id="manualVersionSaveBtn">저장</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="manualContentModal">
+  <div class="modal modal-wide">
+    <div class="modal-head"><h3>Manual 내용 수정</h3><button type="button" class="icon-btn" data-manual-content-close>×</button></div>
+    <div class="modal-body">
+      <div class="section-caption">현재 선택된 버전의 상세 내용을 HTML로 수정합니다.</div>
+      <textarea id="manualContentInput" rows="24" style="width:100%;font-family:ui-monospace,SFMono-Regular,Menlo,monospace"></textarea>
+    </div>
+    <div class="modal-actions"><button type="button" class="btn soft" data-manual-content-close>취소</button><button type="button" class="btn primary" id="manualContentSaveBtn">저장</button></div>
+  </div>
+</div>
 
 <div class="modal-bg pilot-exec-modal" id="pilotExecutionModal">
   <div class="modal">
@@ -1940,6 +2039,7 @@ function renderPageNav(){
   document.getElementById("pilotPage").classList.toggle("active",data.selectedPage==="pilot");
   document.getElementById("schemaPage").classList.toggle("active",data.selectedPage==="schema");
   document.getElementById("codebookPage").classList.toggle("active",data.selectedPage==="codebook");
+  document.getElementById("manualPage").classList.toggle("active",data.selectedPage==="manual");
   document.getElementById("referencePage").classList.toggle("active",data.selectedPage==="reference");
 }
 
@@ -3499,6 +3599,126 @@ document.getElementById("exportBtn").onclick=()=>{
 document.querySelectorAll(".modal-bg").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("show");}));
 document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal-bg.show").forEach(m=>m.classList.remove("show"));});
 render();
+
+/* ===== Manual detail/version management ===== */
+const MANUAL_KEY="tax-complexity-manual-pages-v1";
+const MANUAL_INITIAL_CONTENT=`<div class="manual-kicker">PilotTest_ Week 3 독립 Blind Double Coding</div><div class="manual-main-title">수행 매뉴얼</div><div class="manual-subtitle">조세법 조문 Lineage 판정 — 연구자 2명 + AI 3개 모델의 5-way 독립 비교</div><div class="manual-protocol">Protocol: W3-CODING-PROTOCOL-1.0 | Codebook: codebook-1.1.0 | AI Prompt: W3-AI-PROMPT-1.0 | Manual: v1.1 FROZEN</div><h3 class="manual-section-title">1. 문서 목적</h3><p class="manual-body">본 매뉴얼은 Week 3 Pilot의 ④ 연구자·AI 독립 Double Coding을 동일한 조건에서 수행하기 위한 배포용 표준 지침이다. 연구자 2명과 GPT·Claude·Gemini가 동일한 40개 사례를 서로의 결과를 보지 않은 상태에서 독립적으로 판정하고, 후속 단계에서 코더 간 일치도와 불일치 양상을 비교할 수 있도록 입력·판정·제출 절차를 표준화한다.</p><h3 class="manual-section-title">2. Blind 원칙 — 반드시 준수</h3><p class="manual-body">다른 코더의 판정 결과와 Week3_RuleBased_Coding의 자동 후보관계를 보지 않는다. 제공된 Codebook과 본인 Blind Coding 시트의 증거만 사용한다. 사례별 답을 다른 연구자 또는 AI와 상의하지 않는다. 불확실한 사례를 억지로 분류하지 않으며 근거가 부족하면 UNRESOLVED를 사용할 수 있다. 최초 독립 판정이 끝난 뒤 다른 코더 결과에 맞추어 값을 수정하지 않는다.</p><h3 class="manual-section-title">3. 제공 자료</h3><p class="manual-body">각 코더에게 본 매뉴얼, Week3_Coding_Protocol, 본인에게 할당된 Blind Coding 시트 1개, codebook-1.1.0 판정 정의를 제공한다. Rule-based 결과와 다른 코더의 완성 시트는 제공하지 않는다.</p><h3 class="manual-section-title">4. 코더 구성</h3><div class="manual-table-wrap"><table class="manual-table"><tr><th>배포 시트</th><th>코더</th><th>유형</th><th>표본</th></tr><tr><td>Week3_Coding_Blind_A</td><td>연구자 1 / HUMAN_A</td><td>RESEARCHER(PI)</td><td>40건</td></tr><tr><td>Week3_Coding_Blind_B</td><td>연구자 2 / HUMAN_B</td><td>RESEARCHER(SR)</td><td>40건</td></tr><tr><td>Week3_Coding_Blind_C</td><td>GPT</td><td>LLM</td><td>40건</td></tr><tr><td>Week3_Coding_Blind_D</td><td>Claude</td><td>LLM</td><td>40건</td></tr><tr><td>Week3_Coding_Blind_E</td><td>Gemini</td><td>LLM</td><td>40건</td></tr></table></div><p class="manual-body">총 Coding Assignment는 40건 × 5개 코더 = 200건이며, 모든 코더는 동일한 sample_id 집합·순서·증거를 사용한다.</p><h3 class="manual-section-title">5. 입력 필드</h3><div class="manual-table-wrap"><table class="manual-table"><tr><th>필드</th><th>입력</th><th>원칙</th></tr><tr><td>relation_type</td><td>9개 유형 중 1개</td><td>핵심 판정값</td></tr><tr><td>text_changed</td><td>TRUE/FALSE</td><td>문언 또는 규범적 내용의 실제 변경 여부</td></tr><tr><td>location_changed</td><td>TRUE/FALSE</td><td>조·항·호·목 등 구조적 위치 변경 여부</td></tr><tr><td>confidence</td><td>0~1</td><td>근거 수준을 반영한 판정 신뢰도</td></tr><tr><td>evidence_text</td><td>판정 근거</td><td>개정 전후 텍스트·위치·연속성에 근거하여 간결히 작성</td></tr></table></div><h3 class="manual-section-title">6. relation_type 정의</h3><div class="manual-table-wrap"><table class="manual-table"><tr><th>유형</th><th>정의</th></tr><tr><td>SAME</td><td>동일 논리적 규제단위가 유지되고 구조적 위치와 정규화된 내용에 실질적 변경이 없는 경우.</td></tr><tr><td>MODIFY</td><td>동일 논리적 규제단위의 연속성이 인정되지만 문언 또는 규범적 내용에 실제 변경이 발생한 경우.</td></tr><tr><td>RENUMBER</td><td>동일 논리적 규제단위의 연속성이 인정되면서 조·항·호·목 등 구조적 위치가 변경된 경우.</td></tr><tr><td>NEW</td><td>개정 후 새롭게 출현했으며 개정 전 규제단위와 논리적·계보적 연속성이 인정되지 않는 경우.</td></tr><tr><td>REPEAL</td><td>개정 전 존재하던 규제단위가 개정 후 존재하지 않고 다른 규제단위로 연속성이 승계되지 않는 경우.</td></tr><tr><td>SPLIT</td><td>개정 전 하나의 논리적 규제단위가 개정 후 둘 이상의 독립 규제단위로 분화되는 경우.</td></tr><tr><td>MERGE</td><td>개정 전 둘 이상의 독립 규제단위가 개정 후 하나의 새로운 논리적 규제단위로 통합되는 경우.</td></tr><tr><td>TRANSFER</td><td>기존 법률의 논리적 규제단위가 다른 법률로 이전되고 계보적 연속성이 인정되는 경우.</td></tr><tr><td>UNRESOLVED</td><td>현재 제공된 증거만으로 다른 Lineage 유형을 신뢰성 있게 확정할 수 없는 경우.</td></tr></table></div><h3 class="manual-section-title">7. 판정 절차</h3><h3 class="manual-section-title">1. 개정 전(from)과 개정 후(to) 규제단위의 존재 여부를 확인한다.</h3><h3 class="manual-section-title">2. 두 규제단위 사이의 논리적·계보적 연속성을 판단한다.</h3><h3 class="manual-section-title">3. 관계가 1:1인지, 1:N(SPLIT)인지, N:1(MERGE)인지 검토한다.</h3><h3 class="manual-section-title">4. 구조적 위치 변경과 문언·규범적 내용 변경을 각각 확인한다.</h3><h3 class="manual-section-title">5. 주된 계보관계를 relation_type으로 선택하고 text_changed/location_changed를 함께 기록한다.</h3><h3 class="manual-section-title">6. evidence_text에 직접 근거를 적고 confidence를 입력한다.</h3><h3 class="manual-section-title">7. 증거가 부족하거나 복수 해석이 경쟁하면 UNRESOLVED를 사용한다.</h3><h3 class="manual-section-title">8. 복합 변경 우선 원칙</h3><p class="manual-body">Primary relation_type은 계보적 구조를 나타내고 문언·위치 변화는 보조 필드로 기록한다. Pilot 우선순위는 SPLIT/MERGE → TRANSFER → RENUMBER → MODIFY → SAME이다. NEW·REPEAL은 계보의 시작·종료이며, 판단 불가능 시 UNRESOLVED로 보류한다.</p><div class="manual-table-wrap"><table class="manual-table"><tr><th>상황</th><th>기록 예</th></tr><tr><td>위치 동일 + 내용 변경</td><td>MODIFY / text_changed=TRUE</td></tr><tr><td>위치 변경 + 내용 동일</td><td>RENUMBER / location_changed=TRUE</td></tr><tr><td>위치 변경 + 내용 변경</td><td>RENUMBER / location_changed=TRUE / text_changed=TRUE</td></tr><tr><td>분화/통합 + 내용 변경</td><td>SPLIT 또는 MERGE + text_changed=TRUE</td></tr><tr><td>관련 없는 소멸 + 신규 출현</td><td>REPEAL과 NEW를 별도 관계로 판단</td></tr><tr><td>근거 불충분</td><td>UNRESOLVED</td></tr></table></div><h3 class="manual-section-title">9. NEW·REPEAL 표시 해석</h3><p class="manual-body">선행 규제단위가 없는 경우 [NO PREDECESSOR TEXT], 후속 규제단위가 없는 경우 [NO SUCCESSOR TEXT]가 표시될 수 있다. 이는 해당 비교관계에서 선행 또는 후속 Occurrence가 없음을 명시하는 표기다. 다만 이 표기만으로 기계적으로 NEW/REPEAL을 선택하지 말고 Codebook에 따라 계보적 연속성을 판단한다.</p><h3 class="manual-section-title">10. 연구자 코더(A·B) 지침</h3><p class="manual-body">연구자 1과 연구자 2는 각자 자신의 시트만 사용한다. 상대 연구자의 답을 확인하지 않으며 최초 독립 판정 완료 전 상호 협의하지 않는다. 애매한 사례는 근거를 남기고 UNRESOLVED를 허용한다. 완료 후 제출본을 동결한다.</p><h3 class="manual-section-title">11. AI 코더(C·D·E) 지침</h3><p class="manual-body">GPT·Claude·Gemini에는 동일한 프롬프트 구조, 동일 Codebook 정의, 동일 40개 사례와 필드 순서를 제공한다. 특정 모델에만 추가 설명이나 정답 힌트를 주지 않는다. Rule-based 결과와 다른 모델의 출력은 입력에 포함하지 않는다.</p><p class="manual-body">AI 공통 프롬프트</p><div class="manual-prompt-label">[W3-AI-PROMPT-1.0 — 모든 AI 코더에 동일하게 제공]
+당신은 조세법령 개정 전·후 조문 간 계보관계(Lineage)를 판정하는 독립 코더입니다. 이 작업은 연구 목적의 Blind Double Coding입니다. 제공된 Blind Coding Sheet와 codebook-1.1.0만을 근거로 각 사례를 서로 독립적으로 판정하십시오.
+
+1) 허용 relation_type: SAME / MODIFY / RENUMBER / NEW / REPEAL / SPLIT / MERGE / TRANSFER / UNRESOLVED
+2) 각 sample_id에 대해 relation_type, text_changed, location_changed, confidence, evidence_text를 작성하십시오.
+3) 복합 변경의 Primary relation_type 우선순위는 SPLIT/MERGE → TRANSFER → RENUMBER → MODIFY → SAME입니다. NEW·REPEAL은 계보의 시작·종료이며, 증거가 부족하면 UNRESOLVED를 사용하십시오. 위치와 내용이 모두 변경되면 RENUMBER를 기록하고 text_changed=TRUE, location_changed=TRUE로 기록하십시오.
+4) [NO PREDECESSOR TEXT]와 [NO SUCCESSOR TEXT]는 해당 비교관계에서 선행/후속 Occurrence가 없음을 의미합니다. 다만 이 표기만으로 기계적으로 NEW/REPEAL을 결정하지 말고 Codebook 정의와 구조정보를 함께 적용하십시오.
+5) 법령 전체의 MST 변경만으로 MODIFY/RENUMBER로 판정하지 마십시오. 단순 공백·줄바꿈·표시 형식 차이는 실질적 내용 변경으로 보지 마십시오. 조문 번호가 같다는 이유만으로 SAME으로 판정하지 말고, 법령상 ‘신설’이라는 표현만으로 NEW로 판정하지 마십시오.
+6) 규칙 기반 자동판정, 다른 연구자·AI의 판정, 다수결·합의 결과, 사전 확정 Lineage를 사용하거나 추정하지 마십시오. 외부 웹 검색이나 추가 법령 검색도 하지 마십시오. 사례별 판정은 독립적으로 수행하고 전체 유형 분포를 맞추기 위해 판정을 조정하지 마십시오.
+7) confidence는 제공된 증거와 Codebook에 비추어 해당 relation_type을 얼마나 명확하게 확정할 수 있는지에 대한 자기평가 값입니다: 0.90–1.00 매우 명확 / 0.70–0.89 충분하나 일부 해석 여지 / 0.50–0.69 복수 유형 가능 / 0.50 미만 증거 부족·매우 모호하며 UNRESOLVED 우선 검토.
+8) sample_id와 입력 순서 및 원자료 필드는 변경하지 마십시오. 40개 판정 완료 후 다른 코더와 비교·합의·재판정하지 말고 결과만 제출하십시오.</div><h3 class="manual-section-title">12. AI 실행 통제</h3><p class="manual-body">40건 전체 처리가 어려우면 동일 순서를 유지한 고정 batch로 나누되 sample_id 중복·누락을 검사한다.</p><p class="manual-body">웹 검색, 외부 법령 검색, 다른 코더 답안 조회를 사용하지 않는다.</p><p class="manual-body">모델명·모델 버전(확인 가능한 경우), 실행일시, 프롬프트 버전을 기록한다.</p><p class="manual-body">AI 실행 메타데이터: coder_id, model_name, model_version(확인 가능한 경우), prompt_version=W3-AI-PROMPT-1.0, coded_at을 기록한다. AI 3개 모델에는 동일한 프롬프트 전문과 동일한 40개 사례·순서·Codebook을 제공한다.</p><p class="manual-body">AI 출력 후 사람이 판정 내용을 임의 수정하지 않는다. 형식 변환만 허용하며 내용 수정은 별도 이력으로 남긴다.</p><h3 class="manual-section-title">13. 제출 전 체크리스트</h3><p class="manual-check">☐ 40개 sample_id가 모두 존재한다.</p><p class="manual-check">☐ sample_id 순서와 사례 내용이 배포본과 동일하다.</p><p class="manual-check">☐ relation_type이 허용된 9개 값 중 하나이다.</p><p class="manual-check">☐ text_changed와 location_changed가 입력되었다.</p><p class="manual-check">☐ confidence가 0~1 범위이다.</p><p class="manual-check">☐ evidence_text가 판정 근거를 설명한다.</p><p class="manual-check">☐ 다른 코더 또는 Rule-based 결과를 보지 않았다.</p><p class="manual-check">☐ 완료 후 제출본을 별도 보존한다.</p><h3 class="manual-section-title">14. 제출·추적성</h3><p class="manual-body">원래 sheet_name과 coder_id를 유지한다. 권장 파일명은 W3_BlindCoding_[coder_id]_[YYYYMMDD].xlsx이다. 연구팀은 원본 배포본, 코더별 제출본, 모델/프롬프트 버전, 제출시각을 함께 보존한다. 5개 독립 제출본이 모두 동결된 뒤 일치도 분석과 불일치 조정을 시작한다.</p><h3 class="manual-section-title">15. 코딩 종료 후 연구팀 단계</h3><p class="manual-body">독립 코딩 제출 이후에는 ⑤ 코더 간 일치도 분석 → ⑥ 불일치 사례 검토·조정 → ⑦ Lineage Codebook 보정 → ⑧ 확정 Lineage 관계 생성 → ⑨ 3주차 Validation → ⑩ 3주차 Pilot 데이터 동결 순서로 진행한다.</p><h3 class="manual-section-title">부록 A. 배포용 핵심 규칙</h3><p class="manual-body">① 자신의 시트만 본다. ② Rule-based 결과와 다른 코더 답을 보지 않는다. ③ 동일 Codebook으로 40건 모두 판정한다. ④ relation_type과 보조 필드를 모두 입력한다. ⑤ 불확실하면 UNRESOLVED를 허용한다. ⑥ evidence_text에 근거를 남긴다. ⑦ 완료 후 결과를 동결하고 다른 결과에 맞춰 수정하지 않는다.</p><p class="manual-body">동결 상태: Manual v1.1 / W3-AI-PROMPT-1.0 / codebook-1.1.0 — FROZEN BEFORE CODING (2026-09-19)</p>`;
+let manualStore;
+let manualSelectedDetail="blindCoding";
+let manualSelectedVersion="manual_blind_v11";
+let manualEditingVersionId=null;
+
+function manualDefaultStore(){
+  return {
+    details:{
+      blindCoding:{
+        title:"PilotTest_5Way_Blind_Double_Coding_Manual",
+        versions:[{
+          id:"manual_blind_v11",
+          version:"v1.1",
+          date:"2026-09-19",
+          status:"current",
+          changes:"FROZEN BEFORE CODING",
+          content:MANUAL_INITIAL_CONTENT
+        }]
+      }
+    }
+  };
+}
+function loadManualStore(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(MANUAL_KEY)||"null");
+    manualStore=saved&&saved.details? saved:manualDefaultStore();
+  }catch(e){manualStore=manualDefaultStore();}
+}
+function saveManualStore(){
+  localStorage.setItem(MANUAL_KEY,JSON.stringify(manualStore));
+}
+function currentManualDetail(){return manualStore.details[manualSelectedDetail];}
+function currentManualVersion(){
+  const d=currentManualDetail();
+  return d.versions.find(v=>v.id===manualSelectedVersion)||d.versions[0];
+}
+function renderManualPage(){
+  if(!manualStore) loadManualStore();
+  const d=currentManualDetail(), v=currentManualVersion();
+  if(!d||!v)return;
+  document.querySelectorAll(".manual-detail-card").forEach(b=>b.classList.toggle("active",b.dataset.manualDetail===manualSelectedDetail));
+  const meta=document.getElementById("manualVersionMeta");
+  const note=document.getElementById("manualVersionNote");
+  const host=document.getElementById("manualContentHost");
+  const chips=document.getElementById("manualVersionChips");
+  if(meta)meta.textContent=`${v.version} · ${v.status==="current"?"현재":v.status==="archived"?"보관":"초안"} · ${(v.date||"").replaceAll("-",".")}`;
+  if(note)note.textContent=v.changes||"";
+  if(host)host.innerHTML=`<div class="manual-document">${v.content||""}</div>`;
+  if(chips)chips.innerHTML=d.versions.map(x=>`<button type="button" class="manual-version-chip ${x.id===v.id?"active":""}" data-manual-version="${esc(x.id)}">${esc(x.version)}${x.status==="current"?" · 현재":""}</button>`).join("");
+  document.querySelectorAll("[data-manual-version]").forEach(b=>b.onclick=()=>{manualSelectedVersion=b.dataset.manualVersion;renderManualPage();});
+}
+function openManualVersionModal(edit=false){
+  const modal=document.getElementById("manualVersionModal");
+  const v=currentManualVersion();
+  manualEditingVersionId=edit?v.id:null;
+  document.getElementById("manualVersionModalTitle").textContent=edit?"Manual 버전정보 수정":"Manual 버전 등록";
+  document.getElementById("manualVersionInput").value=edit?v.version:"";
+  document.getElementById("manualVersionDate").value=edit?(v.date||""):new Date().toISOString().slice(0,10);
+  document.getElementById("manualVersionStatus").value=edit?(v.status||"draft"):"current";
+  document.getElementById("manualVersionChanges").value=edit?(v.changes||""):"";
+  modal.classList.add("show");
+}
+function closeManualVersionModal(){document.getElementById("manualVersionModal").classList.remove("show");}
+function openManualContentModal(){
+  document.getElementById("manualContentInput").value=currentManualVersion().content||"";
+  document.getElementById("manualContentModal").classList.add("show");
+}
+function closeManualContentModal(){document.getElementById("manualContentModal").classList.remove("show");}
+function initManualUI(){
+  loadManualStore(); renderManualPage();
+  document.querySelectorAll("[data-manual-detail]").forEach(b=>b.addEventListener("click",()=>{
+    manualSelectedDetail=b.dataset.manualDetail;
+    manualSelectedVersion=currentManualDetail().versions[0].id;
+    renderManualPage();
+  }));
+  document.getElementById("manualAddVersionBtn")?.addEventListener("click",()=>openManualVersionModal(false));
+  document.getElementById("manualEditVersionBtn")?.addEventListener("click",()=>openManualVersionModal(true));
+  document.getElementById("manualEditContentBtn")?.addEventListener("click",openManualContentModal);
+  document.querySelectorAll("[data-manual-close]").forEach(b=>b.addEventListener("click",closeManualVersionModal));
+  document.querySelectorAll("[data-manual-content-close]").forEach(b=>b.addEventListener("click",closeManualContentModal));
+  document.getElementById("manualVersionModal")?.addEventListener("click",e=>{if(e.target===e.currentTarget)closeManualVersionModal();});
+  document.getElementById("manualContentModal")?.addEventListener("click",e=>{if(e.target===e.currentTarget)closeManualContentModal();});
+  document.getElementById("manualVersionSaveBtn")?.addEventListener("click",()=>{
+    const d=currentManualDetail();
+    const version=document.getElementById("manualVersionInput").value.trim();
+    if(!version){alert("버전을 입력해주세요.");return;}
+    const status=document.getElementById("manualVersionStatus").value;
+    if(status==="current")d.versions.forEach(x=>x.status="archived");
+    if(manualEditingVersionId){
+      const v=d.versions.find(x=>x.id===manualEditingVersionId);
+      Object.assign(v,{version,date:document.getElementById("manualVersionDate").value,status,changes:document.getElementById("manualVersionChanges").value.trim()});
+    }else{
+      const source=currentManualVersion();
+      const id="manual_"+Date.now();
+      d.versions.push({id,version,date:document.getElementById("manualVersionDate").value,status,changes:document.getElementById("manualVersionChanges").value.trim(),content:source.content});
+      manualSelectedVersion=id;
+    }
+    saveManualStore();closeManualVersionModal();renderManualPage();
+  });
+  document.getElementById("manualContentSaveBtn")?.addEventListener("click",()=>{
+    currentManualVersion().content=document.getElementById("manualContentInput").value;
+    saveManualStore();closeManualContentModal();renderManualPage();
+  });
+}
+document.addEventListener("DOMContentLoaded",initManualUI);
+
 </script>
 
 <script type="module">

@@ -2693,7 +2693,7 @@ let editingCbSectionKind=null;
 let cbEditorDraftRows=null;
 
 function codebookBaseDetailLabels(){
-  return {version:"Version",relationType:"Relation Type",lineage:"Lineage",nodesId:"Nodes_ID"};
+  return {version:"Version",relationType:"Relation Type",lineage:"Lineage Type",nodesId:"Nodes_ID"};
 }
 function ensureCustomCodebookPages(content){
   if(!Array.isArray(content.customDetailPages)) content.customDetailPages=[];
@@ -2795,7 +2795,7 @@ function renderCodebook(){
   }else if(selectedCodebookDetailTab==="relationType"){
     tableHtml=rows.length?`<div class="cb-detail-table"><table><thead><tr><th>유형</th><th>설명</th><th>기준</th><th>예시</th><th>Edge Table</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.type||"")}</b></td><td>${esc(x.description||"")}</td><td>${esc(x.criterion||"")}</td><td>${esc(x.example||"")}</td><td>${esc(x.edgeTable||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 Relation Type 내용이 없습니다.</div>`;
   }else if(selectedCodebookDetailTab==="lineage"){
-    tableHtml=rows.length?`<div class="cb-detail-table lineage"><table><thead><tr><th>유형</th><th>실제 변화</th><th>law_id</th><th>MST</th><th>legacy_node_id</th><th>source_locator_id</th><th>provision_id</th><th>provision_version_id</th><th>snapshot_id</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.type||"")}</b></td><td>${esc(x.change||"")}</td><td>${esc(x.lawId||"")}</td><td>${esc(x.mst||"")}</td><td>${esc(x.legacyNodeId||"")}</td><td>${esc(x.sourceLocatorId||"")}</td><td>${esc(x.provisionId||"")}</td><td>${esc(x.provisionVersionId||"")}</td><td>${esc(x.snapshotId||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 Lineage 내용이 없습니다.</div>`;
+    tableHtml=rows.length?`<div class="cb-detail-table lineage"><table><thead><tr><th>유형</th><th>실제 변화</th><th>law_id</th><th>MST</th><th>legacy_node_id</th><th>source_locator_id</th><th>provision_id</th><th>provision_version_id</th><th>snapshot_id</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.type||"")}</b></td><td>${esc(x.change||"")}</td><td>${esc(x.lawId||"")}</td><td>${esc(x.mst||"")}</td><td>${esc(x.legacyNodeId||"")}</td><td>${esc(x.sourceLocatorId||"")}</td><td>${esc(x.provisionId||"")}</td><td>${esc(x.provisionVersionId||"")}</td><td>${esc(x.snapshotId||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 Lineage Type 내용이 없습니다.</div>`;
   }else if(selectedCodebookDetailTab==="nodesId"){
     tableHtml=rows.length?`<div class="cb-detail-table nodes"><table><thead><tr><th>유형</th><th>법령명</th></tr></thead><tbody>${rows.map(x=>`<tr><td><b>${esc(x.type||"")}</b></td><td>${esc(x.lawName||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="cb-section-version-empty">등록된 Nodes_ID 내용이 없습니다.</div>`;
   }else{

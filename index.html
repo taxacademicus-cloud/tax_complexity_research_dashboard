@@ -4166,7 +4166,7 @@ if(!configured){
             lastRemotePayload=JSON.parse(JSON.stringify(payload));
           }
         }
-        status("online","저장 완료 · 실시간 동기화",currentUid);
+        status("online","실시간 동기화",currentUid);
       }catch(err){
         console.error("Firebase write error:",err);
         status("error","저장 오류 · "+(err.code||err.message||"unknown"),currentUid);
@@ -4275,7 +4275,7 @@ if(!configured){
             lastRemotePayload=JSON.parse(JSON.stringify(remoteCopy));
             window.dispatchEvent(new CustomEvent("firebase-remote-state",{detail:remoteCopy}));
           }
-          status("online",snap.metadata.fromCache?"동기화됨 · 캐시":"실시간 동기화",currentUid);
+          status("online","실시간 동기화",currentUid);
         },err=>{
           console.error("Firebase snapshot error:",err);
           status("error","수신 오류 · "+(err.code||err.message||"unknown"),currentUid);

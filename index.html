@@ -2130,8 +2130,10 @@ let firebaseLastEdit=null;
 
 function getWorkerName(){return localStorage.getItem(WORKER_NAME_KEY)||"";}
 function setWorkerName(name){
-  localStorage.setItem(WORKER_NAME_KEY,name.trim());
+  const clean=name.trim();
+  localStorage.setItem(WORKER_NAME_KEY,clean);
   renderCollabMeta();
+  window.dispatchEvent(new CustomEvent("dashboard-worker-name-change",{detail:{name:clean}}));
 }
 function formatHistoryTime(v){
   if(!v) return "";
@@ -2178,6 +2180,8 @@ function renderHistory(){
       <div class="h-desc">${esc(h.description||"공유 데이터가 수정되었습니다.")}</div>
     </div>`).join("");
 }
+window.addEventListener("firebase-worker-name-adopted",()=>renderCollabMeta());
+
 window.addEventListener("firebase-audit-state",e=>{
   const d=e.detail||{};
   firebaseAuditHistory=Array.isArray(d.history)?d.history:[];
@@ -4100,15 +4104,30 @@ if(!configured){
     let writeTimer=null;
     let queuedPayload=null;
     let queuedChangedSections=[];
+    let sharedWorkerNames={};
 
     function same(a,b){
       try{return JSON.stringify(a)===JSON.stringify(b);}catch(e){return false;}
+    }
+    function resolveActorName(){
+      const local=(localStorage.getItem("tax_complexity_worker_name")||"").trim();
+      const shared=(sharedWorkerNames[currentUid]||"").trim();
+      return local || shared || "이름 미설정";
+    }
+    function adoptSharedWorkerName(){
+      if(!currentUid) return;
+      const local=(localStorage.getItem("tax_complexity_worker_name")||"").trim();
+      const shared=(sharedWorkerNames[currentUid]||"").trim();
+      if(!local && shared){
+        localStorage.setItem("tax_complexity_worker_name",shared);
+        window.dispatchEvent(new CustomEvent("firebase-worker-name-adopted",{detail:{name:shared}}));
+      }
     }
 
     async function writePayload(payload,changedSections=[]){
       if(!ready || !payload) return;
       try{
-        const actorName=localStorage.getItem("tax_complexity_worker_name")||"이름 미설정";
+        const actorName=resolveActorName();
         const nowIso=new Date().toISOString();
         const changeEntry=changedSections.length ? {
           id:"chg_"+Date.now()+"_"+Math.random().toString(36).slice(2,7),
@@ -4136,7 +4155,8 @@ if(!configured){
             lastEdit:changeEntry,
             updatedAt:serverTimestamp(),
             updatedBy:currentUid,
-            updatedByName:actorName
+            updatedByName:actorName,
+            workerNames:{[currentUid]:actorName}
           });
           auditHistory=history;
           remoteExists=true;
@@ -4147,6 +4167,7 @@ if(!configured){
             updatedBy:currentUid,
             updatedByName:actorName
           };
+          if(actorName!=="이름 미설정") patch["workerNames."+currentUid]=actorName;
           const before=lastRemotePayload||{};
           const keys=new Set([...Object.keys(before),...Object.keys(payload)]);
           let changed=0;
@@ -4175,6 +4196,20 @@ if(!configured){
         status("error","저장 오류 · "+(err.code||err.message||"unknown"),currentUid);
       }
     }
+
+    window.addEventListener("dashboard-worker-name-change",async e=>{
+      const name=String(e.detail?.name||"").trim();
+      if(!ready || !currentUid || !name) return;
+      try{
+        await updateDoc(stateRef,{
+          ["workerNames."+currentUid]:name,
+          updatedByName:name
+        });
+        sharedWorkerNames[currentUid]=name;
+      }catch(err){
+        console.error("Worker name sync error:",err);
+      }
+    });
 
     window.addEventListener("dashboard-local-change",e=>{
       const incoming=JSON.parse(JSON.stringify(e.detail||{}));
@@ -4250,6 +4285,11 @@ if(!configured){
 
         if(remoteExists){
           const firstData=first.data()||{};
+          sharedWorkerNames=(firstData.workerNames&&typeof firstData.workerNames==="object")?firstData.workerNames:{};
+          if(firstData.updatedBy && firstData.updatedByName && firstData.updatedByName!=="이름 미설정" && !sharedWorkerNames[firstData.updatedBy]){
+            sharedWorkerNames[firstData.updatedBy]=firstData.updatedByName;
+          }
+          adoptSharedWorkerName();
           auditHistory=Array.isArray(firstData.changeHistory)?firstData.changeHistory:[];
           window.dispatchEvent(new CustomEvent("firebase-audit-state",{
             detail:{history:auditHistory,lastEdit:firstData.lastEdit||auditHistory[0]||null}
@@ -4272,6 +4312,11 @@ if(!configured){
           if(!snap.exists()) return;
           remoteExists=true;
           const snapData=snap.data()||{};
+          sharedWorkerNames=(snapData.workerNames&&typeof snapData.workerNames==="object")?snapData.workerNames:sharedWorkerNames;
+          if(snapData.updatedBy && snapData.updatedByName && snapData.updatedByName!=="이름 미설정" && !sharedWorkerNames[snapData.updatedBy]){
+            sharedWorkerNames[snapData.updatedBy]=snapData.updatedByName;
+          }
+          adoptSharedWorkerName();
           auditHistory=Array.isArray(snapData.changeHistory)?snapData.changeHistory:[];
           window.dispatchEvent(new CustomEvent("firebase-audit-state",{
             detail:{history:auditHistory,lastEdit:snapData.lastEdit||auditHistory[0]||null}
